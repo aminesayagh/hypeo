@@ -1,0 +1,38 @@
+# Project: Hypeo
+# AI Code Generation Rules and Specifications
+
+## Overview
+This project follows specific naming conventions and coding standards for clean, maintainable React code.
+
+## Naming Conventions
+- Feature states: `[feature]_[property]` pattern
+- State setters: `[feature]_set[Property]` pattern  
+- Event handlers: `[feature]_handle[Action]` pattern
+- JSX components: `[feature]_markup` suffix
+- Configuration: `[feature]_config` suffix
+
+### Core Patterns:
+- State: `[feature]_[property]` (e.g., `modal_active`)
+- Setters: `[feature]_set[Property]` (e.g., `modal_setActive`)
+- Handlers: `[feature]_handle[Action]` (e.g., `userMenu_handleLogout`)
+- Markup: `[feature]_markup` (e.g., `navigation_markup`)
+
+## Code Structure Requirements
+- Always use comment dividers: `// --------------------------------------------------`
+- Group functionality into feature objects
+- Use useCallback for all handlers
+- Follow conditional markup patterns
+
+## Anti-Patterns to Avoid
+- ❌ camelCase for compound features
+- ❌ Mixed naming conventions
+- ❌ Scattered variables without feature grouping
+
+## Validation Checklist
+Before code completion, verify:
+- [ ] Naming patterns followed
+- [ ] Feature objects structured properly
+- [ ] Comment dividers present
+- [ ] useCallback implemented
+
+When generating code, strictly follow these patterns and ask for clarification if uncertain.
