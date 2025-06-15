@@ -102,7 +102,7 @@ export function TextExamples() {
 function LogoExamples() {
   const [showText, setShowText] = useState(true)
   return (
-    <div className='space-y-12'>
+    <div className='space-y-4'>
       <button onClick={() => setShowText(!showText)}>Toggle Text</button>
       <Logo
         hasText={!showText}
