@@ -1,5 +1,5 @@
-import { Button as ButtonPrimitive, type ButtonProps } from "@radix-ui/themes"
+import { Button as HeroButton, type ButtonProps } from "@heroui/react";
 
-export function Button({ children, ...props }: ButtonProps) {
-  return <ButtonPrimitive {...props}>{children}</ButtonPrimitive>
+export default function Button({ children, ...props }: ButtonProps) {
+  return <HeroButton {...props}>{children}</HeroButton>
 }

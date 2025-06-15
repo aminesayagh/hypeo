@@ -1,13 +1,13 @@
 import { I18nProvider } from '../i18n/Provider';
-import { RadixUIProvider } from '../radixUI/Provider';
 import { NextThemesProvider } from '../nextThemes/Provider';
+import { HeroUIProvider } from '../heroUI/Provider'; 
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return <I18nProvider>
-    <RadixUIProvider>
       <NextThemesProvider>
-        {children}
+        <HeroUIProvider>
+          {children}
+        </HeroUIProvider>
       </NextThemesProvider>
-    </RadixUIProvider>
   </I18nProvider>
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "@radix-ui/themes/styles.css";
 
 import { AppProvider } from "@/services/appProvider/Provider";
 import { metadata as seoMetadata } from "@/services/seo/metadata";

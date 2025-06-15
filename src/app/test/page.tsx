@@ -8,13 +8,12 @@ import { useState } from 'react'
 function ButtonExamples() {
   return (
     <div className='flex flex-row gap-4'>
-      <Button variant='soft' >Click me</Button>
-      <Button variant='outline' className='shadow-md shadow-primary'>Click me</Button>
-      <Button variant='solid' className='shadow-lg shadow-primary'>Click me</Button>
-      <Button variant='ghost'>Click me</Button>
-      <Button variant='surface'>Click me</Button>
-      <Button variant='classic'>Click me</Button>
-      <Button variant='soft'>Click me</Button>
+      <Button variant='solid' color='primary' className='text-black'>Click me</Button>
+      <Button variant='bordered' color='primary'>Click me</Button>
+      <Button variant='light' color='primary'>Click me</Button>
+      <Button variant='faded' color='primary'>Click me</Button>
+      <Button variant='shadow' color='primary'>Click me</Button>
+      <Button variant='ghost' color='primary'>Click me</Button>
     </div>
   )
 }
