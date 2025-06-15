@@ -2,7 +2,17 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* --------------------------------------------------
+   Theme Transition Animations
+   -------------------------------------------------- */
+
+/* Root transitions for custom properties */
 :root {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Color custom properties */
   --background: oklch(0.9726 0.0026 106.45);
   --foreground: oklch(0.133 0.0021 196.91);
   --primary: oklch(0.9297 0.1873 116.91);
@@ -15,6 +25,25 @@
   --foreground-level-3: oklch(0.53 0.0154 262.34);
   --foreground-level-4: oklch(0.6688 0.0113 261.78);
 
+}
+
+/* Universal color transitions */
+*,
+*::before,
+*::after {
+  transition-property: background-color, color, border-color, box-shadow, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+  }
 }
 
 @theme inline {

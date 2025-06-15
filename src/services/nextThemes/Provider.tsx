@@ -7,7 +7,8 @@ export function NextThemesProvider({ children }: { children: React.ReactNode }) 
       defaultTheme="system" 
       enableSystem 
       storageKey="theme"
-      disableTransitionOnChange={false} // Smooth transitions
+      disableTransitionOnChange={false} // Enable smooth CSS transitions
+      enableColorScheme={false} // Disable to prevent conflicts with our CSS
     >
       {children}
     </ThemeProvider>
