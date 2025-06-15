@@ -158,3 +158,32 @@ body {
 h1, h2, h3, h4, h5, h6, p, span, button, a {
   @apply selection:!bg-primary selection:!text-foreground dark:selection:!text-background;
 }
+
+.radix-themes {
+  --default-font-family: var(--font-geist-sans);
+  
+  --yellow-1: oklch(0.9899 0.0238 114.51);
+  --yellow-2: oklch(0.9842 0.0342 114.13);
+  --yellow-3: oklch(0.9716 0.0624 113.35);
+  --yellow-4: oklch(0.9652 0.0873 114.18);
+  --yellow-5: oklch(0.9584 0.103 114.67);
+  --yellow-6: oklch(0.9531 0.1135 114.78);
+  --yellow-7: oklch(0.9464 0.1291 115.19);
+  --yellow-8: oklch(0.9381 0.1527 115.74);
+  --yellow-9: oklch(0.9297 0.1873 116.91);
+  --yellow-10: oklch(0.9112 0.2016 117.55);
+  --yellow-11: oklch(0.862 0.1996 118.43);
+  --yellow-12: oklch(0.7804 0.1806 118.53);
+  --yellow-a1: oklch(0.9899 0.0238 114.51);
+  --yellow-a2: oklch(0.9842 0.0342 114.13);
+  --yellow-a3: oklch(0.9716 0.0624 113.35);
+  --yellow-a4: oklch(0.9652 0.0873 114.18);
+  --yellow-a5: oklch(0.9584 0.103 114.67);
+  --yellow-a6: oklch(0.9531 0.1135 114.78);
+  --yellow-a7: oklch(0.9464 0.1291 115.19);
+  --yellow-a8: oklch(0.9381 0.1527 115.74);
+  --yellow-a9: oklch(0.9297 0.1873 116.91);
+  --yellow-a10: oklch(0.9112 0.2016 117.55);
+  --yellow-a11: oklch(0.862 0.1996 118.43);
+  --yellow-a12: oklch(0.7804 0.1806 118.53);
+}

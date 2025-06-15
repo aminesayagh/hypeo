@@ -1,8 +1,23 @@
 'use client'
+import { Button } from '@/components/button'
 import { Text } from '@/components/text'
 import { ThemeChange } from '@/services/nextThemes/ThemeChange'
 import { Logo } from '@/components/logo'
 import { useState } from 'react'
+
+function ButtonExamples() {
+  return (
+    <div className='flex flex-row gap-4'>
+      <Button variant='soft' >Click me</Button>
+      <Button variant='outline' className='shadow-md shadow-primary'>Click me</Button>
+      <Button variant='solid' className='shadow-lg shadow-primary'>Click me</Button>
+      <Button variant='ghost'>Click me</Button>
+      <Button variant='surface'>Click me</Button>
+      <Button variant='classic'>Click me</Button>
+      <Button variant='soft'>Click me</Button>
+    </div>
+  )
+}
 
 export function TextExamples() {
   return (
@@ -123,6 +138,7 @@ export default function TestPage() {
       </div>
       <TextExamples />
       <LogoExamples />
+      <ButtonExamples />
     </div>
   )
 }
