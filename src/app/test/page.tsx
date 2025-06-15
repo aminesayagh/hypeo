@@ -88,14 +88,14 @@ export function TextExamples() {
 function LogoExamples() {
   const [showText, setShowText] = useState(true)
   return (
-    <div className='space-y-4'>
+    <div className='space-y-12'>
       <button onClick={() => setShowText(!showText)}>Toggle Text</button>
       <Logo
         hasText={!showText}
         size={showText ? 'md' : 'sm'}
         variant='default'
+        href='/'
       />
-
       <Logo hasText={!showText} size='md' variant='compact' />
       <Logo hasText={true} size='lg' variant='stacked' />
     </div>

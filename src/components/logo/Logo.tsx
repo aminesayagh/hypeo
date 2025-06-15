@@ -1,4 +1,5 @@
 import { motion, AnimatePresence, type Variants } from "motion/react"
+import Link from "next/link"
 
 // --------------------------------------------------
 // Logo Sub-components
@@ -57,6 +58,7 @@ export interface LogoProps {
   variant?: 'default' | 'compact' | 'stacked';
   animate?: boolean;
   className?: string;
+  href?: string; // Simple href prop for linking
 }
 
 // --------------------------------------------------
@@ -69,6 +71,7 @@ export function Logo({
   variant = 'default',
   animate = true,
   className = '',
+  href,
 }: LogoProps) {
   
   // --------------------------------------------------
@@ -164,15 +167,82 @@ export function Logo({
   };
 
   // --------------------------------------------------
-  // Variant Layouts
+  // Logo Content Function
   // --------------------------------------------------
   
-  if (variant === 'stacked') {
+  const renderLogoContent = () => {
+    if (variant === 'stacked') {
+      return (
+        <motion.div
+          className={`flex flex-col items-center ${logo_sizes[size].gap} ${className}`}
+          variants={animate ? container_variants as Variants : {}}
+          animate={hasText ? 'expanded' : 'compact'}
+        >
+          <motion.div
+            className={`${logo_sizes[size].icon} text-primary flex-shrink-0`}
+            variants={animate ? icon_variants as Variants : {}}
+            animate="emphasized"
+          >
+            <LogoIcon className="w-full h-full" />
+          </motion.div>
+          
+          <AnimatePresence mode="wait">
+            {hasText && (
+              <motion.div
+                className={`${logo_sizes[size].text} text-primary overflow-hidden`}
+                variants={animate ? text_variants as Variants : {}}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                layout
+              >
+                <LogoText className="w-full h-full" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      );
+    }
+
+    if (variant === 'compact') {
+      return (
+        <motion.div
+          className={`inline-flex items-center ${className}`}
+          whileHover={animate ? { scale: 1.02 } : {}}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <motion.div
+            className={`${logo_sizes[size].icon} text-primary flex-shrink-0`}
+            variants={animate ? icon_variants as Variants : {}}
+            animate="emphasized"
+          >
+            <LogoIcon className="w-full h-full" />
+          </motion.div>
+          
+          <AnimatePresence>
+            {hasText && (
+              <motion.div
+                className={`ml-2 ${logo_sizes[size].text} text-primary overflow-hidden`}
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <LogoText className="w-full h-full" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      );
+    }
+
+    // Default variant
     return (
       <motion.div
-        className={`flex flex-col items-center ${logo_sizes[size].gap} ${className}`}
+        className={`flex items-center ${logo_sizes[size].gap} ${className}`}
         variants={animate ? container_variants as Variants : {}}
         animate={hasText ? 'expanded' : 'compact'}
+        layout
       >
         <motion.div
           className={`${logo_sizes[size].icon} text-primary flex-shrink-0`}
@@ -198,70 +268,22 @@ export function Logo({
         </AnimatePresence>
       </motion.div>
     );
-  }
+  };
 
-  if (variant === 'compact') {
+  // --------------------------------------------------
+  // Render with optional Link wrapper
+  // --------------------------------------------------
+  
+  if (href) {
     return (
-      <motion.div
-        className={`inline-flex items-center ${className}`}
-        whileHover={animate ? { scale: 1.02 } : {}}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      <Link 
+        href={href}
+        className="transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded"
       >
-        <motion.div
-          className={`${logo_sizes[size].icon} text-primary flex-shrink-0`}
-          variants={animate ? icon_variants as Variants : {}}
-          animate="emphasized"
-        >
-          <LogoIcon className="w-full h-full" />
-        </motion.div>
-        
-        <AnimatePresence>
-          {hasText && (
-            <motion.div
-              className={`ml-2 ${logo_sizes[size].text} text-primary overflow-hidden`}
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: 'auto' }}
-              exit={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <LogoText className="w-full h-full" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+        {renderLogoContent()}
+      </Link>
     );
   }
 
-  // Default variant
-  return (
-    <motion.div
-      className={`flex items-center ${logo_sizes[size].gap} ${className}`}
-      variants={animate ? container_variants as Variants : {}}
-      animate={hasText ? 'expanded' : 'compact'}
-      layout
-    >
-      <motion.div
-        className={`${logo_sizes[size].icon} text-primary flex-shrink-0`}
-        variants={animate ? icon_variants as Variants : {}}
-        animate="emphasized"
-      >
-        <LogoIcon className="w-full h-full" />
-      </motion.div>
-      
-      <AnimatePresence mode="wait">
-        {hasText && (
-          <motion.div
-            className={`${logo_sizes[size].text} text-primary overflow-hidden`}
-            variants={animate ? text_variants as Variants : {}}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            layout
-          >
-            <LogoText className="w-full h-full" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
+  return renderLogoContent();
 }
