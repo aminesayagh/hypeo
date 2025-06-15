@@ -1,7 +1,6 @@
 import React from 'react';
 import { type VariantProps } from 'class-variance-authority';
-import { fontStyles } from './style';
-import { cn } from '@/services/classes';
+import { fontStyles, textPresets, type TextPreset } from './style';
 
 // --------------------------------------------------
 // Text Component Types
@@ -12,6 +11,7 @@ type TextVariantProps = VariantProps<typeof fontStyles>;
 interface BaseTextProps {
   children: React.ReactNode;
   className?: string;
+  preset?: TextPreset;
 }
 
 type TextProps<T extends React.ElementType = 'span'> = BaseTextProps &
@@ -22,6 +22,10 @@ type TextProps<T extends React.ElementType = 'span'> = BaseTextProps &
 // --------------------------------------------------
 // Utility Functions
 // --------------------------------------------------
+
+const cn = (...classes: (string | undefined | null | false)[]): string => {
+  return classes.filter(Boolean).join(' ');
+};
 
 const getDefaultElement = (variant?: TextVariantProps['variant']): React.ElementType => {
   if (!variant) return 'span';
@@ -52,25 +56,39 @@ export const Text = React.forwardRef<
 >(({
   children,
   className,
+  preset,
   variant,
   fontWeight,
   degree,
   alignment,
+  transform,
+  style,
+  lineHeight,
+  letterSpacing,
   breakWord,
   truncate,
+  whitespace,
   as,
   ...props
 }, ref) => {
-  const Element = as || getDefaultElement(variant);
+  // Apply preset if provided, but allow individual props to override
+  const presetConfig = preset ? textPresets[preset] : null;
+  
+  const Element = as || getDefaultElement(variant || presetConfig?.variant);
   
   const text_className = cn(
     fontStyles({
-      variant,
-      fontWeight,
-      degree,
+      variant: variant || presetConfig?.variant,
+      fontWeight: fontWeight || presetConfig?.fontWeight,
+      degree: degree || presetConfig?.degree,
       alignment,
+      transform: transform,
+      style: style,
+      lineHeight,
+      letterSpacing: letterSpacing,
       breakWord,
       truncate,
+      whitespace,
     }),
     className
   );

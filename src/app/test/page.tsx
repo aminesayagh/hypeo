@@ -1,85 +1,110 @@
-import { Text } from "@/components/Text/Text";
-import { ThemeChange } from "@/services/nextThemes/ThemeChange";
+'use client'
+import { Text } from '@/components/text'
+import { ThemeChange } from '@/services/nextThemes/ThemeChange'
+import { Logo } from '@/components/logo'
+import { useState } from 'react'
 
 export function TextExamples() {
   return (
-    <div className="space-y-4">
+    <div className='space-y-4'>
       {/* Basic heading usage - automatically renders as h1 */}
-      <Text variant="heading3xl" fontWeight="bold">
+      <Text variant='heading3xl' fontWeight='bold'>
         Welcome to Hypeo
       </Text>
 
       {/* Medium heading with custom color degree */}
-      <Text variant="headingLg" fontWeight="semibold" degree="200">
+      <Text variant='headingLg' fontWeight='semibold' degree='200'>
         Section Title
       </Text>
 
       {/* Body text with different alignment */}
-      <Text variant="bodyMd" alignment="center" degree="300">
+      <Text variant='bodyMd' alignment='center' degree='300'>
         Centered paragraph text with medium opacity
       </Text>
 
       {/* Custom element override */}
-      <Text as="span" variant="bodySm" fontWeight="medium">
+      <Text as='span' variant='bodySm' fontWeight='medium'>
         Inline text element
       </Text>
 
       {/* Text with word breaking */}
-      <Text variant="bodyLg" breakWord={true}>
-        This is a very long text that will break words when necessary to fit within containers
+      <Text variant='bodyLg' breakWord={true}>
+        This is a very long text that will break words when necessary to fit
+        within containers
       </Text>
 
       {/* Truncated text */}
-      <Text variant="bodyMd" truncate={true} className="max-w-xs">
-        This text will be truncated with ellipsis when it overflows its container
+      <Text variant='bodyMd' truncate={true} className='max-w-xs'>
+        This text will be truncated with ellipsis when it overflows its
+        container
       </Text>
 
       {/* All variants showcase */}
-      <div className="space-y-2">
-        <Text variant="bodyLg">Test Text Variant</Text>
-        <Text variant="heading3xl">Heading 3XL</Text>
-        <Text variant="heading2xl">Heading 2XL</Text>
-        <Text variant="headingXl">Heading XL</Text>
-        <Text variant="headingLg">Heading Large</Text>
-        <Text variant="headingMd">Heading Medium</Text>
-        <Text variant="headingSm">Heading Small</Text>
-        <Text variant="headingXs">Heading XS</Text>
-        <Text variant="bodyLg">Body Large</Text>
-        <Text variant="bodyMd">Body Medium (default)</Text>
-        <Text variant="bodySm">Body Small</Text>
-        <Text variant="bodyXs">Body XS</Text>
+      <div className='space-y-2'>
+        <Text variant='bodyLg'>Test Text Variant</Text>
+        <Text variant='heading3xl'>Heading 3XL</Text>
+        <Text variant='heading2xl'>Heading 2XL</Text>
+        <Text variant='headingXl'>Heading XL</Text>
+        <Text variant='headingLg'>Heading Large</Text>
+        <Text variant='headingMd'>Heading Medium</Text>
+        <Text variant='headingSm'>Heading Small</Text>
+        <Text variant='headingXs'>Heading XS</Text>
+        <Text variant='bodyLg'>Body Large</Text>
+        <Text variant='bodyMd'>Body Medium (default)</Text>
+        <Text variant='bodySm'>Body Small</Text>
+        <Text variant='bodyXs'>Body XS</Text>
       </div>
 
       {/* Different color degrees */}
-      <div className="space-y-1">
-        <Text degree="100">Primary text (highest contrast)</Text>
-        <Text degree="200">Secondary text</Text>
-        <Text degree="300">Tertiary text</Text>
-        <Text degree="400">Quaternary text (lowest contrast)</Text>
+      <div className='space-y-1'>
+        <Text degree='100'>Primary text (highest contrast)</Text>
+        <Text degree='200'>Secondary text</Text>
+        <Text degree='300'>Tertiary text</Text>
+        <Text degree='400'>Quaternary text (lowest contrast)</Text>
       </div>
 
       {/* Font weights */}
-      <div className="space-y-1">
-        <Text fontWeight="regular">Regular weight</Text>
-        <Text fontWeight="medium">Medium weight</Text>
-        <Text fontWeight="semibold">Semibold weight</Text>
-        <Text fontWeight="bold">Bold weight</Text>
+      <div className='space-y-1'>
+        <Text fontWeight='regular'>Regular weight</Text>
+        <Text fontWeight='medium'>Medium weight</Text>
+        <Text fontWeight='semibold'>Semibold weight</Text>
+        <Text fontWeight='bold'>Bold weight</Text>
       </div>
 
       {/* Text alignments */}
-      <div className="space-y-1">
-        <Text alignment="start">Left aligned text</Text>
-        <Text alignment="center">Center aligned text</Text>
-        <Text alignment="end">Right aligned text</Text>
-        <Text alignment="justify">Justified text that will spread across the full width of its container when the content is long enough to wrap to multiple lines.</Text>
+      <div className='space-y-1'>
+        <Text alignment='start'>Left aligned text</Text>
+        <Text alignment='center'>Center aligned text</Text>
+        <Text alignment='end'>Right aligned text</Text>
+        <Text alignment='justify'>
+          Justified text that will spread across the full width of its container
+          when the content is long enough to wrap to multiple lines.
+        </Text>
       </div>
     </div>
-  );
+  )
+}
+
+function LogoExamples() {
+  const [showText, setShowText] = useState(true)
+  return (
+    <div className='space-y-4'>
+      <button onClick={() => setShowText(!showText)}>Toggle Text</button>
+      <Logo
+        hasText={!showText}
+        size={showText ? 'md' : 'sm'}
+        variant='default'
+      />
+
+      <Logo hasText={!showText} size='md' variant='compact' />
+      <Logo hasText={true} size='lg' variant='stacked' />
+    </div>
+  )
 }
 
 export default function TestPage() {
   return (
-    <div>
+    <div className='space-y-4 p-12'>
       <ThemeChange />
       <h1>Color palette</h1>
       <div className='flex flex-col gap-4'>
@@ -97,6 +122,7 @@ export default function TestPage() {
         </div>
       </div>
       <TextExamples />
+      <LogoExamples />
     </div>
   )
 }
