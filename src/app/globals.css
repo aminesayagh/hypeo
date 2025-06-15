@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: oklch(0.9726 0.0026 106.45);
+  --foreground: oklch(0.133 0.0021 196.91);
+  --primary: oklch(0.9297 0.1873 116.91);
+  --background-level-1: oklch(0.9726 0.0026 106.45);
+  --background-level-2: oklch(0.9576 0.0027 106.45);
+  --background-level-3: oklch(0.9406 0.0017 67.8);
+  --background-level-4: oklch(0.9247 0.0013 106.43);
+  --foreground-level-1: oklch(0.133 0.0021 196.91);
+  --foreground-level-2: oklch(0.2589 0.0208 260.58);
+  --foreground-level-3: oklch(0.53 0.0154 262.34);
+  --foreground-level-4: oklch(0.6688 0.0113 261.78);
+
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-primary: var(--primary);
+  --color-background-level-1: var(--background-level-1);
+  --color-background-level-2: var(--background-level-2);
+  --color-background-level-3: var(--background-level-3);
+  --color-background-level-4: var(--background-level-4);
   --color-foreground: var(--foreground);
+  --color-foreground-level-1: var(--foreground-level-1);
+  --color-foreground-level-2: var(--foreground-level-2);
+  --color-foreground-level-3: var(--foreground-level-3);
+  --color-foreground-level-4: var(--foreground-level-4);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --text-1000: 2.5rem;
+  --text-900: 2.25rem;
+  --text-800: 1.875rem;
+  --text-700: 1.5rem;
+  --text-750: 1.875rem;
+  --text-600: 1.25rem;
+  --text-550: 1.375rem;
+  --text-500: 0.875rem;
+  --text-450: 1.125rem;
+  --text-400: 1rem;
+  --text-350: 0.875rem;
+  --text-325: 0.8125rem;
+  --text-300: 0.75rem;
+  --text-275: 0.6875rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: oklch(0.1439 0.0045 106.95);
+  --foreground: oklch(0.9764 0.0013 286.38);
+  --primary: oklch(0.9297 0.1873 116.91);
+  --background-level-1: oklch(0.1439 0.0045 106.95);
+  --background-level-2: oklch(0.1768 0.004 106.8);
+  --background-level-3: oklch(0.1994 0.0039 106.75);
+  --background-level-4: oklch(0.2213 0.0038 106.71);
+  --foreground-level-1: oklch(0.9764 0.0013 286.38);
+  --foreground-level-2: oklch(0.8744 0.0152 260.73);
+  --foreground-level-3: oklch(0.6488 0.0146 262.36);
+  --foreground-level-4: oklch(0.5092 0.0121 261.77);
+}
+
+
+@theme {
+  --breakpoint-xxs: 24rem;
+  --breakpoint-xs: 30rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-mdl: 56rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+  --breakpoint-3xl: 100rem;
+  --breakpoint-4xl: 132rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans);
 }
+
+h1, h2, h3, h4, h5, h6, p, span {
+  @apply selection:!bg-primary selection:!text-foreground;
+}
+
