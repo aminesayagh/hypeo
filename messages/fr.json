@@ -1,3 +1,32 @@
 {
-    
+  "navigation": {
+    "sidebar": {
+      "sections": {
+        "hypeoAi": "Hypeo AI",
+        "marketplace": "Market place"
+      },
+      "dashboard": "Tableau de bord",
+      "newAiCampaign": "Nouvelle campagne AI",
+      "aiManager": "Gestionnaire AI",
+      "discovery": "Discovery",
+      "crm": "CRM", 
+      "socialListening": "Social Listening",
+      "addProduct": "Ajouter un produit",
+      "myMarketplace": "Mon Marketplace",
+      "messagerie": "Messagerie",
+      "support": "Support"
+    },
+    "mode": {
+      "light": "Clair",
+      "dark": "Sombre"
+    },
+    "language": {
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "client": {
+      "business": "Business",
+      "creator": "Creator"
+    }
+  }
 }

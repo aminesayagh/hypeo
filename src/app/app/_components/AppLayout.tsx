@@ -2,11 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence, type Easing } from "motion/react";
-import { Button } from "@heroui/react";
-import { Menu } from "lucide-react";
 import { clsx } from "clsx";
 import { Sidebar } from "./Sidebar";
-import { useSidebar } from "./useSidebar";
+import { useSidebar } from "./useSidebar";  
+import { Header } from "./Header";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -124,18 +123,11 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // --------------------------------------------------
   
   const header_markup = (
-    <motion.header
-      animate={{
-        width: responsive.contentWidth,
-      }}
-      transition={{
-        duration: layout_config.animationDuration,
-        ease: layout_config.animationEase as unknown as Easing,
-      }}
-      className="fixed top-0 right-0 z-30 bg-background-level-2 backdrop-blur-md border-b border-background-level-3"
-      style={{ height: layout_config.headerHeight }}
-    >
-    </motion.header>
+    <div className="w-full">
+      <Header 
+        height={layout_config.headerHeight}
+      />
+    </div>
   );
 
   const header = {
@@ -217,7 +209,7 @@ export function AppLayout({ children, className }: AppLayoutProps) {
         duration: layout_config.animationDuration,
         ease: layout_config.animationEase as unknown as Easing,
       }}
-      className="min-h-screen bg-background"
+      className="min-h-screen"
       style={{ 
         marginTop: layout_config.headerHeight,
         paddingTop: 24,
@@ -239,7 +231,7 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // --------------------------------------------------
   
   const appLayout_markup = (
-    <div className={clsx("relative min-h-screen", className)}>
+    <div className={clsx("relative min-h-screen overflow-hidden", className)}>
       {/* Desktop sidebar */}
       {desktopSidebar.markup}
       
@@ -260,10 +252,6 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     mobileMenu,
     keyboard,
     responsive,
-    header,
-    desktopSidebar,
-    mobileSidebar,
-    mainContent,
     markup: appLayout_markup,
   };
 

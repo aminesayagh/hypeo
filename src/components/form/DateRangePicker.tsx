@@ -21,7 +21,7 @@ function DateRangePicker<T extends FieldValues>({
       control={control}
       name={name}
       render={({
-        field: { name, value, onChange, onBlur, ref, ...restField },
+        field: { value, onChange, onBlur, ref, ...restField },
         fieldState: { invalid, error, ...restFieldState },
       }) => (
         <HeroDateRangePicker

@@ -1,9 +1,8 @@
 'use client'
 
 import { useThemeMounted } from './useThemeMounted'
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon } from '@/components/icon'
 import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useState } from 'react'
 import { cn } from '../classes'
 
 export function ThemeChange({ className }: { className?: string }) {

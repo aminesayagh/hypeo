@@ -17,10 +17,10 @@ export const fontStyles = cva('', {
       headingXs: 'text-550 leading-normal tracking-normal',
       
       // Body Text - Optimized for readability
-      bodyLg: 'text-325 leading-comfortable tracking-normal',
-      bodyMd: 'text-350 leading-body tracking-normal',
-      bodySm: 'text-400 leading-body tracking-normal',
-      bodyXs: 'text-450 leading-body tracking-body',
+      bodyLg: 'text-450 leading-body tracking-body',
+      bodyMd: 'text-400 leading-body tracking-normal',
+      bodySm: 'text-350 leading-body tracking-normal',
+      bodyXs: 'text-325 leading-comfortable tracking-normal',
     },
     fontWeight: {
       light: 'font-light',
