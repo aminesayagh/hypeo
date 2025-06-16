@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, type Variants } from "motion/react";
+import { motion, AnimatePresence, type Variants, type MotionStyle } from "motion/react";
 import { useRef, useCallback, useMemo, useEffect, useState, isValidElement, Children } from "react";
 import { clsx } from "clsx";
 
@@ -14,6 +14,7 @@ interface ResizablePanelProps {
   className?: string;
   contentKey?: string | number; // Stable key for content identification
   disabled?: boolean; // Disable animations for performance
+  style?: React.CSSProperties;
 }
 
 // --------------------------------------------------
@@ -25,6 +26,7 @@ export function ResizablePanel({
   duration = 0.2, // Faster for dashboard usage
   className,
   contentKey,
+  style,
   disabled = false,
 }: ResizablePanelProps) {
   // --------------------------------------------------
@@ -191,7 +193,7 @@ export function ResizablePanel({
   // --------------------------------------------------
   
   const resizablePanel_markup = (
-    <div className={container.classes}>
+    <motion.div className={container.classes} style={style as MotionStyle}>
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={contentKey_manager.stable}
@@ -206,7 +208,7 @@ export function ResizablePanel({
           </div>
         </motion.div>
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 
   const resizablePanel = {

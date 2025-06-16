@@ -4,14 +4,18 @@ import { useThemeMounted } from './useThemeMounted'
 import { Sun, Moon } from '@/components/icon'
 import { AnimatePresence, motion } from 'motion/react'
 import { cn } from '../classes'
+import { clsx } from 'clsx'
 
-export function ThemeChange({ className }: { className?: string }) {
+export function ThemeChange({ classNames }: { classNames?: {
+  icon?: string,
+  button?: string,
+} }) {
   const { theme, setTheme, mounted } = useThemeMounted()
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
     return (
-      <div className={cn('size-6', className)} /> // Placeholder with same dimensions
+      <div className={cn('size-6', classNames?.icon)} /> // Placeholder with same dimensions
     )
   }
 
@@ -23,9 +27,9 @@ export function ThemeChange({ className }: { className?: string }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        className={cn('cursor-pointer', className)}
+        className={cn('cursor-pointer', classNames?.button)}
       >
-        {theme === 'dark' ? <Sun className='size-6' /> : <Moon className='size-6' />}
+        {theme === 'dark' ? <Sun className={clsx('size-6', classNames?.icon)} /> : <Moon className={clsx('size-6', classNames?.icon)} />}
       </motion.button>
     </AnimatePresence>
   )

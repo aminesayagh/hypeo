@@ -7,7 +7,7 @@
       },
       "dashboard": "Dashboard",
       "newAiCampaign": "New AI Campaign",
-      "aiManager": "AI Manager", 
+      "aiManager": "AI Manager",
       "discovery": "Discovery",
       "crm": "CRM",
       "socialListening": "Social Listening",
@@ -17,16 +17,54 @@
       "support": "Support"
     },
     "mode": {
-        "light": "Light",
-        "dark": "Dark"
+      "light": "Light",
+      "dark": "Dark"
     },
     "language": {
-        "en": "English",
-        "fr": "French"
+      "en": "English",
+      "fr": "French",
+      "select": "Select Language"
     },
-    "client": {
-        "business": "Business",
-        "creator": "Creator"
+    "viewMode": {
+      "business": "Business",
+      "creator": "Creator",
+      "select": "Select Mode"
+    },
+    "user": {
+      "account": "Account",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Log Out"
+    }
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Welcome to your dashboard",
+      "actions": {
+        "export": "Export"
+      },
+      "statics": {
+        "titles": {
+          "numberOfCampaigns": "Number of campaigns",
+          "activeAccounts": "Compte Active",
+          "onHoldAccounts": "Compte On Hold",
+          "inDraftAccounts": "Compte in Draft",
+          "totalCollaborations": "Total Collaborations",
+          "revenueGenerated": "Revenue Generated",
+          "pendingOpportunities": "Pending Opportunities",
+          "pendingMatchings": "Pending Matchings",
+          "submissionDeadline": "Submission Deadline",
+          "publicationDeadline": "Publication Deadline",
+          "contentToSubmit": "Content to Submit",
+          "contentToPublish": "Content to Publish",
+          "pendingPayments": "Pending Payments",
+          "hypeoScore": "Hypeo Score"
+        }
+      },
+      "campaigns": {
+        "title": "Campaign List"
+      }
     }
   }
 }

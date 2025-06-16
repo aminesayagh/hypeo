@@ -22,11 +22,49 @@
     },
     "language": {
       "en": "Anglais",
-      "fr": "Français"
+      "fr": "Français",
+      "select": "Sélectionner la langue"
     },
-    "client": {
-      "business": "Business",
-      "creator": "Creator"
+    "viewMode": { 
+      "business": "Entreprise",
+      "creator": "Créateur",
+      "select": "Sélectionner le mode"
+    },
+    "user": {
+      "account": "Compte",
+      "profile": "Profil",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    }
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Bienvenue sur votre tableau de bord",
+      "actions": {
+        "export": "Exporter"
+      },
+      "statics": {
+        "titles": {
+          "numberOfCampaigns": "Nombre de campagnes",
+          "activeAccounts": "Compte Active",
+          "onHoldAccounts": "Compte en attente",
+          "inDraftAccounts": "Compte en brouillon",
+          "totalCollaborations": "Total Collaborations",
+          "revenueGenerated": "Revenus générés",
+          "pendingOpportunities": "Opportunités en attente",
+          "pendingMatchings": "Matchings en attente",
+          "submissionDeadline": "Date de soumission",
+          "publicationDeadline": "Date de publication",
+          "contentToSubmit": "Contenu à soumettre",
+          "contentToPublish": "Contenu à publier",
+          "pendingPayments": "Paiements en attente",
+          "hypeoScore": "Hypeo Score"
+        }
+      },
+      "campaigns": {
+        "title": "Liste des campagnes"
+      }
     }
   }
 }

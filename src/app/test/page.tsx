@@ -3,7 +3,9 @@ import { Button } from '@/components/button'
 import { Text } from '@/components/text'
 import { ThemeChange } from '@/services/nextThemes/ThemeChange'
 import { Logo } from '@/components/logo'
-import { useState } from 'react'
+import { ResizablePanel } from '@/components/resizable'
+import { useState, useMemo } from 'react'
+import { Header } from '../app/_components/Header'
 
 function ButtonExamples() {
   return (
@@ -133,8 +135,14 @@ function LogoExamples() {
 
 export default function TestPage() {
   return (
-    <div className='space-y-4 p-12'>
+    <div className='space-y-8 p-12'>
       <ThemeChange />
+      
+      
+      {/* Divider */}
+      <div className="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+      
+      {/* Original Tests */}
       <h1>Color palette</h1>
       <div className='flex flex-col gap-4'>
         <div className='flex flex-row gap-2'>

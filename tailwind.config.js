@@ -9,7 +9,7 @@ export default {
   ],
   theme: {
     extend: {
-      // Your existing custom properties
+      
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

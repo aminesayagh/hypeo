@@ -200,11 +200,10 @@ export function Sidebar({
     <div className='p-4'>
       <Button
         isIconOnly
-        variant='light'
+        variant='flat'
         size='sm'
         onPress={toggle.handleClick}
         aria-label='Toggle sidebar'
-        color='primary'
       >
         {expanded ? (
           <ChevronLeft className='size-5' />
@@ -344,7 +343,7 @@ export function Sidebar({
         ease: sidebar_config.animationEase as unknown as Easing,
       }}
       className={clsx(
-        'bg-background-level-1/20 relative flex h-full flex-col overflow-hidden border-r border-background-level-3',
+        'bg-background-level-1/20 relative flex h-full flex-col overflow-hidden',
         className
       )}
     >

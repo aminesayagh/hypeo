@@ -9,8 +9,9 @@
 /* Root transitions for custom properties */
 :root {
   transition-property: background-color, color, border-color, box-shadow;
-  transition-duration: 300ms;
+  transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
   
   /* Color custom properties */
   --background: oklch(0.9726 0.0026 106.45);
@@ -32,10 +33,9 @@
   --primary-300: oklch(0.9484 0.1364 114.95);
   --primary-400: oklch(0.939 0.1636 115.8);
   --primary-500: oklch(0.9297 0.1873 116.91);
-  --primary-600: oklch(0.9297 0.1873 116.91);
-  --primary-700: oklch(0.8841 0.2058 118.72);
-  --primary-800: oklch(0.6541 0.1514 118.51);
-  --primary-900: oklch(0.4011 0.0909 117.96);
+  --primary-600: oklch(0.8841 0.2058 118.72);
+  --primary-700: oklch(0.6541 0.1514 118.51);
+  --primary-800: oklch(0.4011 0.0909 117.96);
 
   /* --------------------------------------------------
      Responsive Typography Scale
@@ -94,7 +94,7 @@
 *::before,
 *::after {
   transition-property: background-color, color, border-color, box-shadow, fill, stroke;
-  transition-duration: 300ms;
+  transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 

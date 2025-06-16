@@ -6,8 +6,8 @@ export default function AppLayoutPage({
   children: React.ReactNode;
 }) {
   return (
-    <AppLayoutComponent>
+    <AppLayoutComponent className="h-full">
       {children}
     </AppLayoutComponent>
   );
-}  
+}

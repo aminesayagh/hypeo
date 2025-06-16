@@ -6,6 +6,8 @@ import { clsx } from "clsx";
 import { Sidebar } from "./Sidebar";
 import { useSidebar } from "./useSidebar";  
 import { Header } from "./Header";
+import { ResizablePanel } from "@/components/resizable";
+import { DividerLevel1 } from "@/components/divider";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -16,14 +18,13 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // --------------------------------------------------
   // Configuration
   // --------------------------------------------------
-  
   const layout_config = {
     sidebarCollapsedWidth: 75,
     sidebarExpandedWidth: 240,
     animationDuration: 0.3,
     animationEase: [0.25, 0.1, 0.25, 1],
     headerHeight: 64,
-    breakpoint: 1024, // lg breakpoint
+    breakpoint: 1024
   };
 
   // --------------------------------------------------
@@ -123,11 +124,10 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // --------------------------------------------------
   
   const header_markup = (
-    <div className="w-full">
       <Header 
         height={layout_config.headerHeight}
+        left={responsive.sidebarWidth}
       />
-    </div>
   );
 
   const header = {
@@ -139,11 +139,12 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // --------------------------------------------------
   
   const desktopSidebar_markup = (
-    <div className="hidden lg:block fixed left-0 top-0 h-full z-40">
+    <div className="hidden lg:flex fixed left-0 top-0 h-full z-40">
       <Sidebar
         expanded={sidebar.expanded}
         onToggle={sidebar.toggle}
       />
+      <DividerLevel1 className='h-full' orientation="vertical" />
     </div>
   );
 
@@ -200,26 +201,11 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // --------------------------------------------------
   
   const mainContent_markup = (
-    <motion.main
-      animate={{
-        width: responsive.contentWidth,
-        marginLeft: responsive.sidebarWidth,
-      }}
-      transition={{
-        duration: layout_config.animationDuration,
-        ease: layout_config.animationEase as unknown as Easing,
-      }}
-      className="min-h-screen"
-      style={{ 
-        marginTop: layout_config.headerHeight,
-        paddingTop: 24,
-        paddingBottom: 24,
-      }}
+    <main
+      className="min-h-screen p-6"
     >
-      <div className="px-6 max-w-full">
-        {children}
-      </div>
-    </motion.main>
+      {children}
+    </main>
   );
 
   const mainContent = {
@@ -237,12 +223,17 @@ export function AppLayout({ children, className }: AppLayoutProps) {
       
       {/* Mobile sidebar */}
       {mobileSidebar.markup}
-      
       {/* Header */}
-      {header.markup}
+      <ResizablePanel className="w-full relative h-full" style={{ width: responsive.contentWidth, left: responsive.sidebarWidth }}>
+        {header.markup}
+        {/* Main content */}
+        <motion.div className="w-full h-full" style={{
+          marginTop: layout_config.headerHeight,
+        }}>
+          {mainContent.markup}
+        </motion.div>
+      </ResizablePanel>
       
-      {/* Main content */}
-      {mainContent.markup}
     </div>
   );
 

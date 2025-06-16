@@ -10,7 +10,4 @@ import Slider from "./Slider";
 import DatePicker from "./DatePicker";
 import DateRangePicker from "./DateRangePicker";
 
-// File Upload
-import { FileUploadField } from "./FileUploadField";
-
-export { Form, Input, Select, SelectItem, Checkbox, Button, NumberInput, DatePicker, DateRangePicker, Slider, FileUploadField };  
+export { Form, Input, Select, SelectItem, Checkbox, Button, NumberInput, DatePicker, DateRangePicker, Slider, };  
