@@ -31,6 +31,7 @@ export const fontStyles = cva('', {
       extrabold: 'font-extrabold',
     },
     degree: {
+      inherit: 'text-inherit',
       '100': 'text-foreground-level-1',
       '200': 'text-foreground-level-2',
       '300': 'text-foreground-level-3',

@@ -8,12 +8,27 @@ import { useState } from 'react'
 function ButtonExamples() {
   return (
     <div className='flex flex-row gap-4'>
-      <Button variant='solid' color='primary' className='text-black'>Click me</Button>
-      <Button variant='bordered' color='primary'>Click me</Button>
-      <Button variant='light' color='primary'>Click me</Button>
-      <Button variant='faded' color='primary'>Click me</Button>
-      <Button variant='shadow' color='primary'>Click me</Button>
-      <Button variant='ghost' color='primary'>Click me</Button>
+      <Button color='primary' variant='solid'>
+        Solid
+      </Button>
+      <Button color='primary' variant='faded'>
+        Faded
+      </Button>
+      <Button color='primary' variant='bordered'>
+        Bordered
+      </Button>
+      <Button color='primary' variant='light'>
+        Light
+      </Button>
+      <Button color='primary' variant='flat'>
+        Flat
+      </Button>
+      <Button color='primary' variant='ghost'>
+        Ghost
+      </Button>
+      <Button color='primary' variant='shadow'>
+        Shadow
+      </Button>
     </div>
   )
 }
@@ -123,16 +138,16 @@ export default function TestPage() {
       <h1>Color palette</h1>
       <div className='flex flex-col gap-4'>
         <div className='flex flex-row gap-2'>
-          <div className='bg-background-level-1 size-32'></div>
-          <div className='bg-background-level-2 size-32'></div>
-          <div className='bg-background-level-3 size-32'></div>
-          <div className='bg-background-level-4 size-32'></div>
+          <div className='size-32 bg-background-level-1'></div>
+          <div className='size-32 bg-background-level-2'></div>
+          <div className='size-32 bg-background-level-3'></div>
+          <div className='size-32 bg-background-level-4'></div>
         </div>
         <div className='flex flex-row gap-2'>
-          <div className='bg-foreground-level-1 size-32'></div>
-          <div className='bg-foreground-level-2 size-32'></div>
-          <div className='bg-foreground-level-3 size-32'></div>
-          <div className='bg-foreground-level-4 size-32'></div>
+          <div className='size-32 bg-foreground-level-1'></div>
+          <div className='size-32 bg-foreground-level-2'></div>
+          <div className='size-32 bg-foreground-level-3'></div>
+          <div className='size-32 bg-foreground-level-4'></div>
         </div>
       </div>
       <TextExamples />

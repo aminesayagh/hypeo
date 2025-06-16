@@ -25,6 +25,18 @@
   --foreground-level-3: oklch(0.53 0.0154 262.34);
   --foreground-level-4: oklch(0.6688 0.0113 261.78);
 
+  --primary-foreground: oklch(0.133 0.0021 196.91);
+  --primary-50: oklch(0.9867 0.0367 113.67);
+  --primary-100: oklch(0.9724 0.0712 113.63);
+  --primary-200: oklch(0.9608 0.1064 114.51);
+  --primary-300: oklch(0.9484 0.1364 114.95);
+  --primary-400: oklch(0.939 0.1636 115.8);
+  --primary-500: oklch(0.9297 0.1873 116.91);
+  --primary-600: oklch(0.9297 0.1873 116.91);
+  --primary-700: oklch(0.8841 0.2058 118.72);
+  --primary-800: oklch(0.6541 0.1514 118.51);
+  --primary-900: oklch(0.4011 0.0909 117.96);
+
   /* --------------------------------------------------
      Responsive Typography Scale
      Mobile-first with clamp() for fluid scaling
