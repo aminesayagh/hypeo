@@ -4,7 +4,7 @@ import { FlagAmerica, FlagFrench } from '@/components/icon'
 import { useLocale } from 'next-intl'
 import { useCallback, useMemo, useTransition, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { setUserLocale } from '@/services/i18n/userLocale';
+import { setUserLocale } from '@/services/foundations/internationalization/userLocale';
 
 export function LanguageSelector() {
   // --------------------------------------------------

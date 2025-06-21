@@ -1,9 +1,9 @@
 'use client'
 
-import { useThemeMounted } from './useThemeMounted'
+import { useThemeMounted } from '../../foundations/themes/useThemeMounted'
 import { Sun, Moon } from '@/components/icon'
 import { AnimatePresence, motion } from 'motion/react'
-import { cn } from '../classes'
+import { cn } from '@/services/foundations/utilities'
 import { clsx } from 'clsx'
 
 export function ThemeChange({ classNames }: { classNames?: {

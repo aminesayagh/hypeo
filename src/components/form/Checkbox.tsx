@@ -1,10 +1,10 @@
 import { Checkbox, type CheckboxProps } from "@heroui/react";
 import React, { useId } from "react";
 import { Controller, type FieldValues, type Path, useFormContext } from "react-hook-form";
-import { cn } from "@/services/classes";
+import { cn } from "@/services/foundations/utilities";
 
 function CheckboxUI<T extends FieldValues>({
-  name,
+  name, 
   label,
   className,
   ...props

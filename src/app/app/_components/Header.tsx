@@ -7,7 +7,7 @@ import {
   NavbarMenuToggle,
 } from '@heroui/react'
 import { SearchInput } from '@/components/search-input'
-import { ThemeChange } from '@/services/nextThemes/ThemeChange'
+import { ThemeChange } from '@/services/components/themes/ThemeChange'
 import {
   Dropdown,
   DropdownTrigger,
@@ -18,8 +18,8 @@ import {
 import { User } from '@/components/user'
 import { useTranslations } from 'next-intl'
 import { LogOut, User as UserIcon, Settings } from '@/components/icon'
-import { LanguageSelector } from '@/services/i18n/component/LanguageSelector'
-import { VisitorModeSelector } from '@/services/viewMode/VisitorModeSelector'
+import { LanguageSelector } from '@/services/components/internationalization/LanguageSelector'
+import { ViewModeSelector } from '@/services/components/view-modes/ViewModeSelector'
 import { DividerLevel1 } from '@/components/divider'
 import { useRouter } from 'next/navigation'
 
@@ -49,7 +49,7 @@ export function Header({ height, left }: { height: number; left: number }) {
   // --------------------------------------------------
   const options_markup = (
     <div className='flex items-center gap-4'>
-      <VisitorModeSelector />
+      <ViewModeSelector />
       <LanguageSelector />
       <ThemeChange classNames={{
         icon: 'size-[20px]',

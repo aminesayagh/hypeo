@@ -1,8 +1,7 @@
 'use client';
 import { Input as HeroInput, type InputProps } from "@heroui/react";
 import { Controller, useFormContext, type FieldValues, type Path } from "react-hook-form";
-import { cn } from "@/services/classes";
-
+import { cn } from "@/services/foundations/utilities";
 
 function Input<T extends FieldValues>({
     label,

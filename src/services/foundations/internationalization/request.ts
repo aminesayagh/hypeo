@@ -1,7 +1,7 @@
 import { IntlErrorCode } from "next-intl";
 import { getRequestConfig } from "next-intl/server";
 
-import { locales, defaultLocale, type Locale } from "./routing";
+import { locales, defaultLocale, type Locale } from "./internationalization.types";
 import { getUserLocale } from "./userLocale";
 
 const requestConfig = getRequestConfig(async () => {
@@ -14,7 +14,7 @@ const requestConfig = getRequestConfig(async () => {
 
   return {
     locale,
-    messages: (await import(`../../../messages/${locale}.json`)).default as Record<
+    messages: (await import(`../../../../messages/${locale}.json`)).default as Record<
       string,
       string
     >,

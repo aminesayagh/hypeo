@@ -1,4 +1,4 @@
-import { useViewMode, type ViewMode } from '@/services/viewMode/useViewMode'
+import { useViewMode, type ViewMode } from '@/services/foundations/view-modes/useViewMode'
 import { Select, SelectItem } from '@heroui/react'
 import { useCallback, useMemo, useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -8,17 +8,17 @@ import { usePathname, useRouter } from 'next/navigation'
 // ModeSelector Interface
 // --------------------------------------------------
 
-interface VisitorModeSelectorProps {
+interface ViewModeSelectorProps {
   className?: string
   size?: 'sm' | 'md' | 'lg'
   variant?: 'flat' | 'bordered' | 'faded' | 'underlined'
 }
 
-export function VisitorModeSelector({
+export function ViewModeSelector({
   size = 'sm',
   variant = 'bordered',
   className = '',
-}: VisitorModeSelectorProps) {
+}: ViewModeSelectorProps) {
   // --------------------------------------------------
   // Navigation
   // --------------------------------------------------

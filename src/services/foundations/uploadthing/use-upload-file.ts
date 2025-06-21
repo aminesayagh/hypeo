@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { OurFileRouter } from '@/services/uploadthing/route';
+import type { OurFileRouter } from '@/services/foundations/uploadthing/route';
 import type {
   ClientUploadedFileData,
   UploadFilesOptions,
@@ -9,7 +9,7 @@ import type {
 import { generateReactHelpers } from '@uploadthing/react';
 import { z } from 'zod';
   
-import { toast } from '@/services/uploadthing/handler';
+import { toast } from '@/services/foundations/uploadthing/handler';
 
 export interface UploadedFile<T = unknown> extends ClientUploadedFileData<T> {}
 
