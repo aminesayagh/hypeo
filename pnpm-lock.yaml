@@ -17,6 +17,9 @@ importers:
       '@ai-sdk/provider-utils':
         specifier: ^2.2.8
         version: 2.2.8(zod@3.25.64)
+      '@ai-sdk/react':
+        specifier: ^1.2.12
+        version: 1.2.12(react@19.1.0)(zod@3.25.64)
       '@heroui/react':
         specifier: ^2.7.10
         version: 2.7.10(@types/react@19.1.8)(framer-motion@12.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@3.4.17)

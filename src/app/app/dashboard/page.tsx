@@ -33,15 +33,14 @@ import {
   EyeIcon,
   EditIcon,
 } from '@/components/icon'
-import Image from 'next/image'
 import {
-  parseZonedDateTime,
-  parseAbsoluteToLocal,
   parseDate,
 } from '@internationalized/date'
 import { Tooltip } from '@/components/tooltip'
 import { Pagination } from '@heroui/react'
 import { useMemo, useState } from 'react'
+import { useViewMode } from '@/services/foundations/view-modes/useViewMode'
+import { Box } from '@/components/box'
 
 export default function DashboardPage() {
   // --------------------------------------------------
@@ -49,6 +48,12 @@ export default function DashboardPage() {
   // --------------------------------------------------
 
   const t = useTranslations('pages.dashboard')
+
+  // --------------------------------------------------
+  // View Mode
+  // --------------------------------------------------
+
+  const viewMode = useViewMode()
 
   // --------------------------------------------------
   // Header
@@ -80,7 +85,8 @@ export default function DashboardPage() {
   // --------------------------------------------------
   // Statics
   // --------------------------------------------------
-  const statics = [
+  
+  const statics_allData = [
     {
       type: 'business',
       title: t('statics.titles.numberOfCampaigns'),
@@ -167,9 +173,21 @@ export default function DashboardPage() {
     },
   ]
 
-  const statics_markup = (
+  const statics_filtered = useMemo(() => {
+    return statics_allData.filter(item => item.type === viewMode.current)
+  }, [viewMode.current])
+
+  const statics_business = useMemo(() => {
+    return statics_allData.filter(item => item.type === 'business')
+  }, [])
+
+  const statics_creator = useMemo(() => {
+    return statics_allData.filter(item => item.type === 'creator')
+  }, [])
+
+  const statics_renderCards = (items: typeof statics_allData) => (
     <div className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4'>
-      {statics.map(item => (
+      {items.map(item => (
         <Card
           key={item.title}
           className='flex flex-col items-start gap-2 p-4 hover:transition-shadow hover:duration-300 hover:shadow-sm'
@@ -199,6 +217,26 @@ export default function DashboardPage() {
       ))}
     </div>
   )
+
+  const statics_markup = (
+    <div className='relative'>
+      <Box active={viewMode.isBusiness}>
+        {statics_renderCards(statics_business)}
+      </Box>
+      <Box active={viewMode.isCreator}>
+        {statics_renderCards(statics_creator)}
+      </Box>
+    </div>
+  )
+
+  const statics = {
+    allData: statics_allData,
+    filtered: statics_filtered,
+    business: statics_business,
+    creator: statics_creator,
+    renderCards: statics_renderCards,
+    markup: statics_markup,
+  }
 
   // --------------------------------------------------
   // Campaigns List
@@ -504,7 +542,7 @@ export default function DashboardPage() {
   return (
     <div className='flex flex-col gap-4'>
       {header_markup}
-      {statics_markup}
+      {statics.markup}
       {campaigns_markup}
       <div className='h-24'></div>
     </div>
