@@ -65,6 +65,32 @@
       "campaigns": {
         "title": "Campaign List"
       }
+    },
+    "newAiCampaign": {
+      "title": "What are you working on?",
+      "chat": {
+        "placeholder": "Type your message here... (Press Enter to send)",
+        "user": "You",
+        "assistant": "AI Assistant",
+        "generating": "Generating response...",
+        "stop": "Stop",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "suggestions": {
+          "socialMedia": "Create a social media campaign for a new product launch",
+          "contentStrategy": "Develop a content strategy for brand awareness",
+          "influencer": "Plan an influencer marketing campaign",
+          "retention": "Design a customer retention campaign"
+        },
+        "error": {
+          "prefix": "Error:"
+        },
+        "upload": {
+          "uploading": "Uploading...",
+          "attachFile": "Attach file",
+          "removeFile": "Remove file"
+        }
+      }
     }
   }
 }

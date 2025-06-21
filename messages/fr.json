@@ -65,6 +65,28 @@
       "campaigns": {
         "title": "Liste des campagnes"
       }
+    },
+    "newAiCampaign": {
+      "title": "Sur quoi travaillez-vous ?",
+      "description": "Je suis là pour vous aider à créer d'incroyables campagnes marketing. Parlez-moi de votre projet, de votre public cible ou de vos objectifs spécifiques.",
+      "chat": {
+        "placeholder": "Tapez votre message ici... (Appuyez sur Entrée pour envoyer)",
+        "user": "Vous",
+        "assistant": "Assistant IA",
+        "generating": "Génération de la réponse...",
+        "stop": "Arrêter",
+        "copy": "Copier",
+        "copied": "Copié !",
+        "suggestions": {
+          "socialMedia": "Créer une campagne sur les réseaux sociaux pour le lancement d'un nouveau produit",
+          "contentStrategy": "Développer une stratégie de contenu pour la notoriété de la marque",
+          "influencer": "Planifier une campagne de marketing d'influence",
+          "retention": "Concevoir une campagne de fidélisation client"
+        },
+        "error": {
+          "prefix": "Erreur :"
+        }
+      }
     }
   }
 }
