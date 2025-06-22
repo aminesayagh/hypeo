@@ -9,7 +9,7 @@ import type {
 import { generateReactHelpers } from '@uploadthing/react';
 import { z } from 'zod';
   
-import { toast } from '@/services/foundations/uploadthing/handler';
+import { toast } from '@/services/foundations/toast/handler';
 
 export interface UploadedFile<T = unknown> extends ClientUploadedFileData<T> {}
 

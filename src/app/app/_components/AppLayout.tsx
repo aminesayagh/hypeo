@@ -202,7 +202,10 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   
   const mainContent_markup = (
     <main
-      className="min-h-screen p-6"
+      className="p-6 h-full"
+      style={{
+        minHeight: `calc(100vh - ${layout_config.headerHeight}px)`,
+      }}
     >
       {children}
     </main>

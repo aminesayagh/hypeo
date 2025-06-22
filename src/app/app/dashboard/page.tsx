@@ -465,7 +465,6 @@ export default function DashboardPage() {
                   alt={item.brand.name}
                   size='lg'
                   radius='sm'
-                  className='brightness-75 hover:transition-all hover:duration-300 group-hover:brightness-100'
                 />
                 <div className='flex flex-col items-start gap-1'>
                   <Text variant='bodySm' degree='100'>

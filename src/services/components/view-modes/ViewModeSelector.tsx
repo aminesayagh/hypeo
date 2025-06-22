@@ -22,8 +22,6 @@ export function ViewModeSelector({
   // --------------------------------------------------
   // Navigation
   // --------------------------------------------------
-  
-  const router = useRouter();
   const pathname = usePathname();
   const [navigation_isPending, navigation_startTransition] = useTransition();
 
@@ -82,6 +80,8 @@ export function ViewModeSelector({
   const modeOptions_markup = mode.options.map(option => (
     <SelectItem
       key={option.key}
+      color='primary'
+      className='ring-primary'
       startContent={<span className='text-base'>{option.icon}</span>}
     >
       {option.label}
@@ -152,7 +152,8 @@ export function ViewModeSelector({
       className={className}
       variant={modeSelector_config.variant}
       classNames={{
-        base: 'min-w-[140px]'
+        base: 'min-w-[140px]',
+        trigger: 'py-4',
       }}
       size={modeSelector_config.size}
       selectedKeys={[mode.current]}

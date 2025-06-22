@@ -109,7 +109,7 @@
 }
 
 .dark {
-  --background: oklch(0.1439 0.0045 106.95);
+  --background: oklch(0.1768 0.004 106.8);
   --foreground: oklch(0.9764 0.0013 286.38);
   --primary: oklch(0.9297 0.1873 116.91);
   --background-level-1: oklch(0.1439 0.0045 106.95);

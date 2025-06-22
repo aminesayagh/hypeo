@@ -85,6 +85,13 @@
         },
         "error": {
           "prefix": "Erreur :"
+        },
+        "upload": {
+          "uploading": "Téléchargement...",
+          "attachFile": "Joindre un fichier",
+          "removeFile": "Supprimer le fichier",
+          "downloadFile": "Cliquer pour télécharger",
+          "fileSize": "Ko"
         }
       }
     }

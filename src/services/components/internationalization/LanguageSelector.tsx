@@ -113,7 +113,7 @@ export function LanguageSelector() {
       variant='bordered'
       classNames={{
         base: 'min-w-[68px]',
-        trigger: 'min-w-[68px]',
+        trigger: 'min-w-[68px] py-4',
         popoverContent: 'min-w-[140px]',
         listbox: 'min-w-[130px]',
       }}
