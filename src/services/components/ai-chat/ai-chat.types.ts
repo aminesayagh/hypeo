@@ -20,4 +20,6 @@ export interface AIChatState {
   status: 'submitted' | 'streaming' | 'ready' | 'error'
   stop: () => void
   error: Error | null
+  openaiKey: string | null
+  setOpenaiKey: (key: string | null) => void
 }

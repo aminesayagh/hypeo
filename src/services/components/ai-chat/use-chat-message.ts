@@ -1,24 +1,27 @@
 import type { ChatMessage } from "./ai-chat.types";
 import { useChat } from "@ai-sdk/react";
+import { useState } from "react";
 
 interface UseChatMessageProps {
+    openaiKey: string;
     systemPrompt: string;
     onMessageSent: (message: ChatMessage) => void;
     onError: (error: Error) => void;
 }
 
 export function useChatMessage({
+    openaiKey,
     systemPrompt,
     onMessageSent,
     onError,
 }: UseChatMessageProps) {
-    
 
     // --------------------------------------------------
     // AI Integration
     // --------------------------------------------------
     const ai_config = {
         api: "/api/ai/command",
+        apiKey: openaiKey,
         systemPrompt,
     }
     
@@ -34,6 +37,7 @@ export function useChatMessage({
         api: ai_config.api,
         body: {
             system: ai_config.systemPrompt,
+            apiKey: ai_config.apiKey,
         },
         onFinish: (message) => {
             console.log(message);

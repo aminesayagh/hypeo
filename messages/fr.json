@@ -92,6 +92,16 @@
           "removeFile": "Supprimer le fichier",
           "downloadFile": "Cliquer pour télécharger",
           "fileSize": "Ko"
+        },
+        "apiKey": {
+          "modal": {
+            "title": "Clé API OpenAI requise",
+            "description": "Veuillez saisir votre clé API OpenAI pour continuer avec le chat IA.",
+            "placeholder": "Entrez votre clé API OpenAI...",
+            "required": "La clé API est requise",
+            "save": "Enregistrer la clé",
+            "cancel": "Annuler"
+          }
         }
       }
     }

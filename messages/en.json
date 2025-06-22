@@ -91,6 +91,16 @@
           "removeFile": "Remove file",
           "downloadFile": "Click to download",
           "fileSize": "KB"
+        },
+        "apiKey": {
+          "modal": {
+            "title": "OpenAI API Key Required",
+            "description": "Please enter your OpenAI API key to continue with the AI chat.",
+            "placeholder": "Enter your OpenAI API key...",
+            "required": "API key is required",
+            "save": "Save Key",
+            "cancel": "Cancel"
+          }
         }
       }
     }
