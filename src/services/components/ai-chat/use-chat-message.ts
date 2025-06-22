@@ -29,12 +29,14 @@ export function useChatMessage({
         status: ai_status,
         stop: ai_stop,
         error: ai_error,
+        handleSubmit: ai_handleSubmit,
     } = useChat({
         api: ai_config.api,
         body: {
             system: ai_config.systemPrompt,
         },
         onFinish: (message) => {
+            console.log(message);
             const chatMessage: ChatMessage = {
                 id: `assistant-${Date.now()}`,
                 role: 'assistant',
@@ -57,6 +59,7 @@ export function useChatMessage({
         error: ai_error,
         setInput: ai_setInput,
         stop: ai_stop,
+        handleSubmit: ai_handleSubmit
     };
 
     return ai;

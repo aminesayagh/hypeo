@@ -39,7 +39,7 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
 
   const chatRequest_handleSubmit = () => {
-    chatRequest_chat.setInput(chatRequest.input + '\n')
+    chatRequest_chat.handleSubmit()
   }
 
   const chatRequest_handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +54,7 @@ export function AIChat({ className = '' }: AIChatProps) {
       e.preventDefault()
       chatRequest_chat.stop()
     }
+    // Enter to send
     if (isHotkey('enter')(e) && !e.shiftKey && !chatRequest.input) {
       e.preventDefault()
       chatRequest_chat.setInput(chatRequest.input + '\n')
@@ -95,16 +96,16 @@ export function AIChat({ className = '' }: AIChatProps) {
           value={chatRequest.input}
           onChange={chatRequest.changeHandler}
           onKeyDown={chatRequest.keydownHandler}
+          autoFocus
           placeholder='Ask me anything...'
           variant='faded'
           size='sm'
           minRows={1}
-          maxRows={10}
+          maxRows={20}
           classNames={{
             inputWrapper: 'h-16 px-0 bg-transparent border-none shadow-none',
             input: 'text-foreground',
           }}
-          autoFocus
         />
       </CardBody>
       <CardFooter className='flex items-center justify-between pt-2 px-4 pb-4' onClick={chatInitialization_handleInputFocus}>
@@ -124,7 +125,7 @@ export function AIChat({ className = '' }: AIChatProps) {
           color='default'
           variant='solid'
           size='sm'
-          onPress={chatRequest_handleSubmit}
+          onPress={chatRequest.submitHandler}
           //   disabled={
           //     upload_isUploading ||
           //     (!value.trim() && uploadedFiles.length === 0)
@@ -159,7 +160,11 @@ export function AIChat({ className = '' }: AIChatProps) {
   // Chat Assistant
   // --------------------------------------------------
 
-  const chatAssistant_markup = <Card></Card>
+  const chatAssistant_markup = <div className='flex flex-col'>
+    <div className='absolute bottom-0 w-full h-full'>
+        {chatInitialization.markup}
+    </div>
+  </div>
 
   const chatAssistant = {
     markup: chatAssistant_markup,
