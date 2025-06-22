@@ -57,13 +57,11 @@ export default function DashboardPage() {
   // --------------------------------------------------
   // Internationalization
   // --------------------------------------------------
-
   const t = useTranslations('pages.dashboard')
 
   // --------------------------------------------------
   // View Mode
   // --------------------------------------------------
-
   const viewMode = useViewMode()
 
   // --------------------------------------------------
@@ -250,17 +248,17 @@ export default function DashboardPage() {
   }
 
   // --------------------------------------------------
-  // Campaigns List
+  // table structure List
   // --------------------------------------------------
 
-  const campaignsList_columns = [
+  const tableStructure_columns = [
     { name: 'BRAND', uid: 'brand', sortable: true },
     { name: 'DATE', uid: 'date', sortable: true },
     { name: 'STATUS', uid: 'status', sortable: true },
     { name: 'ACTIONS', uid: 'actions', sortable: false },
   ]
 
-  const campaignsList_data = [
+  const tableStructure_data = [
     {
       id: 1,
       key: '1',
@@ -419,7 +417,13 @@ export default function DashboardPage() {
     },
   ]
 
-  const statusOptions = ['active', 'upcoming', 'completed']
+  const tableStructure_statusOptions = ['active', 'upcoming', 'completed']
+
+  const tableStructure = {
+    columns: tableStructure_columns,
+    data: tableStructure_data,
+    statusOptions: tableStructure_statusOptions,
+  }
 
   // --------------------------------------------------
   // Pagination
@@ -442,7 +446,7 @@ export default function DashboardPage() {
       showShadow
       color='primary'
       page={pagination_page}
-      total={Math.ceil(campaignsList_data.length / pagination_rowsPerPage)}
+      total={Math.ceil(tableStructure_data.length / pagination_rowsPerPage)}
       onChange={pagination_setPage}
     />
   )
@@ -486,13 +490,21 @@ export default function DashboardPage() {
     />
   )
 
+  const search = {
+    value: search_value,
+    setValue: search_setValue,
+    handleClear: search_handleClear,
+    handleValueChange: search_handleValueChange,
+    markup: search_markup,
+  }
+
   // --------------------------------------------------
   // Data
   // -------------------------------------------------
 
   const [data_sortDescriptor, data_setSortDescriptor] =
     useState<SortDescriptor>({
-      column: 'name',
+      column: 'brand',
       direction: 'ascending',
     })
 
@@ -508,14 +520,15 @@ export default function DashboardPage() {
   )
 
   const data_headerColumns = useMemo(() => {
-    if (data_visibleColumns === 'all') return campaignsList_columns
-    return campaignsList_columns.filter(column =>
+    if (data_visibleColumns === 'all') return tableStructure.columns;
+
+    return tableStructure.columns.filter(column =>
       Array.from(data_visibleColumns).includes(column.uid)
     )
   }, [data_visibleColumns])
 
   const data_filtered = useMemo(() => {
-    let filteredData = [...campaignsList_data]
+    let filteredData = [...tableStructure.data];
 
     if (search_hasSearchFilter) {
       filteredData = filteredData.filter(item =>
@@ -524,7 +537,8 @@ export default function DashboardPage() {
     }
     if (
       data_statusFilter !== 'all' &&
-      Array.from(data_statusFilter).length !== statusOptions.length
+      Array.from(data_statusFilter).length !==
+        tableStructure.statusOptions.length
     ) {
       filteredData = filteredData.filter(item =>
         Array.from(data_statusFilter).includes(item.status)
@@ -548,6 +562,8 @@ export default function DashboardPage() {
     return [...data_paginated].sort((a, b) => {
       const first = a[data_sortDescriptor.column as keyof typeof a]
       const second = b[data_sortDescriptor.column as keyof typeof b]
+      console.log('sorting')
+      console.log('first', first, 'second', second)
       const cmp = first < second ? -1 : first > second ? 1 : 0
 
       return data_sortDescriptor.direction === 'descending' ? -cmp : cmp
@@ -555,6 +571,10 @@ export default function DashboardPage() {
   }, [data_paginated, data_sortDescriptor])
 
   const data = {
+    filtered: data_filtered,
+    pagesCount: data_pagesCount,
+    paginated: data_paginated,
+    sorted: data_sorted,
     sortDescriptor: data_sortDescriptor,
     setSortDescriptor: data_setSortDescriptor,
     result: data_sorted,
@@ -571,7 +591,7 @@ export default function DashboardPage() {
   // --------------------------------------------------
   const campaignsList_totalMarkup = (
     <Text variant='bodySm' degree='100'>
-      Total {campaignsList_data.length} campaigns
+      Total {tableStructure.data.length} campaigns
     </Text>
   )
 
@@ -592,7 +612,7 @@ export default function DashboardPage() {
   const campaignsList_topListMarkup = (
     <div className='flex flex-col gap-4'>
       <div className='flex items-end justify-between gap-3'>
-        {search_markup}
+        {search.markup}
         <div className='flex gap-3'>
           <Dropdown>
             <DropdownTrigger>
@@ -608,7 +628,7 @@ export default function DashboardPage() {
               selectedKeys={data.statusFilter}
               onSelectionChange={data.setStatusFilter}
             >
-              {statusOptions.map(option => (
+              {tableStructure.statusOptions.map(option => (
                 <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
               ))}
             </DropdownMenu>
@@ -628,7 +648,7 @@ export default function DashboardPage() {
               selectionMode='multiple'
               onSelectionChange={data.setVisibleColumns}
             >
-              {campaignsList_columns.map(column => (
+              {tableStructure.columns.map(column => (
                 <DropdownItem key={column.uid}>
                   {capitalize(column.name)}
                 </DropdownItem>
@@ -656,9 +676,9 @@ export default function DashboardPage() {
     <div className='flex w-full flex-row items-center justify-between'>
       <div className='flex-1'>
         <Text variant='bodySm' degree='100' className='text-foreground-level-1'>
-          {data_selectedKeys === 'all'
+          {data.selectedKeys === 'all'
             ? 'All items selected'
-            : `${data_selectedKeys.size} of ${data_filtered.length} selected`}
+            : `${data.selectedKeys.size} of ${data.filtered.length} selected`}
         </Text>
       </div>
       {pagination_markup}
@@ -667,7 +687,7 @@ export default function DashboardPage() {
   )
 
   const campaignsList_renderCell = (
-    item: (typeof campaignsList_data)[0],
+    item: (typeof tableStructure.data)[0],
     columnKey: string
   ) => {
     switch (columnKey) {
@@ -807,3 +827,4 @@ export default function DashboardPage() {
     </div>
   )
 }
+  
