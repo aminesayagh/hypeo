@@ -238,8 +238,7 @@ export function AIChat({ className = '' }: AIChatProps) {
     messages: chatRequest_chat.messages,
     status: chatRequest_chat.status,
     error: chatRequest_chat.error,
-    // isNewChat: chatRequest_chat.messages.length === 0,
-    isNewChat: false,
+    isNewChat: chatRequest_chat.messages.length === 0,
 
     // handlers
     submitHandler: chatRequest_handleSubmit,
@@ -333,111 +332,12 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
   // Chat Assistant
   // --------------------------------------------------
-  const demo_messages: ChatMessage[] = [
-    {
-      id: '0',
-      role: 'user',
-      content: 'Hello, how are you?',
-      createdAt: new Date(),
-    },
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Hello, how can I help you today?',
-      createdAt: new Date(),
-    },
-    {
-      id: '2',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '3',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with?',
-      createdAt: new Date(),
-    },
-    {
-      id: '4',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '5',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with?',
-      createdAt: new Date(),
-    },
-    {
-      id: '6',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '7',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with?',
-      createdAt: new Date(),
-    },
-    {
-      id: '8',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '9',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with?',
-      createdAt: new Date(),
-    },
-    {
-      id: '10',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '11',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with 22?',
-      createdAt: new Date(),
-    },
-    {
-      id: '12',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '13',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with 22 22?',
-      createdAt: new Date(),
-    },
-    {
-      id: '14',
-      role: 'user',
-      content: 'I need help with my marketing campaign.',
-      createdAt: new Date(),
-    },
-    {
-      id: '15',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with 22 22 22?',
-      createdAt: new Date(),
-    },
-    
-  ];
   const chatAssistant_messagesMarkup = (
     <ScrollShadow  className='mx-auto flex w-full items-center flex-col gap-6' style={{
       height: 'calc(100vh - 280px)',
     }}>
       <div className='flex flex-col gap-6 max-w-4xl px-2 pb-10 pt-4 w-full'>
-        {demo_messages.map(message =>
+        {chatRequest.messages.map(message =>
           message.role === 'assistant' ? (
             <MessageAssistant
               key={message.id}
