@@ -329,9 +329,35 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
   // Chat Assistant
   // --------------------------------------------------
+  const demo_messages: ChatMessage[] = [
+    {
+      id: '0',
+      role: 'user',
+      content: 'Hello, how are you?',
+      createdAt: new Date(),
+    },
+    {
+      id: '1',
+      role: 'assistant',
+      content: 'Hello, how can I help you today?',
+      createdAt: new Date(),
+    },
+    {
+      id: '2',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '3',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with?',
+      createdAt: new Date(),
+    }
+  ];
   const chatAssistant_messagesMarkup = (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-6'>
-      {chatRequest.messages.map(message =>
+      {demo_messages.map(message =>
         message.role === 'assistant' ? (
           <MessageAssistant
             key={message.id}
@@ -368,7 +394,7 @@ export function AIChat({ className = '' }: AIChatProps) {
   const chatArchetype_markup = (
     <>
       <AnimatePresence>
-        {chatRequest.messages.length === 0 ? (
+        {chatRequest.messages.length > 0 ? (
           <motion.section
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}

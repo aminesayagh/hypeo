@@ -3,10 +3,11 @@ import { Text } from '@/components/text'
 import { Textarea } from '@/components/textarea'
 import { AnimatePresence, motion } from 'motion/react'
 import { useCallback, useState, useRef, useEffect } from 'react'
-import { Button } from '@/components/button'
+import { Button, ButtonTooltip } from '@/components/button'
 import { Ellipsis, Edit3, Save, X } from 'lucide-react'
 import { CopyToClipboard } from '@/components/copyToClipboard'
 import { useTranslations } from 'next-intl'
+import { isHotkey } from 'is-hotkey'
 
 export function MessageUser({ id, content, onEdit }: MessageUserProps) {
   // --------------------------------------------------
@@ -38,66 +39,74 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
     edit_setActive(false)
   }, [edit_value, content, onEdit, id])
 
-  const edit_handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    edit_setValue(e.target.value)
-  }, [])
+  const edit_handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      edit_setValue(e.target.value)
+    },
+    []
+  )
 
-  const edit_handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-      e.preventDefault()
-      edit_handleSave()
-    }
-    if (e.key === 'Escape') {
-      e.preventDefault()
-      edit_handleCancel()
-    }
-  }, [edit_handleSave, edit_handleCancel])
+  const edit_handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // Enter to save
+      if (isHotkey('enter')(e) && !e.shiftKey) {
+        e.preventDefault()
+        edit_handleSave()
+      }
+      // Escape to cancel
+      if (isHotkey('Escape')(e) && !e.shiftKey) {
+        e.preventDefault()
+        edit_handleCancel()
+      }
+    },
+    [edit_handleSave, edit_handleCancel]
+  )
 
   // Focus textarea when edit starts
   useEffect(() => {
     if (edit_active && edit_textareaRef.current) {
       edit_textareaRef.current.focus()
       // Move cursor to end
-      edit_textareaRef.current.setSelectionRange(edit_value.length, edit_value.length)
+      edit_textareaRef.current.setSelectionRange(
+        edit_value.length,
+        edit_value.length
+      )
     }
   }, [edit_active, edit_value.length])
 
   const edit_inputMarkup = (
-    <div className="flex flex-col gap-2 w-full max-w-md">
+    <div className='relative flex w-full flex-col gap-2'>
       <Textarea
         ref={edit_textareaRef}
         value={edit_value}
         onChange={edit_handleChange}
         onKeyDown={edit_handleKeyDown}
-        variant="bordered"
-        minRows={1}
+        color='default'
+        minRows={3}
         maxRows={10}
         classNames={{
-          inputWrapper: 'bg-background border-2 border-primary-200 focus-within:border-primary-500',
+          inputWrapper:
+            'bg-background-level-2 border-2 border-black-200 focus-within:border-black-500',
           input: 'text-foreground',
         }}
       />
-      <div className="flex justify-end gap-2">
+      <div className='absolute bottom-0 right-0 flex justify-end gap-2 p-2'>
         <Button
-          size="sm"
-          variant="ghost"
+          size='sm'
+          variant='flat'
           onPress={edit_handleCancel}
-          startContent={<X className="size-3" />}
+          radius='full'
         >
-          <Text variant="bodySm" degree="100">
-            {t('cancel')}
-          </Text>
+          {t('cancel')}
         </Button>
         <Button
-          size="sm"
-          color="primary"
+          size='sm'
+          color='secondary'
           onPress={edit_handleSave}
           isDisabled={!edit_value.trim() || edit_value === content}
-          startContent={<Save className="size-3" />}
+          radius='full'
         >
-          <Text variant="bodySm" degree="100">
-            {t('save')}
-          </Text>
+          {t('save')}
         </Button>
       </div>
     </div>
@@ -140,19 +149,11 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
   }, [edit, menu_handleClose])
 
   const menu_actionsMarkup = (
-    <div className="flex flex-col gap-1 bg-background border border-divider rounded-lg p-1 shadow-lg">
+    <div className='flex flex-row gap-1 rounded-lg border border-divider bg-background p-1 shadow-lg'>
       <CopyToClipboard content={content} />
-      <Button
-        size="sm"
-        variant="ghost"
-        onPress={menu_handleEditClick}
-        startContent={<Edit3 className="size-3" />}
-        className="justify-start"
-      >
-        <Text variant="bodySm" degree="100">
-          {t('edit')}
-        </Text>
-      </Button>
+      <ButtonTooltip onPress={menu_handleEditClick} title={t('edit')}>
+        <Edit3 className='size-3' />
+      </ButtonTooltip>
     </div>
   )
 
@@ -205,9 +206,10 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
       className='relative flex w-full flex-row items-end justify-end'
       onMouseEnter={menu.handleOpen}
       onMouseLeave={menu.handleClose}
-      layout
     >
-      {content_markup}
+      <AnimatePresence>
+        {content_markup}
+      </AnimatePresence>
       {!edit.active && menu.markup}
     </motion.div>
   )

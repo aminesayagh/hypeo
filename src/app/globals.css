@@ -17,6 +17,10 @@
   --background: oklch(0.9726 0.0026 106.45);
   --foreground: oklch(0.133 0.0021 196.91);
   --primary: oklch(0.9297 0.1873 116.91);
+  --secondary: oklch(0.133 0.0021 196.91);
+  --secondary-level-1: oklch(0.133 0.0021 196.91);
+  --secondary-level-2: oklch(0.2589 0.0208 260.58);
+  --white: oklch(0.9726 0.0026 106.45);
   --background-level-1: oklch(0.9726 0.0026 106.45);
   --background-level-2: oklch(0.9576 0.0027 106.45);
   --background-level-3: oklch(0.9406 0.0017 67.8);

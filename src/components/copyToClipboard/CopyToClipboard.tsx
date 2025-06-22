@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { Button } from '@/components/button'
 import { Check, Copy } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
+import { ButtonTooltip } from '@/components/button'
 
 export function CopyToClipboard({ content }: { content: string }) {
     const [isCopied, setIsCopied] = useState(false)
@@ -15,12 +16,9 @@ export function CopyToClipboard({ content }: { content: string }) {
     }, [content])
   
     return (
-      <Button
-        isIconOnly
-        variant='light'
-        size='sm'
-        className='p-0'
+      <ButtonTooltip
         onPress={handleCopy}
+        title='Copy to clipboard'
       >
         <AnimatePresence>
           {isCopied ? (
@@ -41,7 +39,7 @@ export function CopyToClipboard({ content }: { content: string }) {
             </motion.div>
           )}
         </AnimatePresence>
-      </Button>
+      </ButtonTooltip>
     );
   }
   

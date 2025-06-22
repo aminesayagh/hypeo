@@ -1,7 +1,7 @@
 import { RotateCcw } from 'lucide-react'
 import type { ChatMessage } from './ai-chat.types'
 import { Text } from '@/components/text'
-import { Button } from '@/components/button'
+import { ButtonTooltip } from '@/components/button'
 import { useCallback } from 'react'
 import { CopyToClipboard } from '@/components/copyToClipboard'
 
@@ -23,15 +23,12 @@ export function MessageAssistant({
   }, [resetHandler])
 
   const reset_markup = (
-    <Button
-      isIconOnly
-      variant='light'
-      size='sm'
-      className='p-0'
+    <ButtonTooltip      
+      title='Reset'
       onPress={reset_handlePress}
     >
       <RotateCcw className='size-4 opacity-60' />
-    </Button>
+    </ButtonTooltip>
   )
 
   const feature = {
