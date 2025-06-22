@@ -34,13 +34,24 @@ import {
   EditIcon,
 } from '@/components/icon'
 import {
-  parseDate,
-} from '@internationalized/date'
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from '@heroui/react'
+import { parseDate } from '@internationalized/date'
 import { Tooltip } from '@/components/tooltip'
 import { Pagination } from '@heroui/react'
 import { useMemo, useState } from 'react'
 import { useViewMode } from '@/services/foundations/view-modes/useViewMode'
 import { Box } from '@/components/box'
+import type { Selection, SortDescriptor } from '@heroui/react'
+import { ChevronDownIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react'
+import { Input } from '@/components/input'
+
+export function capitalize(s: string) {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : ''
+}
 
 export default function DashboardPage() {
   // --------------------------------------------------
@@ -85,7 +96,7 @@ export default function DashboardPage() {
   // --------------------------------------------------
   // Statics
   // --------------------------------------------------
-  
+
   const statics_allData = [
     {
       type: 'business',
@@ -190,7 +201,7 @@ export default function DashboardPage() {
       {items.map(item => (
         <Card
           key={item.title}
-          className='flex flex-col items-start gap-2 p-4 hover:transition-shadow hover:duration-300 hover:shadow-sm'
+          className='flex flex-col items-start gap-2 p-4 hover:shadow-sm hover:transition-shadow hover:duration-300'
           isHoverable
           shadow='sm'
         >
@@ -243,16 +254,16 @@ export default function DashboardPage() {
   // --------------------------------------------------
 
   const campaignsList_columns = [
-    { name: 'BRAND', uid: 'brand' },
-    { name: 'DATE', uid: 'date' },
-    { name: 'STATUS', uid: 'status' },
-    { name: 'ACTIONS', uid: 'actions' },
+    { name: 'BRAND', uid: 'brand', sortable: true },
+    { name: 'DATE', uid: 'date', sortable: true },
+    { name: 'STATUS', uid: 'status', sortable: true },
+    { name: 'ACTIONS', uid: 'actions', sortable: false },
   ]
 
   const campaignsList_data = [
     {
       id: 1,
-      key: "1",
+      key: '1',
       brand: {
         name: 'Hyundai',
         logo: 'https://hypeo-prod.vercel.app/fake/hyundai.png',
@@ -408,116 +419,363 @@ export default function DashboardPage() {
     },
   ]
 
+  const statusOptions = ['active', 'upcoming', 'completed']
+
   // --------------------------------------------------
   // Pagination
   // --------------------------------------------------
 
   const [pagination_page, pagination_setPage] = useState(1)
-  const pagination_config = {
-    rowsPerPage: 5,
+  const [pagination_rowsPerPage, pagination_setRowsPerPage] = useState(5)
+
+  const pagination_handleRowsPerPage = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    pagination_setRowsPerPage(parseInt(e.target.value))
+    pagination_setPage(1)
   }
 
-  const items = useMemo(() => {
-    const start = (pagination_page - 1) * pagination_config.rowsPerPage
-    const end = start + pagination_config.rowsPerPage
-    return campaignsList_data.slice(start, end)
-  }, [pagination_page, pagination_config.rowsPerPage])
-
   const pagination_markup = (
-    <div className='flex w-full justify-center'>
-      <Pagination
-        isCompact
-        showControls
-        showShadow
-        color='primary'
-        page={pagination_page}
-        total={Math.ceil(campaignsList_data.length / pagination_config.rowsPerPage)}
-        onChange={pagination_setPage}
-      />
+    <Pagination
+      isCompact
+      showControls
+      showShadow
+      color='primary'
+      page={pagination_page}
+      total={Math.ceil(campaignsList_data.length / pagination_rowsPerPage)}
+      onChange={pagination_setPage}
+    />
+  )
+
+  const pagination = {
+    page: pagination_page,
+    setPage: pagination_setPage,
+    rowsPerPage: pagination_rowsPerPage,
+    setRowsPerPage: pagination_setRowsPerPage,
+  }
+
+  // --------------------------------------------------
+  // Search
+  // --------------------------------------------------
+  const [search_value, search_setValue] = useState('')
+  const search_hasSearchFilter = Boolean(search_value)
+
+  const search_handleClear = () => {
+    search_setValue('')
+    pagination.setPage(1)
+  }
+
+  const search_handleValueChange = (value?: string) => {
+    if (value) {
+      search_setValue(value)
+      pagination.setPage(1)
+    } else {
+      search_setValue('')
+    }
+  }
+
+  const search_markup = (
+    <Input
+      isClearable
+      className='w-full sm:max-w-[44%]'
+      placeholder='Search by name...'
+      startContent={<SearchIcon />}
+      value={search_value}
+      onClear={() => search_handleClear()}
+      onValueChange={search_handleValueChange}
+    />
+  )
+
+  // --------------------------------------------------
+  // Data
+  // -------------------------------------------------
+
+  const [data_sortDescriptor, data_setSortDescriptor] =
+    useState<SortDescriptor>({
+      column: 'name',
+      direction: 'ascending',
+    })
+
+  const [data_selectedKeys, data_setSelectedKeys] = useState<Selection>(
+    new Set([])
+  )
+  const INITIAL_VISIBLE_COLUMNS = ['brand', 'date', 'status', 'actions']
+  const [data_visibleColumns, data_setVisibleColumns] = useState<Selection>(
+    new Set(INITIAL_VISIBLE_COLUMNS)
+  )
+  const [data_statusFilter, data_setStatusFilter] = useState<Selection>(
+    'all'
+  )
+
+  const data_headerColumns = useMemo(() => {
+    if (data_visibleColumns === 'all') return campaignsList_columns
+    return campaignsList_columns.filter(column =>
+      Array.from(data_visibleColumns).includes(column.uid)
+    )
+  }, [data_visibleColumns])
+
+  const data_filtered = useMemo(() => {
+    let filteredData = [...campaignsList_data]
+
+    if (search_hasSearchFilter) {
+      filteredData = filteredData.filter(item =>
+        item.name.toLowerCase().includes(search_value.toLowerCase())
+      )
+    }
+    if (
+      data_statusFilter !== 'all' &&
+      Array.from(data_statusFilter).length !== statusOptions.length
+    ) {
+      filteredData = filteredData.filter(item =>
+        Array.from(data_statusFilter).includes(item.status)
+      )
+    }
+
+    return filteredData
+  }, [search_hasSearchFilter, search_value, data_statusFilter])
+
+  const data_pagesCount = useMemo(() => {
+    return Math.ceil(data_filtered.length / pagination.rowsPerPage)
+  }, [data_filtered, pagination.rowsPerPage])
+
+  const data_paginated = useMemo(() => {
+    const start = (pagination.page - 1) * pagination.rowsPerPage
+    const end = start + pagination.rowsPerPage
+    return data_filtered.slice(start, end)
+  }, [data_filtered, pagination.page, pagination.rowsPerPage])
+
+  const data_sorted = useMemo(() => {
+    return [...data_paginated].sort((a, b) => {
+      const first = a[data_sortDescriptor.column as keyof typeof a]
+      const second = b[data_sortDescriptor.column as keyof typeof b]
+      const cmp = first < second ? -1 : first > second ? 1 : 0
+
+      return data_sortDescriptor.direction === 'descending' ? -cmp : cmp
+    })
+  }, [data_paginated, data_sortDescriptor])
+
+  const data = {
+    sortDescriptor: data_sortDescriptor,
+    setSortDescriptor: data_setSortDescriptor,
+    result: data_sorted,
+    visibleColumns: data_visibleColumns,
+    statusFilter: data_statusFilter,
+    selectedKeys: data_selectedKeys,
+    setSelectedKeys: data_setSelectedKeys,
+    setVisibleColumns: data_setVisibleColumns,
+    setStatusFilter: data_setStatusFilter,
+  }
+
+  // --------------------------------------------------
+  // Campaigns List
+  // --------------------------------------------------
+  const campaignsList_totalMarkup = (
+    <Text variant='bodySm' degree='100'>
+      Total {campaignsList_data.length} campaigns
+    </Text>
+  )
+
+  const campaignsList_rowPerPageMarkup = (
+    <label className='flex items-center text-small text-default-400'>
+      Rows per page:
+      <select
+        className='bg-transparent text-small text-default-400 outline-none'
+        onChange={pagination_handleRowsPerPage}
+      >
+        <option value='5'>5</option>
+        <option value='10'>10</option>
+        <option value='15'>15</option>
+      </select>
+    </label>
+  )
+
+  const campaignsList_topListMarkup = (
+    <div className='flex flex-col gap-4'>
+      <div className='flex items-end justify-between gap-3'>
+        {search_markup}
+        <div className='flex gap-3'>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button variant='flat' endContent={<ChevronDownIcon />}>
+                Status
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label='Table Filter'
+              closeOnSelect={false}
+              selectionMode='multiple'
+              selectedKeys={data.statusFilter}
+              onSelectionChange={data.setStatusFilter}
+            >
+              {statusOptions.map(option => (
+                <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button endContent={<ChevronDownIcon />} variant='flat'>
+                Columns
+              </Button>
+            </DropdownTrigger>
+
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label='Table Columns'
+              closeOnSelect={false}
+              selectedKeys={data.visibleColumns}
+              selectionMode='multiple'
+              onSelectionChange={data.setVisibleColumns}
+            >
+              {campaignsList_columns.map(column => (
+                <DropdownItem key={column.uid}>
+                  {capitalize(column.name)}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+          <Button
+            variant='solid'
+            size='md'
+            endContent={<PlusIcon />}
+            color='primary'
+          >
+            Add Campaign
+          </Button>
+        </div>
+      </div>
+      <div className='flex items-center justify-between'>
+        {campaignsList_totalMarkup}
+        {campaignsList_rowPerPageMarkup}
+      </div>
     </div>
   )
+
+  const campaignsList_footerMarkup = (
+    <div className='flex w-full flex-row items-center justify-between'>
+      <div className='flex-1'>
+        <Text variant='bodySm' degree='100' className='text-foreground-level-1'>
+          {data_selectedKeys === 'all'
+            ? 'All items selected'
+            : `${data_selectedKeys.size} of ${data_filtered.length} selected`}
+        </Text>
+      </div>
+      {pagination_markup}
+      <div className='flex-1'></div>
+    </div>
+  )
+
+  const campaignsList_renderCell = (
+    item: (typeof campaignsList_data)[0],
+    columnKey: string
+  ) => {
+    switch (columnKey) {
+      case 'brand':
+        return (
+          <div className='group flex flex-row items-center gap-4'>
+            <Avatar
+              src={item.brand.logo}
+              alt={item.brand.name}
+              size='lg'
+              radius='sm'
+            />
+            <div className='flex flex-col items-start gap-1'>
+              <Text variant='bodySm' degree='100'>
+                {item.brand.name}
+              </Text>
+              <Text variant='bodyXs' degree='200'>
+                {item.name}
+              </Text>
+            </div>
+          </div>
+        )
+      case 'date':
+        return (
+          <div className='flex flex-col items-start gap-1'>
+            <Text variant='bodySm' degree='100'>
+              {item.startDate}
+            </Text>
+          </div>
+        )
+      case 'status':
+        return (
+          <Chip
+            className='text-xs font-semibold uppercase'
+            color={
+              item.status === 'active'
+                ? 'warning'
+                : item.status === 'upcoming'
+                  ? 'danger'
+                  : 'success'
+            }
+            variant='flat'
+          >
+            {item.status}
+          </Chip>
+        )
+      case 'actions':
+        return (
+          <div className='flex flex-row gap-4'>
+            <Tooltip content='Details'>
+              <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+                <EyeIcon />
+              </span>
+            </Tooltip>
+            <Tooltip content='Edit user'>
+              <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+                <EditIcon />
+              </span>
+            </Tooltip>
+            <Tooltip color='danger' content='Delete user' placement='bottom'>
+              <span className='cursor-pointer text-lg text-danger active:opacity-50'>
+                <DeleteIcon />
+              </span>
+            </Tooltip>
+          </div>
+        )
+      default:
+        return null
+    }
+  }
 
   const campaignsList_markup = (
     <Table
       isHeaderSticky
-      selectionMode='multiple'
       aria-label='Campaigns List Table'
+      selectionMode='multiple'
       color='primary'
-      bottomContent={pagination_markup}
+      bottomContent={campaignsList_footerMarkup}
+      bottomContentPlacement='outside'
+      topContent={campaignsList_topListMarkup}
+      topContentPlacement='outside'
+      sortDescriptor={data.sortDescriptor}
+      onSortChange={data.setSortDescriptor}
+      selectedKeys={data.selectedKeys}
+      onSelectionChange={data.setSelectedKeys}
       classNames={{
         base: 'bg-transparent p-1',
       }}
     >
-      <TableHeader columns={campaignsList_columns}>
+      <TableHeader columns={data_headerColumns}>
         {column => (
-          <TableColumn key={column.uid} align='start'>
+          <TableColumn
+            key={column.uid}
+            align='start'
+            allowsSorting={column.sortable}
+          >
             {column.name}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={items}>
+      <TableBody emptyContent='No campaigns found' items={data.result}>
         {item => (
           <TableRow key={item.name}>
-            <TableCell>
-              <div className='group flex flex-row items-center gap-4'>
-                <Avatar
-                  src={item.brand.logo}
-                  alt={item.brand.name}
-                  size='lg'
-                  radius='sm'
-                />
-                <div className='flex flex-col items-start gap-1'>
-                  <Text variant='bodySm' degree='100'>
-                    {item.brand.name}
-                  </Text>
-                  <Text variant='bodyXs' degree='200'>
-                    {item.name}
-                  </Text>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>
-              {parseDate(item.startDate).toLocaleString()} -{' '}
-              {parseDate(item.endDate).toLocaleString()}
-            </TableCell>
-            <TableCell>
-              <Chip
-                className='text-xs font-semibold uppercase'
-                color={
-                  item.status === 'active'
-                    ? 'warning'
-                    : item.status === 'upcoming'
-                      ? 'danger'
-                      : 'success'
-                }
-                variant='flat'
-              >
-                {item.status}
-              </Chip>
-            </TableCell>
-            <TableCell>
-              <div className='flex flex-row gap-4'>
-                <Tooltip content='Details'>
-                  <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
-                    <EyeIcon />
-                  </span>
-                </Tooltip>
-                <Tooltip content='Edit user'>
-                  <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
-                    <EditIcon />
-                  </span>
-                </Tooltip>
-                <Tooltip
-                  color='danger'
-                  content='Delete user'
-                  placement='bottom'
-                >
-                  <span className='cursor-pointer text-lg text-danger active:opacity-50'>
-                    <DeleteIcon />
-                  </span>
-                </Tooltip>
-              </div>
-            </TableCell>
+            {(columnKey: string | number) => (
+              <TableCell key={columnKey}>
+                {campaignsList_renderCell(item, columnKey as string)}
+              </TableCell>
+            )}
           </TableRow>
         )}
       </TableBody>
@@ -535,11 +793,13 @@ export default function DashboardPage() {
           {t('campaigns.title')}
         </Text>
       </CardHeader>
-      <CardBody className='p-0'>{campaignsList_markup}</CardBody>
+      <CardBody className='flex flex-col gap-2'>
+        {campaignsList_markup}
+      </CardBody>
     </Card>
   )
   return (
-    <div className='flex flex-col gap-4 pl-6 py-6 pr-8'>
+    <div className='flex flex-col gap-4 py-6 pl-6 pr-8'>
       {header_markup}
       {statics.markup}
       {campaigns_markup}
