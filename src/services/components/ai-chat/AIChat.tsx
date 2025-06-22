@@ -24,6 +24,7 @@ import { Button } from '@/components/button'
 import { toast } from '@/services/foundations/toast'
 import { MessageUser } from './MessageUser'
 import { MessageAssistant } from './MessageAssistant'
+import { ScrollShadow } from '@/components/scroll-shadow'
 
 export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
@@ -237,6 +238,8 @@ export function AIChat({ className = '' }: AIChatProps) {
     messages: chatRequest_chat.messages,
     status: chatRequest_chat.status,
     error: chatRequest_chat.error,
+    // isNewChat: chatRequest_chat.messages.length === 0,
+    isNewChat: false,
 
     // handlers
     submitHandler: chatRequest_handleSubmit,
@@ -313,7 +316,7 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
 
   const chatInitialization_markup = (
-    <div className='relative bottom-40 flex h-full w-full max-w-4xl flex-col items-center justify-center gap-12'>
+    <div className='relative flex h-full w-full max-w-4xl flex-col items-center justify-center gap-12'>
       <Text variant='headingXl' degree='100' className='text-center'>
         New AI Campaign
       </Text>
@@ -354,33 +357,115 @@ export function AIChat({ className = '' }: AIChatProps) {
       role: 'assistant',
       content: 'I can help you with that. What do you need help with?',
       createdAt: new Date(),
-    }
+    },
+    {
+      id: '4',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '5',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with?',
+      createdAt: new Date(),
+    },
+    {
+      id: '6',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '7',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with?',
+      createdAt: new Date(),
+    },
+    {
+      id: '8',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '9',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with?',
+      createdAt: new Date(),
+    },
+    {
+      id: '10',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '11',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with 22?',
+      createdAt: new Date(),
+    },
+    {
+      id: '12',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '13',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with 22 22?',
+      createdAt: new Date(),
+    },
+    {
+      id: '14',
+      role: 'user',
+      content: 'I need help with my marketing campaign.',
+      createdAt: new Date(),
+    },
+    {
+      id: '15',
+      role: 'assistant',
+      content: 'I can help you with that. What do you need help with 22 22 22?',
+      createdAt: new Date(),
+    },
+    
   ];
   const chatAssistant_messagesMarkup = (
-    <div className='mx-auto flex w-full max-w-4xl flex-col gap-6'>
-      {demo_messages.map(message =>
-        message.role === 'assistant' ? (
-          <MessageAssistant
-            key={message.id}
-            {...message}
-            resetHandler={() => {
-              console.log('reset message:', message.id)
-            }}
-          />
-        ) : (
-          <MessageUser
-            key={message.id}
-            {...message}
-            onEdit={messageEdit.handleEdit}
-          />
-        )
-      )}
-    </div>
+    <ScrollShadow  className='mx-auto flex w-full items-center flex-col gap-6' style={{
+      height: 'calc(100vh - 280px)',
+    }}>
+      <div className='flex flex-col gap-6 max-w-4xl px-2 pb-10 pt-4 w-full'>
+        {demo_messages.map(message =>
+          message.role === 'assistant' ? (
+            <MessageAssistant
+              key={message.id}
+              {...message}
+              resetHandler={() => {
+                console.log('reset message:', message.id)
+              }}
+            />
+          ) : (
+            <MessageUser
+              key={message.id}
+              {...message}
+              onEdit={messageEdit.handleEdit}
+            />
+          )
+        )}
+      </div>
+    </ScrollShadow>
   )
 
   const chatAssistant_markup = (
-    <div className='absolute bottom-20 left-0 w-full'>
+    <div className='w-full flex flex-col items-center justify-center gap-4'>
       {chatInitialization.block_markup}
+      <div className='flex w-full flex-col items-center justify-center gap-6'>
+        <Text variant='bodySm' degree='100' className='text-center'>
+          Powered by OpenAI
+        </Text>
+      </div>
     </div>
   )
 
@@ -395,14 +480,14 @@ export function AIChat({ className = '' }: AIChatProps) {
   const chatArchetype_markup = (
     <>
       <AnimatePresence>
-        {chatRequest.messages.length > 0 ? (
+        {chatRequest.isNewChat ? (
           <motion.section
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -100 }}
             transition={{ duration: 0.5 }}
             className={cn(
-              `flex w-full flex-col items-center justify-center gap-6 px-6`,
+              `flex w-full flex-col items-center justify-center gap-6`,
               className
             )}
             style={{
@@ -417,11 +502,8 @@ export function AIChat({ className = '' }: AIChatProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -100 }}
             transition={{ duration: 0.5 }}
-            style={{
-              minHeight: 'min-content',
-            }}
             className={cn(
-              `select flex min-h-full w-full flex-col items-center gap-6 p-6`,
+              `flex w-full flex-col items-center gap-6`,
               className
             )}
           >
