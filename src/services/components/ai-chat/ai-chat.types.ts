@@ -27,3 +27,20 @@ export interface AIChatState {
   openaiKey: string | null
   setOpenaiKey: (key: string | null) => void
 }
+
+export interface MessageHandler {
+  // Core functionality
+  editUserMessage: (messageId: string, newContent: string) => Promise<void>
+  reloadAssistantMessage: (messageId: string) => Promise<void>
+  reloadLastMessage: () => Promise<void>
+  
+  // Utility functions
+  deleteMessage: (messageId: string) => void
+  clearAll: () => void
+  
+  // Helper functions
+  canEdit: (messageId: string) => boolean
+  canReload: (messageId: string) => boolean
+  getMessageIndex: (messageId: string) => number
+  isLastMessage: (messageId: string) => boolean
+}

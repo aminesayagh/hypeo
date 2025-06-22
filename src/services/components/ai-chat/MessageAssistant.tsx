@@ -10,9 +10,9 @@ export function MessageAssistant({
   id,
   role,
   createdAt,
-  resetHandler,
+  onReload,
 }: ChatMessage & {
-  resetHandler: () => void
+  onReload: (messageId: string) => void
 }) {
   const markdown_content = (
     <ReactMarkdown>
@@ -28,8 +28,8 @@ export function MessageAssistant({
   // Reset
   // --------------------------------------------------
   const reset_handlePress = useCallback(() => {
-    resetHandler()
-  }, [resetHandler])
+    onReload(id)
+  }, [onReload, id])
 
   const reset_markup = (
     <ButtonTooltip      

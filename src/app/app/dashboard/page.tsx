@@ -445,7 +445,7 @@ export default function DashboardPage() {
       color='primary'
       bottomContent={pagination_markup}
       classNames={{
-        base: 'bg-background-level-3',
+        base: 'bg-transparent p-1',
       }}
     >
       <TableHeader columns={campaignsList_columns}>
@@ -539,7 +539,7 @@ export default function DashboardPage() {
     </Card>
   )
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 pl-6 py-6 pr-8'>
       {header_markup}
       {statics.markup}
       {campaigns_markup}

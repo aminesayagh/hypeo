@@ -171,22 +171,34 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
   // Message Edit Handler
   // --------------------------------------------------
-  const messageEdit_handleEdit = useCallback(
-    (messageId: string, newContent: string) => {
-      // Update the message in the chat messages array
-      // Since we're using the useChat hook, we need to find the message and update it
-      // For now, we'll show a toast and log the edit
-      console.log('Editing message:', messageId, 'New content:', newContent)
+  const messageEdit_handleEdit = async (
+    messageId: string,
+    newContent: string
+  ) => {
+    try {
+      await chatRequest_chat.messageHandler.editUserMessage(
+        messageId,
+        newContent
+      )
       toast.success('Message edited successfully')
+    } catch (error) {
+      console.error('Error editing message:', error)
+      toast.error('Failed to edit message')
+    }
+  }
 
-      // TODO: Implement actual message update in the chat system
-      // This might require updating the useChat hook or managing messages differently
-    },
-    []
-  )
+  const messageEdit_handleReload = async (messageId: string) => {
+    try {
+      await chatRequest_chat.messageHandler.reloadAssistantMessage(messageId)
+    } catch (error) {
+      console.error('Error reloading message:', error)
+      toast.error('Failed to regenerate message')
+    }
+  }
 
   const messageEdit = {
     handleEdit: messageEdit_handleEdit,
+    handleReload: messageEdit_handleReload,
   }
 
   // --------------------------------------------------
@@ -311,7 +323,12 @@ export function AIChat({ className = '' }: AIChatProps) {
           radius='full'
           endContent={<Send className='ml-2 size-4' />}
         >
-          <Text variant='bodySm' degree='100' fontWeight='bold' className='text-white'>
+          <Text
+            variant='bodySm'
+            degree='100'
+            fontWeight='bold'
+            className='text-white'
+          >
             Send
           </Text>
         </Button>
@@ -348,19 +365,19 @@ export function AIChat({ className = '' }: AIChatProps) {
   // Chat Assistant
   // --------------------------------------------------
   const chatAssistant_messagesMarkup = (
-    <ScrollShadow  className='mx-auto flex w-full items-center flex-col gap-6' style={{
-      height: 'calc(100vh - 280px)',
-    }}>
-      <div className='flex flex-col gap-6 max-w-4xl px-2 pb-10 pt-4 w-full'>
+    <ScrollShadow
+      className='mx-auto flex w-full flex-col items-center gap-6'
+      style={{
+        height: 'calc(100vh - 280px)',
+      }}
+    >
+      <div className='flex w-full max-w-4xl flex-col gap-6 px-2 pb-10 pt-4'>
         {chatRequest.messages.map(message =>
           message.role === 'assistant' ? (
             <MessageAssistant
               key={message.id}
               {...message}
-              resetHandler={() => {
-                chatRequest_chat.stop()
-                
-              }}
+              onReload={messageEdit.handleReload}
             />
           ) : (
             <MessageUser
@@ -375,7 +392,7 @@ export function AIChat({ className = '' }: AIChatProps) {
   )
 
   const chatAssistant_markup = (
-    <div className='w-full flex flex-col items-center justify-center gap-4'>
+    <div className='flex w-full flex-col items-center justify-center gap-4'>
       {chatInitialization.block_markup}
       <div className='flex w-full flex-col items-center justify-center gap-6'>
         <Text variant='bodySm' degree='100' className='text-center'>
@@ -418,10 +435,7 @@ export function AIChat({ className = '' }: AIChatProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -100 }}
             transition={{ duration: 0.5 }}
-            className={cn(
-              `flex w-full flex-col items-center gap-6`,
-              className
-            )}
+            className={cn(`flex w-full flex-col items-center gap-6`, className)}
           >
             {chatAssistant.messagesMarkup}
             {chatAssistant.markup}
