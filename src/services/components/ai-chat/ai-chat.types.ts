@@ -1,8 +1,12 @@
 export interface ChatMessage {
   id: string
-  role: 'user' | 'assistant'
+  role: 'user' | 'assistant' | 'system' | 'data'
   content: string
-  timestamp: Date
+  createdAt: Date
+}
+
+export interface MessageUserProps extends ChatMessage {
+  onEdit?: (id: string, newContent: string) => void
 }
 
 export interface AIChatProps {

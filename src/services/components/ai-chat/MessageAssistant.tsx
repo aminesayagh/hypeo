@@ -9,7 +9,7 @@ export function MessageAssistant({
   content,
   id,
   role,
-  timestamp,
+  createdAt,
   resetHandler,
 }: ChatMessage & {
   resetHandler: () => void

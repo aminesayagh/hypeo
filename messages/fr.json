@@ -102,6 +102,12 @@
             "save": "Enregistrer la clé",
             "cancel": "Annuler"
           }
+        },
+        "messageActions": {
+          "edit": "Éditer",
+          "save": "Enregistrer",
+          "cancel": "Annuler",
+          "copy": "Copier"
         }
       }
     }

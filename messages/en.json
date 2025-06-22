@@ -101,6 +101,12 @@
             "save": "Save Key",
             "cancel": "Cancel"
           }
+        },
+        "messageActions": {
+          "edit": "Edit",
+          "save": "Save",
+          "cancel": "Cancel",
+          "copy": "Copy"
         }
       }
     }

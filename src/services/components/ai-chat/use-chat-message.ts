@@ -1,5 +1,6 @@
 import type { ChatMessage } from "./ai-chat.types";
 import { useChat } from "@ai-sdk/react";
+import type { Message, UIMessage } from "ai";
 import { useState } from "react";
 
 interface UseChatMessageProps {
@@ -7,6 +8,24 @@ interface UseChatMessageProps {
     systemPrompt: string;
     onMessageSent: (message: ChatMessage) => void;
     onError: (error: Error) => void;
+}
+
+function parseMessages(messages: UIMessage[]): ChatMessage[] {
+    return messages.map(message => ({
+        id: message.id,
+        role: message.role,
+        content: message.content,
+        createdAt: message.createdAt ?? new Date(),
+    }));
+}
+
+function parseMessage(message: Message): ChatMessage {
+    return {
+        id: message.id,
+        role: message.role,
+        content: message.content,
+        createdAt: message.createdAt ?? new Date(),
+    };
 }
 
 export function useChatMessage({
@@ -40,14 +59,7 @@ export function useChatMessage({
             apiKey: ai_config.apiKey,
         },
         onFinish: (message) => {
-            console.log(message);
-            const chatMessage: ChatMessage = {
-                id: `assistant-${Date.now()}`,
-                role: 'assistant',
-                content: message.content,
-                timestamp: new Date(),
-            };
-            onMessageSent?.(chatMessage);
+            onMessageSent?.(parseMessage(message));
         },
         onError: (error) => {
             console.error(error);
@@ -57,7 +69,7 @@ export function useChatMessage({
 
     const ai = {
         config: ai_config,
-        messages: ai_messages,
+        messages: parseMessages(ai_messages),
         input: ai_input,
         status: ai_status,
         error: ai_error,

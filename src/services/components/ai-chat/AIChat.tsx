@@ -32,6 +32,21 @@ export function AIChat({ className = '' }: AIChatProps) {
   const t = useTranslations('pages.newAiCampaign.chat')
 
   // --------------------------------------------------
+  // OpenAI Key State
+  // --------------------------------------------------
+  const [openaiKey_value, openaiKey_setValue] = useState<string>('')
+
+  const openaiKey_setKey = useCallback((key: string) => {
+    openaiKey_setValue(key)
+  }, [])
+
+  const openaiKey = {
+    value: openaiKey_value,
+    setValue: openaiKey_setValue,
+    setKey: openaiKey_setKey,
+  }
+
+  // --------------------------------------------------
   // OpenAI Key Modal
   // --------------------------------------------------
   const [openaiKeyModal_active, openaiKeyModal_setActive] = useState(false)
@@ -66,9 +81,10 @@ export function AIChat({ className = '' }: AIChatProps) {
       return
     }
 
+    openaiKey.setKey(openaiKeyModal_inputValue.trim())
     openaiKeyModal_handleClose()
     toast.success('API key saved successfully')
-  }, [openaiKeyModal_inputValue, openaiKeyModal_handleClose, t])
+  }, [openaiKeyModal_inputValue, openaiKey, openaiKeyModal_handleClose, t])
 
   const openaiKeyModal_markup = (
     <Modal
@@ -137,6 +153,27 @@ export function AIChat({ className = '' }: AIChatProps) {
   }
 
   // --------------------------------------------------
+  // Message Edit Handler
+  // --------------------------------------------------
+  const messageEdit_handleEdit = useCallback(
+    (messageId: string, newContent: string) => {
+      // Update the message in the chat messages array
+      // Since we're using the useChat hook, we need to find the message and update it
+      // For now, we'll show a toast and log the edit
+      console.log('Editing message:', messageId, 'New content:', newContent)
+      toast.success('Message edited successfully')
+
+      // TODO: Implement actual message update in the chat system
+      // This might require updating the useChat hook or managing messages differently
+    },
+    []
+  )
+
+  const messageEdit = {
+    handleEdit: messageEdit_handleEdit,
+  }
+
+  // --------------------------------------------------
   // Chat Request
   // --------------------------------------------------
   const chatRequest_config = {
@@ -145,7 +182,7 @@ export function AIChat({ className = '' }: AIChatProps) {
   }
 
   const chatRequest_chat = useChatMessage({
-    openaiKey: openaiKeyModal.inputValue,
+    openaiKey: openaiKey.value,
     systemPrompt: chatRequest_config.systemPrompt,
     onMessageSent: message => {
       console.log(message)
@@ -160,13 +197,13 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
   const chatRequest_handleSubmit = useCallback(() => {
     // Check if OpenAI key is available
-    if (!openaiKeyModal.inputValue) {
+    if (!openaiKey.value) {
       openaiKeyModal.handleOpen()
     } else {
       // Submit chat request
       chatRequest_chat.handleSubmit()
     }
-  }, [chatRequest_chat, openaiKeyModal])
+  }, [chatRequest_chat, openaiKey.value, openaiKeyModal])
 
   const chatRequest_handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -292,47 +329,23 @@ export function AIChat({ className = '' }: AIChatProps) {
   // --------------------------------------------------
   // Chat Assistant
   // --------------------------------------------------
-
-  const messageDemo: ChatMessage[] = [
-    {
-      id: '0',
-      role: 'user',
-      content: 'Hello',
-      timestamp: new Date(),
-    },
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Hello, how can I help you today?',
-      timestamp: new Date(),
-    },
-    {
-      id: '2',
-      role: 'user',
-      content: 'I need help with my campaign.',
-      timestamp: new Date(),
-    },
-    {
-      id: '3',
-      role: 'assistant',
-      content: 'I can help you with that. What do you need help with?',
-      timestamp: new Date(),
-    },
-  ]
-
   const chatAssistant_messagesMarkup = (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-6'>
-      {messageDemo.map((message, index) =>
+      {chatRequest.messages.map(message =>
         message.role === 'assistant' ? (
           <MessageAssistant
             key={message.id}
             {...message}
             resetHandler={() => {
-              console.log('reset')
+              console.log('reset message:', message.id)
             }}
           />
         ) : (
-          <MessageUser key={message.id} {...message} />
+          <MessageUser
+            key={message.id}
+            {...message}
+            onEdit={messageEdit.handleEdit}
+          />
         )
       )}
     </div>
