@@ -1,7 +1,6 @@
 import type { ChatMessage } from "./ai-chat.types";
 import { useChat } from "@ai-sdk/react";
 import type { Message, UIMessage } from "ai";
-import { useState } from "react";
 
 interface UseChatMessageProps {
     openaiKey: string;
@@ -75,7 +74,7 @@ export function useChatMessage({
         error: ai_error,
         setInput: ai_setInput,
         stop: ai_stop,
-        handleSubmit: ai_handleSubmit
+        handleSubmit: ai_handleSubmit,
     };
 
     return ai;

@@ -1,9 +1,9 @@
 import { RotateCcw } from 'lucide-react'
 import type { ChatMessage } from './ai-chat.types'
-import { Text } from '@/components/text'
 import { ButtonTooltip } from '@/components/button'
 import { useCallback } from 'react'
 import { CopyToClipboard } from '@/components/copyToClipboard'
+import ReactMarkdown from 'react-markdown'
 
 export function MessageAssistant({
   content,
@@ -14,10 +14,19 @@ export function MessageAssistant({
 }: ChatMessage & {
   resetHandler: () => void
 }) {
+  const markdown_content = (
+    <ReactMarkdown>
+      {content}
+    </ReactMarkdown>
+  )
+
+  const markdown = {
+    content: markdown_content,
+  }
+
   // --------------------------------------------------
   // Reset
   // --------------------------------------------------
-
   const reset_handlePress = useCallback(() => {
     resetHandler()
   }, [resetHandler])
@@ -31,29 +40,50 @@ export function MessageAssistant({
     </ButtonTooltip>
   )
 
-  const feature = {
-    copyToClipboard_markup: <CopyToClipboard content={content} />,
-    reset_markup: reset_markup,
+  const reset = {
+    handlePress: reset_handlePress,
+    markup: reset_markup,
+  }
+
+  // --------------------------------------------------
+  // Features
+  // --------------------------------------------------
+  const features_copyToClipboard = <CopyToClipboard content={content} />
+  
+  const features_actionsMarkup = (
+    <div className='flex flex-row gap-0'>
+      {features_copyToClipboard}
+      {reset.markup}
+    </div>
+  )
+
+  const features = {
+    copyToClipboard: features_copyToClipboard,
+    actionsMarkup: features_actionsMarkup,
   }
 
   // --------------------------------------------------
   // Content
   // --------------------------------------------------
   const content_markup = (
-    <div>
-      <Text variant='bodySm' degree='100' className='text-foreground'>
-        {content}
-      </Text>
+    <div className="text-foreground leading-relaxed">
+      {markdown.content}
     </div>
   )
 
-  return (
-    <div className='flex w-full flex-col gap-1'>
-      {content_markup}
-      <div className='flex flex-row gap-0'>
-        <CopyToClipboard content={content} />
-        {feature.reset_markup}
-      </div>
+  const content_container = {
+    markup: content_markup,
+  }
+
+  // --------------------------------------------------
+  // Message Container
+  // --------------------------------------------------
+  const messageContainer_markup = (
+    <div className='flex w-full flex-col gap-3'>
+      {content_container.markup}
+      {features.actionsMarkup}
     </div>
   )
+
+  return messageContainer_markup
 }

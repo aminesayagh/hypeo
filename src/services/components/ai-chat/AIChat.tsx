@@ -82,10 +82,25 @@ export function AIChat({ className = '' }: AIChatProps) {
       return
     }
 
-    openaiKey.setKey(openaiKeyModal_inputValue.trim())
-    openaiKeyModal_handleClose()
-    toast.success('API key saved successfully')
-  }, [openaiKeyModal_inputValue, openaiKey, openaiKeyModal_handleClose, t])
+    // TODO: Validate key
+    fetch('/api/ai/validate-key', {
+      method: 'POST',
+      body: JSON.stringify({ apiKey: openaiKeyModal_inputValue.trim() }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.isValid) {
+          openaiKey.setKey(openaiKeyModal_inputValue.trim())
+          openaiKeyModal_handleClose()
+          toast.success('API key saved successfully')
+        } else {
+          openaiKeyModal_setError(data.message)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }, [openaiKeyModal_inputValue, openaiKey, openaiKeyModal_handleClose])
 
   const openaiKeyModal_markup = (
     <Modal
@@ -343,7 +358,8 @@ export function AIChat({ className = '' }: AIChatProps) {
               key={message.id}
               {...message}
               resetHandler={() => {
-                console.log('reset message:', message.id)
+                chatRequest_chat.stop()
+                
               }}
             />
           ) : (
