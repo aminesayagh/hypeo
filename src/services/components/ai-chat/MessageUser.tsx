@@ -8,6 +8,7 @@ import { Ellipsis, Edit3, Save, X } from 'lucide-react'
 import { CopyToClipboard } from '@/components/copyToClipboard'
 import { useTranslations } from 'next-intl'
 import { isHotkey } from 'is-hotkey'
+import { Card } from '@/components/card'
 
 export function MessageUser({ id, content, onEdit }: MessageUserProps) {
   // --------------------------------------------------
@@ -75,7 +76,7 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
   }, [edit_active, edit_value.length])
 
   const edit_inputMarkup = (
-    <div className='relative flex w-full flex-col gap-2'>
+    <Card className='relative flex w-full flex-col gap-2 border-transparent bg-transparent shadow-none' radius='lg' shadow='none'>
       <Textarea
         ref={edit_textareaRef}
         value={edit_value}
@@ -85,12 +86,11 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
         minRows={3}
         maxRows={10}
         classNames={{
-          inputWrapper:
-            'bg-background-level-2 border-2 border-black-200 focus-within:border-black-500',
+          inputWrapper: 'bg-background-level-3',
           input: 'text-foreground',
         }}
       />
-      <div className='absolute bottom-0 right-0 flex justify-end gap-2 p-2'>
+      <div className='flex justify-end gap-2 p-2'>
         <Button
           size='sm'
           variant='flat'
@@ -109,7 +109,7 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
           {t('save')}
         </Button>
       </div>
-    </div>
+    </Card>
   )
 
   const edit = {

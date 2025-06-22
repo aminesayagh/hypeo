@@ -285,15 +285,16 @@ export function AIChat({ className = '' }: AIChatProps) {
 
         <Button
           isIconOnly
-          color='default'
+          color='secondary'
           variant='solid'
           size='sm'
           onPress={chatRequest.submitHandler}
           isDisabled={!chatRequest.input.trim()}
-          className='h-10 w-fit px-2'
-          endContent={<Send className='ml-2 size-4 text-foreground' />}
+          className='h-10 w-fit px-5'
+          radius='full'
+          endContent={<Send className='ml-2 size-4' />}
         >
-          <Text variant='bodySm' degree='100' className='pl-1'>
+          <Text variant='bodySm' degree='100' fontWeight='bold' className='text-white'>
             Send
           </Text>
         </Button>
