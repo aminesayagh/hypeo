@@ -54,7 +54,7 @@ function LogoIcon({ className = "" }: LogoSubComponentProps) {
 
 export interface LogoProps {
   hasText?: boolean;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   variant?: 'default' | 'compact' | 'stacked';
   animate?: boolean;
   className?: string;
@@ -73,7 +73,7 @@ export function Logo({
   className = '',
   href,
 }: LogoProps) {
-  
+
   // --------------------------------------------------
   // Size Configuration
   // --------------------------------------------------
@@ -81,24 +81,29 @@ export function Logo({
   const logo_sizes = {
     sm: {
       icon: 'w-6 h-6',      // 24px icon
-      text: 'h-3',          // 12px text height
-      gap: 'gap-1.5',       // 6px gap
+      text: 'h-5',          // 12px text height
+      gap: 'gap-3',       // 12px gap
     },
     md: {
       icon: 'w-8 h-8',      // 32px icon  
-      text: 'h-4',          // 16px text height
-      gap: 'gap-2',         // 8px gap
+      text: 'h-6',          // 16px text height
+      gap: 'gap-3',         // 16px gap
     },
     lg: {
       icon: 'w-12 h-12',    // 48px icon
-      text: 'h-6',          // 24px text height
-      gap: 'gap-3',         // 12px gap
+      text: 'h-10',          // 24px text height
+      gap: 'gap-6',         // 24px gap
     },
     xl: {
       icon: 'w-16 h-16',    // 64px icon
       text: 'h-8',          // 32px text height
-      gap: 'gap-4',         // 16px gap
+      gap: 'gap-8',         // 32px gap
     },
+    full: {
+      icon: 'w-full h-full',
+      text: 'h-full',
+      gap: 'gap-full',
+    }
   };
 
   // --------------------------------------------------
@@ -142,14 +147,14 @@ export function Logo({
       transition: {
         duration: 0.3,
         ease: "easeOut",
-        delay: 0.1
+        // delay: animate && delay > 0 ? delay : 0,
       }
     }
   };
 
   const icon_variants = {
     stable: {
-      scale: 1,
+      // scale: 1,
       transition: {
         type: "spring",
         stiffness: 400,
@@ -157,7 +162,7 @@ export function Logo({
       }
     },
     emphasized: {
-      scale: hasText ? 1 : 1.1,
+      // scale: hasText ? 1 : 1.1,
       transition: {
         type: "spring",
         stiffness: 400,
@@ -186,7 +191,7 @@ export function Logo({
             <LogoIcon className="w-full h-full" />
           </motion.div>
           
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             {hasText && (
               <motion.div
                 className={`${logo_sizes[size].text} text-primary overflow-hidden`}

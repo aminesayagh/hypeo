@@ -1,9 +1,13 @@
+import { AppLayout as AppLayoutComponent } from "./_components/AppLayout";
 
-
-export default function AppLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <div>
-            {children}
-        </div>
-    )
+export default function AppLayoutPage({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AppLayoutComponent className="h-full">
+      {children}
+    </AppLayoutComponent>
+  );
 }

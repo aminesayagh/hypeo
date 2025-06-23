@@ -1,3 +1,175 @@
 {
-    
+  "navigation": {
+    "sidebar": {
+      "sections": {
+        "hypeoAi": "Hypeo AI",
+        "marketplace": "Market place"
+      },
+      "dashboard": "Dashboard",
+      "newAiCampaign": "New AI Campaign",
+      "aiManager": "AI Manager",
+      "discovery": "Discovery",
+      "crm": "CRM",
+      "socialListening": "Social Listening",
+      "addProduct": "Add Product",
+      "myMarketplace": "My Marketplace",
+      "messagerie": "Messagerie",
+      "support": "Support"
+    },
+    "mode": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": {
+      "en": "English",
+      "fr": "French",
+      "select": "Select Language"
+    },
+    "viewMode": {
+      "business": "Business",
+      "creator": "Creator",
+      "select": "Select Mode"
+    },
+    "user": {
+      "account": "Account",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Log Out"
+    }
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Welcome to your dashboard",
+      "actions": {
+        "export": "Export",
+        "addCampaign": "Add Campaign",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "statics": {
+        "titles": {
+          "numberOfCampaigns": "Number of campaigns",
+          "activeAccounts": "Compte Active",
+          "onHoldAccounts": "Compte On Hold",
+          "inDraftAccounts": "Compte in Draft",
+          "totalCollaborations": "Total Collaborations",
+          "revenueGenerated": "Revenue Generated",
+          "pendingOpportunities": "Pending Opportunities",
+          "pendingMatchings": "Pending Matchings",
+          "submissionDeadline": "Submission Deadline",
+          "publicationDeadline": "Publication Deadline",
+          "contentToSubmit": "Content to Submit",
+          "contentToPublish": "Content to Publish",
+          "pendingPayments": "Pending Payments",
+          "hypeoScore": "Hypeo Score"
+        }
+      },
+      "campaigns": {
+        "title": "Campaign List"
+      }
+    },
+    "newAiCampaign": {
+      "title": "What are you working on?",
+      "chat": {
+        "placeholder": "Type your message here... (Press Enter to send)",
+        "user": "You",
+        "assistant": "AI Assistant",
+        "generating": "Generating response...",
+        "stop": "Stop",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "suggestions": {
+          "socialMedia": "Create a social media campaign for a new product launch",
+          "contentStrategy": "Develop a content strategy for brand awareness",
+          "influencer": "Plan an influencer marketing campaign",
+          "retention": "Design a customer retention campaign"
+        },
+        "error": {
+          "prefix": "Error:"
+        },
+        "upload": {
+          "uploading": "Uploading...",
+          "attachFile": "Attach file",
+          "removeFile": "Remove file",
+          "downloadFile": "Click to download",
+          "fileSize": "KB"
+        },
+        "apiKey": {
+          "modal": {
+            "title": "OpenAI API Key Required",
+            "description": "Please enter your OpenAI API key to continue with the AI chat.",
+            "placeholder": "Enter your OpenAI API key...",
+            "required": "API key is required",
+            "save": "Save Key",
+            "cancel": "Cancel"
+          }
+        },
+        "messageActions": {
+          "edit": "Edit",
+          "save": "Save",
+          "cancel": "Cancel",
+          "copy": "Copy"
+        }
+      }
+    },
+    "campaign": {
+      "title": "Campaign Details",
+      "description": "Campaign Details",
+      "breadcrumbs": {
+        "dashboard": "Dashboard",
+        "campaign": "Campaign"
+      },
+      "content": {
+        "title": "Content",
+        "description": "Content",
+        "actions": {
+          "add": "Add Content"  
+        }
+      },
+      "contracts": {  
+        "title": "Contracts",
+        "description": "Contracts",
+        "actions": {
+          "add": "Add Contract"
+        }
+      },
+      "negociation": {
+        "title": "Negociation",
+        "description": "Negociation",
+        "actions": {
+          "add": "Add Influencer"
+        }
+      },
+      "overview": {
+        "title": "Overview",
+        "description": "Overview",
+        "actions": {
+          "viewScript": "View Script",
+          "viewRecord": "View Record"
+        }
+      },
+      "payment": {
+        "title": "Payment",
+        "description": "Payment",
+        "actions": {
+          "add": "Add Payment"
+        }
+      },
+      "reports": {
+        "title": "Reports",
+        "description": "Reports",
+        "actions": {
+          "add": "Add Report"
+        }
+      },
+      "workflow": {
+        "title": "Workflow",
+        "description": "Workflow",
+        "actions": {
+          "add": "Add Workflow"
+        }
+      }
+    }
+  }
 }

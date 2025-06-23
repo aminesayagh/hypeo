@@ -17,10 +17,10 @@ export const fontStyles = cva('', {
       headingXs: 'text-550 leading-normal tracking-normal',
       
       // Body Text - Optimized for readability
-      bodyLg: 'text-325 leading-comfortable tracking-normal',
-      bodyMd: 'text-350 leading-body tracking-normal',
-      bodySm: 'text-400 leading-body tracking-normal',
-      bodyXs: 'text-450 leading-body tracking-body',
+      bodyLg: 'text-450 leading-body tracking-body',
+      bodyMd: 'text-400 leading-body tracking-normal',
+      bodySm: 'text-350 leading-body tracking-normal',
+      bodyXs: 'text-325 leading-comfortable tracking-normal',
     },
     fontWeight: {
       light: 'font-light',
@@ -31,6 +31,7 @@ export const fontStyles = cva('', {
       extrabold: 'font-extrabold',
     },
     degree: {
+      inherit: 'text-inherit',
       '100': 'text-foreground-level-1',
       '200': 'text-foreground-level-2',
       '300': 'text-foreground-level-3',
@@ -116,19 +117,25 @@ export const fontStyles = cva('', {
 export const textPresets = {
   // Headlines
   hero: {
-    variant: 'heading3xl' as const,
+    variant: 'heading2xl' as const,
     fontWeight: 'bold' as const,
     degree: '100' as const,
     transform: 'capitalize' as const,
   },
   pageTitle: {
-    variant: 'heading2xl' as const,
+    variant: 'headingXl' as const,
     fontWeight: 'semibold' as const,
     degree: '100' as const,
     transform: 'capitalize' as const,
   },
   sectionTitle: {
-    variant: 'headingXl' as const,
+    variant: 'headingLg' as const,
+    fontWeight: 'semibold' as const,
+    degree: '100' as const,
+    transform: 'capitalize' as const,
+  },
+  modalTitle: {
+    variant: 'headingMd' as const,
     fontWeight: 'semibold' as const,
     degree: '100' as const,
     transform: 'capitalize' as const,

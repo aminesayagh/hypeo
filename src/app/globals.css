@@ -1,6 +1,6 @@
-@import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* --------------------------------------------------
    Theme Transition Animations
@@ -9,13 +9,18 @@
 /* Root transitions for custom properties */
 :root {
   transition-property: background-color, color, border-color, box-shadow;
-  transition-duration: 300ms;
+  transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
   
   /* Color custom properties */
   --background: oklch(0.9726 0.0026 106.45);
   --foreground: oklch(0.133 0.0021 196.91);
   --primary: oklch(0.9297 0.1873 116.91);
+  --secondary: oklch(0.133 0.0021 196.91);
+  --secondary-level-1: oklch(0.133 0.0021 196.91);
+  --secondary-level-2: oklch(0.2589 0.0208 260.58);
+  --white: oklch(0.9726 0.0026 106.45);
   --background-level-1: oklch(0.9726 0.0026 106.45);
   --background-level-2: oklch(0.9576 0.0027 106.45);
   --background-level-3: oklch(0.9406 0.0017 67.8);
@@ -24,73 +29,22 @@
   --foreground-level-2: oklch(0.2589 0.0208 260.58);
   --foreground-level-3: oklch(0.53 0.0154 262.34);
   --foreground-level-4: oklch(0.6688 0.0113 261.78);
-}
 
-.dark {
-  --background: oklch(0.1439 0.0045 106.95);
-  --foreground: oklch(0.9764 0.0013 286.38);
-  --primary: oklch(0.9297 0.1873 116.91);
-  --background-level-1: oklch(0.1439 0.0045 106.95);
-  --background-level-2: oklch(0.1768 0.004 106.8);
-  --background-level-3: oklch(0.1994 0.0039 106.75);
-  --background-level-4: oklch(0.2213 0.0038 106.71);
-  --foreground-level-1: oklch(0.9764 0.0013 286.38);
-  --foreground-level-2: oklch(0.8744 0.0152 260.73);
-  --foreground-level-3: oklch(0.6488 0.0146 262.36);
-  --foreground-level-4: oklch(0.5092 0.0121 261.77);
-}
+  --primary-foreground: oklch(0.133 0.0021 196.91);
+  --primary-50: oklch(0.9867 0.0367 113.67);
+  --primary-100: oklch(0.9724 0.0712 113.63);
+  --primary-200: oklch(0.9608 0.1064 114.51);
+  --primary-300: oklch(0.9484 0.1364 114.95);
+  --primary-400: oklch(0.939 0.1636 115.8);
+  --primary-500: oklch(0.9297 0.1873 116.91);
+  --primary-600: oklch(0.8841 0.2058 118.72);
+  --primary-700: oklch(0.6541 0.1514 118.51);
+  --primary-800: oklch(0.4011 0.0909 117.96);
 
-
-/* Universal color transitions */
-*,
-*::before,
-*::after {
-  transition-property: background-color, color, border-color, box-shadow, fill, stroke;
-  transition-duration: 300ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Reduce motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  :root,
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0ms !important;
-  }
-}
-
-@theme inline {
-  /* Color custom properties */
-  --color-background: var(--background);
-  --color-primary: var(--primary);
-  --color-background-level-1: var(--background-level-1);
-  --color-background-level-2: var(--background-level-2);
-  --color-background-level-3: var(--background-level-3);
-  --color-background-level-4: var(--background-level-4);
-  --color-foreground: var(--foreground);
-  --color-foreground-level-1: var(--foreground-level-1);
-  --color-foreground-level-2: var(--foreground-level-2);
-  --color-foreground-level-3: var(--foreground-level-3);
-  --color-foreground-level-4: var(--foreground-level-4);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
-  /* Typography spacing utilities */
-  --line-height-display: var(--leading-display);
-  --line-height-heading: var(--leading-heading);
-  --line-height-title: var(--leading-title);
-  --line-height-normal: var(--leading-normal);
-  --line-height-body: var(--leading-body);
-  --line-height-comfortable: var(--leading-comfortable);
-  
-  --letter-spacing-display: var(--tracking-display);
-  --letter-spacing-heading: var(--tracking-heading);
-  --letter-spacing-title: var(--tracking-title);
-  --letter-spacing-normal: var(--tracking-normal);
-  --letter-spacing-body: var(--tracking-body);
-  --letter-spacing-wide: var(--tracking-wide);
-  --letter-spacing-wider: var(--tracking-wider);
+  /* --------------------------------------------------
+     Responsive Typography Scale
+     Mobile-first with clamp() for fluid scaling
+     -------------------------------------------------- */
 
   /* Hero/Display Headings - Aggressive mobile scaling */
   --text-1000: clamp(1.75rem, 1.5rem + 3vw, 2.5rem);     /* 28px → 40px */
@@ -116,6 +70,10 @@
   --text-300: clamp(0.6875rem, 0.625rem + 0.5vw, 0.75rem); /* 11px → 12px */
   --text-275: clamp(0.625rem, 0.5625rem + 0.5vw, 0.6875rem); /* 10px → 11px */
 
+  /* --------------------------------------------------
+     Typography Spacing System
+     Line heights and letter spacing for optimal readability
+     -------------------------------------------------- */
 
   /* Line Heights */
   --leading-display: 0.9;    /* Hero/display headings */
@@ -135,18 +93,37 @@
   --tracking-wider: 0.1em;       /* Overlines/labels */
 }
 
-@theme {
+/* Universal color transitions */
+*,
+*::before,
+*::after {
+  transition-property: background-color, color, border-color, box-shadow, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  --breakpoint-xxs: 24rem;
-  --breakpoint-xs: 30rem;
-  --breakpoint-sm: 40rem;
-  --breakpoint-md: 48rem;
-  --breakpoint-mdl: 56rem;
-  --breakpoint-lg: 64rem;
-  --breakpoint-xl: 80rem;
-  --breakpoint-2xl: 96rem;
-  --breakpoint-3xl: 100rem;
-  --breakpoint-4xl: 132rem;
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+  }
+}
+
+.dark {
+  --background: oklch(0.1768 0.004 106.8);
+  --foreground: oklch(0.9764 0.0013 286.38);
+  --primary: oklch(0.9297 0.1873 116.91);
+  --background-level-1: oklch(0.1439 0.0045 106.95);
+  --background-level-2: oklch(0.1768 0.004 106.8);
+  --background-level-3: oklch(0.1994 0.0039 106.75);
+  --background-level-4: oklch(0.2213 0.0038 106.71);
+  --foreground-level-1: oklch(0.9764 0.0013 286.38);
+  --foreground-level-2: oklch(0.8744 0.0152 260.73);
+  --foreground-level-3: oklch(0.6488 0.0146 262.36);
+  --foreground-level-4: oklch(0.5092 0.0121 261.77);
 }
 
 body {
@@ -155,35 +132,6 @@ body {
   font-family: var(--font-geist-sans);
 }
 
-h1, h2, h3, h4, h5, h6, p, span, button, a {
+h1, h2, h3, h4, h5, h6, p, span {
   @apply selection:!bg-primary selection:!text-foreground dark:selection:!text-background;
-}
-
-.radix-themes {
-  --default-font-family: var(--font-geist-sans);
-  
-  --yellow-1: oklch(0.9899 0.0238 114.51);
-  --yellow-2: oklch(0.9842 0.0342 114.13);
-  --yellow-3: oklch(0.9716 0.0624 113.35);
-  --yellow-4: oklch(0.9652 0.0873 114.18);
-  --yellow-5: oklch(0.9584 0.103 114.67);
-  --yellow-6: oklch(0.9531 0.1135 114.78);
-  --yellow-7: oklch(0.9464 0.1291 115.19);
-  --yellow-8: oklch(0.9381 0.1527 115.74);
-  --yellow-9: oklch(0.9297 0.1873 116.91);
-  --yellow-10: oklch(0.9112 0.2016 117.55);
-  --yellow-11: oklch(0.862 0.1996 118.43);
-  --yellow-12: oklch(0.7804 0.1806 118.53);
-  --yellow-a1: oklch(0.9899 0.0238 114.51);
-  --yellow-a2: oklch(0.9842 0.0342 114.13);
-  --yellow-a3: oklch(0.9716 0.0624 113.35);
-  --yellow-a4: oklch(0.9652 0.0873 114.18);
-  --yellow-a5: oklch(0.9584 0.103 114.67);
-  --yellow-a6: oklch(0.9531 0.1135 114.78);
-  --yellow-a7: oklch(0.9464 0.1291 115.19);
-  --yellow-a8: oklch(0.9381 0.1527 115.74);
-  --yellow-a9: oklch(0.9297 0.1873 116.91);
-  --yellow-a10: oklch(0.9112 0.2016 117.55);
-  --yellow-a11: oklch(0.862 0.1996 118.43);
-  --yellow-a12: oklch(0.7804 0.1806 118.53);
 }

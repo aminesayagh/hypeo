@@ -1,20 +1,34 @@
-'use client'
+  'use client'
 import { Button } from '@/components/button'
 import { Text } from '@/components/text'
-import { ThemeChange } from '@/services/nextThemes/ThemeChange'
+import { ThemeChange } from '@/services/components/themes/ThemeChange'
 import { Logo } from '@/components/logo'
 import { useState } from 'react'
 
 function ButtonExamples() {
   return (
     <div className='flex flex-row gap-4'>
-      <Button variant='soft' >Click me</Button>
-      <Button variant='outline' className='shadow-md shadow-primary'>Click me</Button>
-      <Button variant='solid' className='shadow-lg shadow-primary'>Click me</Button>
-      <Button variant='ghost'>Click me</Button>
-      <Button variant='surface'>Click me</Button>
-      <Button variant='classic'>Click me</Button>
-      <Button variant='soft'>Click me</Button>
+      <Button color='primary' variant='solid'>
+        Solid
+      </Button>
+      <Button color='primary' variant='faded'>
+        Faded
+      </Button>
+      <Button color='primary' variant='bordered'>
+        Bordered
+      </Button>
+      <Button color='primary' variant='light'>
+        Light
+      </Button>
+      <Button color='primary' variant='flat'>
+        Flat
+      </Button>
+      <Button color='primary' variant='ghost'>
+        Ghost
+      </Button>
+      <Button color='primary' variant='shadow'>
+        Shadow
+      </Button>
     </div>
   )
 }
@@ -103,7 +117,7 @@ export function TextExamples() {
 function LogoExamples() {
   const [showText, setShowText] = useState(true)
   return (
-    <div className='space-y-12'>
+    <div className='space-y-4'>
       <button onClick={() => setShowText(!showText)}>Toggle Text</button>
       <Logo
         hasText={!showText}
@@ -119,21 +133,27 @@ function LogoExamples() {
 
 export default function TestPage() {
   return (
-    <div className='space-y-4 p-12'>
+    <div className='space-y-8 p-12'>
       <ThemeChange />
+      
+      
+      {/* Divider */}
+      <div className="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+      
+      {/* Original Tests */}
       <h1>Color palette</h1>
       <div className='flex flex-col gap-4'>
         <div className='flex flex-row gap-2'>
-          <div className='bg-background-level-1 size-32'></div>
-          <div className='bg-background-level-2 size-32'></div>
-          <div className='bg-background-level-3 size-32'></div>
-          <div className='bg-background-level-4 size-32'></div>
+          <div className='size-32 bg-background-level-1'></div>
+          <div className='size-32 bg-background-level-2'></div>
+          <div className='size-32 bg-background-level-3'></div>
+          <div className='size-32 bg-background-level-4'></div>
         </div>
         <div className='flex flex-row gap-2'>
-          <div className='bg-foreground-level-1 size-32'></div>
-          <div className='bg-foreground-level-2 size-32'></div>
-          <div className='bg-foreground-level-3 size-32'></div>
-          <div className='bg-foreground-level-4 size-32'></div>
+          <div className='size-32 bg-foreground-level-1'></div>
+          <div className='size-32 bg-foreground-level-2'></div>
+          <div className='size-32 bg-foreground-level-3'></div>
+          <div className='size-32 bg-foreground-level-4'></div>
         </div>
       </div>
       <TextExamples />

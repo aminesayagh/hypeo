@@ -36,3 +36,4 @@ Before code completion, verify:
 - [ ] useCallback implemented
 
 When generating code, strictly follow these patterns and ask for clarification if uncertain.
+

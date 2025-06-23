@@ -6,6 +6,8 @@ import { fontStyles, textPresets, type TextPreset } from './style';
 // Text Component Types
 // --------------------------------------------------
 
+type TextElement = 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 type TextVariantProps = VariantProps<typeof fontStyles>;
 
 interface BaseTextProps {
@@ -14,7 +16,7 @@ interface BaseTextProps {
   preset?: TextPreset;
 }
 
-type TextProps<T extends React.ElementType = 'span'> = BaseTextProps &
+type TextProps<T extends React.ElementType = TextElement> = BaseTextProps &
   TextVariantProps & {
     as?: T;
   } & Omit<React.ComponentPropsWithoutRef<T>, keyof BaseTextProps>;

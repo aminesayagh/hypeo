@@ -1,3 +1,173 @@
 {
-    
+  "navigation": {
+    "sidebar": {
+      "sections": {
+        "hypeoAi": "Hypeo AI",
+        "marketplace": "Market place"
+      },
+      "dashboard": "Tableau de bord",
+      "newAiCampaign": "Nouvelle campagne AI",
+      "aiManager": "Gestionnaire AI",
+      "discovery": "Discovery",
+      "crm": "CRM", 
+      "socialListening": "Social Listening",
+      "addProduct": "Ajouter un produit",
+      "myMarketplace": "Mon Marketplace",
+      "messagerie": "Messagerie",
+      "support": "Support"
+    },
+    "mode": {
+      "light": "Clair",
+      "dark": "Sombre"
+    },
+    "language": {
+      "en": "Anglais",
+      "fr": "Français",
+      "select": "Sélectionner la langue"
+    },
+    "viewMode": { 
+      "business": "Entreprise",
+      "creator": "Créateur",
+      "select": "Sélectionner le mode"
+    },
+    "user": {
+      "account": "Compte",
+      "profile": "Profil",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    }
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Bienvenue sur votre tableau de bord",
+      "actions": {
+        "export": "Exporter"
+      },
+      "statics": {
+        "titles": {
+          "numberOfCampaigns": "Nombre de campagnes",
+          "activeAccounts": "Compte Active",
+          "onHoldAccounts": "Compte en attente",
+          "inDraftAccounts": "Compte en brouillon",
+          "totalCollaborations": "Total Collaborations",
+          "revenueGenerated": "Revenus générés",
+          "pendingOpportunities": "Opportunités en attente",
+          "pendingMatchings": "Matchings en attente",
+          "submissionDeadline": "Date de soumission",
+          "publicationDeadline": "Date de publication",
+          "contentToSubmit": "Contenu à soumettre",
+          "contentToPublish": "Contenu à publier",
+          "pendingPayments": "Paiements en attente",
+          "hypeoScore": "Hypeo Score"
+        }
+      },
+      "campaigns": {
+        "title": "Liste des campagnes"
+      }
+    },
+    "newAiCampaign": {
+      "title": "Sur quoi travaillez-vous ?",
+      "description": "Je suis là pour vous aider à créer d'incroyables campagnes marketing. Parlez-moi de votre projet, de votre public cible ou de vos objectifs spécifiques.",
+      "chat": {
+        "placeholder": "Tapez votre message ici... (Appuyez sur Entrée pour envoyer)",
+        "user": "Vous",
+        "assistant": "Assistant IA",
+        "generating": "Génération de la réponse...",
+        "stop": "Arrêter",
+        "copy": "Copier",
+        "copied": "Copié !",
+        "suggestions": {
+          "socialMedia": "Créer une campagne sur les réseaux sociaux pour le lancement d'un nouveau produit",
+          "contentStrategy": "Développer une stratégie de contenu pour la notoriété de la marque",
+          "influencer": "Planifier une campagne de marketing d'influence",
+          "retention": "Concevoir une campagne de fidélisation client"
+        },
+        "error": {
+          "prefix": "Erreur :"
+        },
+        "upload": {
+          "uploading": "Téléchargement...",
+          "attachFile": "Joindre un fichier",
+          "removeFile": "Supprimer le fichier",
+          "downloadFile": "Cliquer pour télécharger",
+          "fileSize": "Ko"
+        },
+        "apiKey": {
+          "modal": {
+            "title": "Clé API OpenAI requise",
+            "description": "Veuillez saisir votre clé API OpenAI pour continuer avec le chat IA.",
+            "placeholder": "Entrez votre clé API OpenAI...",
+            "required": "La clé API est requise",
+            "save": "Enregistrer la clé",
+            "cancel": "Annuler"
+          }
+        },
+        "messageActions": {
+          "edit": "Éditer",
+          "save": "Enregistrer",
+          "cancel": "Annuler",
+          "copy": "Copier"
+        }
+      }
+    },
+    "campaign": {
+      "title": "Détails de la campagne",
+      "description": "Détails de la campagne",
+      "breadcrumbs": {
+        "dashboard": "Tableau de bord",
+        "campaign": "Campagne"
+      },
+      "content": {
+        "title": "Contenu",
+        "description": "Contenu",
+        "actions": {
+          "add": "Ajouter un contenu"
+        }
+      },
+      "contracts": {
+        "title": "Contrats",
+        "description": "Contrats",
+        "actions": {
+          "add": "Ajouter un contrat"
+        }
+      },
+      "negociation": {
+        "title": "Négociation",
+        "description": "Négociation",
+        "actions": {
+          "add": "Ajouter un influencé"
+        }
+      },
+      "overview": {
+        "title": "Aperçu",
+        "description": "Aperçu",
+        "actions": {
+          "viewScript": "Voir le script",
+          "viewRecord": "Voir le record"
+        }
+      },
+      "payment": {
+        "title": "Paiement",
+        "description": "Paiement",
+        "actions": {
+          "add": "Ajouter un paiement"
+        }
+      },
+      "reports": {
+        "title": "Rapports",
+        "description": "Rapports",
+        "actions": {
+          "add": "Ajouter un rapport"
+        }
+      },
+      "workflow": {
+        "title": "Workflow",
+        "description": "Workflow",
+        "actions": {
+          "add": "Ajouter un workflow"
+        }
+      }
+    }
+  }
 }
