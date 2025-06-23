@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Button } from '@/components/button'
 import { Card, CardBody, CardHeader } from '@/components/card'
 import {

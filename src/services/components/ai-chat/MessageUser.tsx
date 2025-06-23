@@ -1,5 +1,5 @@
 import type { MessageUserProps } from './ai-chat.types'
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Textarea } from '@/components/textarea'
 import { AnimatePresence, motion } from 'motion/react'
 import { useCallback, useState, useRef, useEffect } from 'react'

@@ -20,7 +20,7 @@ import {
 } from '@/components/icon'
 import { clsx } from 'clsx'
 import { Logo } from '@/components/logo'
-import Text from '@/components/text'
+import Text from '@/components/typo'
 import { useTranslations } from 'next-intl'
 import { useRouter, usePathname } from 'next/navigation'
 import { DividerLevel1 } from '@/components/divider'

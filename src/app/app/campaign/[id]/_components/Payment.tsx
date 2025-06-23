@@ -1,6 +1,6 @@
 "use client";
 
-import { Text } from "@/components/text";
+import { Text } from "@/components/typo";
 
 import { Button } from "@/components/button";
 import { PlusIcon } from "lucide-react";

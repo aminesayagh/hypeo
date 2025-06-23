@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { useTranslations } from 'next-intl'
 
 export default function Workflow() {

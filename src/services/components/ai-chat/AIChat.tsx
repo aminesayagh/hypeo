@@ -17,7 +17,7 @@ import {
   ModalFooter,
 } from '@heroui/react'
 import { useChatMessage } from './use-chat-message'
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
 import { Button } from '@/components/button'

@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, Card, CardBody, CardHeader, Chip } from '@heroui/react'
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import {
   CreditCard,
   FileText,

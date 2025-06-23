@@ -1,5 +1,5 @@
 import { Button } from "@/components/button";
-import { Text } from "@/components/text";
+import { Text } from "@/components/typo";
 import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 

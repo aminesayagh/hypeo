@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Breadcrumbs, BreadcrumbItem } from '@/components/breadcrumbs'
 import { Link, Tab } from '@heroui/react'
 import { Tabs } from '@/components/tabs'
