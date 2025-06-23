@@ -8,7 +8,7 @@ export default function Negociation() {
 
     const header_markup = (
         <div className='flex flex-row items-center justify-between'>
-            <Text preset='modalTitle'>
+            <Text preset='modalTitle' as='h2'>
                 {t('title')}
             </Text>
             <div className='flex flex-row gap-2'>

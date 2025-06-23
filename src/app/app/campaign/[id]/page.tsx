@@ -22,20 +22,20 @@ export default function CampaignPage() {
     <Breadcrumbs variant='solid'>
       <BreadcrumbItem>
         <Link href='/app/dashboard'>
-          <Text variant='bodyXs' degree='200'>
+          <Text variant='bodyXs' degree='200' as='p'>
             {t('breadcrumbs.dashboard')}
           </Text>
         </Link>
       </BreadcrumbItem>
       <BreadcrumbItem>
         <Link href='/app/campaign'>
-          <Text variant='bodyXs' degree='200'>
+          <Text variant='bodyXs' degree='200' as='p'>
             {t('breadcrumbs.campaign')}
           </Text>
         </Link>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        <Text variant='bodyXs' degree='200' className='font-semibold'>
+        <Text variant='bodyXs' degree='200' className='font-semibold' as='p'>
           {t('title')}
         </Text>
       </BreadcrumbItem>

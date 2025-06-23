@@ -8,7 +8,7 @@ export default function Contracts() {
 
   const header_markup = (
     <div className='flex flex-row items-center justify-between'>
-      <Text preset='modalTitle'>{t('title')}</Text>
+      <Text preset='modalTitle' as='h2'>{t('title')}</Text>
     </div>
   )
 

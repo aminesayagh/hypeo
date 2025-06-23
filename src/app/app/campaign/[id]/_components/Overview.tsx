@@ -20,7 +20,7 @@ export default function Overview() {
   const header_markup = (
     <div className='flex flex-row items-center justify-between'>
         <div>
-        <Text preset='modalTitle'>
+        <Text preset='modalTitle' as='h2'>
             {t('title')}
         </Text>
         </div>
