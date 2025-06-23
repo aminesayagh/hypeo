@@ -1,11 +1,9 @@
-'use client'
+  'use client'
 import { Button } from '@/components/button'
 import { Text } from '@/components/text'
 import { ThemeChange } from '@/services/components/themes/ThemeChange'
 import { Logo } from '@/components/logo'
-import { ResizablePanel } from '@/components/resizable'
-import { useState, useMemo } from 'react'
-import { Header } from '../app/_components/Header'
+import { useState } from 'react'
 
 function ButtonExamples() {
   return (

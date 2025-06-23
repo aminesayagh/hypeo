@@ -1,5 +1,4 @@
 import { createOpenAI } from '@ai-sdk/openai'
-import { generateText } from 'ai'
 import { NextRequest, NextResponse } from 'next/server'
 
 
@@ -27,9 +26,9 @@ async function validateOpenAIKey(apiKey: string): Promise<boolean> {
     });
     
     return true; // Key is valid if no error
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Check for authentication errors
-    if (error?.status === 401 || error?.message.includes('401') || error?.message.includes('authentication')) {
+    if (error instanceof Error && (error.message.includes('401') || error.message.includes('authentication'))) {
       return false;
     }
     // Re-throw non-authentication errors (e.g., network issues)
@@ -106,13 +105,13 @@ export async function POST(request: NextRequest) {
         { status: 200 }
       )
 
-    } catch (apiError: any) {
+    } catch (apiError: unknown) {
       // --------------------------------------------------
       // OpenAI API Error Handling
       // --------------------------------------------------
       
       // Check for specific OpenAI error types
-      if (apiError?.status === 401 || apiError?.code === 'invalid_api_key') {
+      if (apiError instanceof Error && (apiError.message.includes('401') || apiError.message.includes('authentication'))) {
         return NextResponse.json(
           {
             isValid: false,
@@ -123,7 +122,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      if (apiError?.status === 429) {
+      if (apiError instanceof Error && apiError.message.includes('429')) {
         return NextResponse.json(
           {
             isValid: false,
@@ -134,7 +133,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      if (apiError?.status === 402) {
+      if (apiError instanceof Error && apiError.message.includes('402')) {
         return NextResponse.json(
           {
             isValid: false,
@@ -156,7 +155,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-  } catch (error: any) {
+    } catch (error: unknown) {
     // --------------------------------------------------
     // General Error Handling
     // --------------------------------------------------

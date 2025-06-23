@@ -2,7 +2,6 @@ import { useViewMode, type ViewMode } from '@/services/foundations/view-modes/us
 import { Select, SelectItem, type SelectedItems, type Selection } from '@heroui/react'
 import { useCallback, useMemo, useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { usePathname } from 'next/navigation'
 
 // --------------------------------------------------
 // ModeSelector Interface
@@ -22,7 +21,6 @@ export function ViewModeSelector({
   // --------------------------------------------------
   // Navigation
   // --------------------------------------------------
-  const pathname = usePathname();
   const [navigation_isPending, navigation_startTransition] = useTransition();
 
   const modeSelector_config = {
@@ -131,7 +129,7 @@ export function ViewModeSelector({
         viewMode.setCurrent(selectedKey as ViewMode);
       });
     }
-  }, [locale, pathname, viewMode, modeSelector_config.startTransition]);
+  }, [modeSelector_config, viewMode, locale]);
 
   const selection_handleOpenChange = useCallback((isOpen: boolean) => {
     selection_setActive(isOpen);

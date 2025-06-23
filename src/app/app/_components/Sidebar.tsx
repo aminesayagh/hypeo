@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { motion, AnimatePresence, type Easing } from 'motion/react'
 import { Button } from '@/components/button'
 import { Tooltip } from '@/components/tooltip'
@@ -160,7 +160,7 @@ export function Sidebar({
   // --------------------------------------------------
 
   const navigationItem_handleClick = useCallback(
-    (item: any) => {
+    (item: { href: string }) => {
       router.push(item.href)
     },
     [router]

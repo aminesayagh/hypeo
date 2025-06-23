@@ -12,7 +12,7 @@ function Slider<T extends FieldValues>({
         <Controller
             control={control}
             name={name}
-            render={({ field: { name, value, onChange, onBlur, ref, ...restField }, fieldState: { invalid, error, ...restFieldState } }) => (
+            render={({ field: { name, value, onChange, onBlur, ...restField }, fieldState: { ...restFieldState } }) => (
                 <HeroSlider
                     label={label}
                     name={name}

@@ -1,10 +1,6 @@
-import {
+  import {
   Navbar,
   NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
 } from '@heroui/react'
 import { SearchInput } from '@/components/search-input'
 import { ThemeChange } from '@/services/components/themes/ThemeChange'

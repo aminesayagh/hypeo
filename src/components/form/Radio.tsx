@@ -12,7 +12,7 @@ function RadioGroup<T extends FieldValues>({
         <Controller
             control={control}
             name={name}
-            render={({ field: { name, value, onChange, onBlur, ref, ...restField }, fieldState: { invalid, error, ...restFieldState } }) => (
+            render={({ field: { name, value, onChange, onBlur, ...restField }, fieldState: { ...restFieldState } }) => (
                 <HeroRadioGroup
                     label={label}
                     name={name}

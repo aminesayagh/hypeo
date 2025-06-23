@@ -1,4 +1,4 @@
-import {
+  import {
   NumberInput as HeroNumberInput,
   type NumberInputProps,
 } from '@heroui/react'
@@ -21,8 +21,8 @@ function NumberInput<T extends FieldValues>({
       name={name}
       control={control}
       render={({
-        field: { name, value, onChange, onBlur, ref, ...restField },
-        fieldState: { invalid, error, ...restFieldState },
+        field: { name, value, onChange, onBlur, ...restField },
+        fieldState: { ...restFieldState },
       }) => (
         <HeroNumberInput
           label={label}

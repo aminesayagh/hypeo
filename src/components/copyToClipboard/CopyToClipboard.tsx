@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react'
-import { Button } from '@/components/button'
 import { Check, Copy } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { ButtonTooltip } from '@/components/button'

@@ -1,4 +1,4 @@
-'use client'
+    'use client'
 
 import { Paperclip, Send } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -7,7 +7,7 @@ import { isHotkey } from 'is-hotkey'
 import { useTranslations } from 'next-intl'
 
 import { cn } from '@/services/foundations/utilities/UtileClassService'
-import type { AIChatProps, ChatMessage } from './ai-chat.types'
+import type { AIChatProps } from './ai-chat.types'
 import { Card, CardHeader, CardBody, CardFooter } from '@/components/card'
 import {
   Modal,

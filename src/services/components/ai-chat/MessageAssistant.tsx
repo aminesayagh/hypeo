@@ -8,8 +8,6 @@ import ReactMarkdown from 'react-markdown'
 export function MessageAssistant({
   content,
   id,
-  role,
-  createdAt,
   onReload,
 }: ChatMessage & {
   onReload: (messageId: string) => void
