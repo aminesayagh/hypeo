@@ -98,7 +98,7 @@ export default {
             hoverOpacity: 1,
           },
           colors: {
-            focus: 'var(--primary-300)',
+            focus: 'oklch(0.9297 0.1873 116.91)',
           },
         },
         dark: {
@@ -106,7 +106,7 @@ export default {
             hoverOpacity: 1,
           },
           colors: {
-            focus: 'var(--primary-300)',
+            focus: 'oklch(0.9297 0.1873 116.91)',
           },
         },
       },
