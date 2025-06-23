@@ -39,7 +39,6 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@heroui/react'
-import { parseDate } from '@internationalized/date'
 import { Tooltip } from '@/components/tooltip'
 import { Pagination } from '@heroui/react'
 import { useMemo, useState } from 'react'
@@ -481,6 +480,7 @@ export default function DashboardPage() {
   const search_markup = (
     <Input
       isClearable
+      aria-label='Search'
       className='w-full sm:max-w-[44%]'
       placeholder='Search by name...'
       startContent={<SearchIcon />}
@@ -504,7 +504,7 @@ export default function DashboardPage() {
 
   const [data_sortDescriptor, data_setSortDescriptor] =
     useState<SortDescriptor>({
-      column: 'brand',
+      column: 'name',
       direction: 'ascending',
     })
 
@@ -560,10 +560,31 @@ export default function DashboardPage() {
 
   const data_sorted = useMemo(() => {
     return [...data_paginated].sort((a, b) => {
-      const first = a[data_sortDescriptor.column as keyof typeof a]
-      const second = b[data_sortDescriptor.column as keyof typeof b]
-      console.log('sorting')
-      console.log('first', first, 'second', second)
+      let column = []
+      switch (data_sortDescriptor.column) {
+        case 'brand':
+          column = ['brand', 'name']
+          break
+        case 'date':
+          column = ['startDate']
+          break
+        case 'status':
+          column = ['status']
+          break
+        case 'actions':
+          column = ['actions']
+          break
+        default:
+          column = ['name']
+          break
+      }
+      let first = a[column[0] as keyof typeof a]
+      let second = b[column[0] as keyof typeof b]
+      for (let i = 1; i < column.length; i++) {
+        first = first[column[i] as keyof typeof first]
+        second = second[column[i] as keyof typeof second]
+      }
+
       const cmp = first < second ? -1 : first > second ? 1 : 0
 
       return data_sortDescriptor.direction === 'descending' ? -cmp : cmp
@@ -614,7 +635,7 @@ export default function DashboardPage() {
       <div className='flex items-end justify-between gap-3'>
         {search.markup}
         <div className='flex gap-3'>
-          <Dropdown>
+          <Dropdown aria-label='Table Filter'>
             <DropdownTrigger>
               <Button variant='flat' endContent={<ChevronDownIcon />}>
                 Status
@@ -633,7 +654,7 @@ export default function DashboardPage() {
               ))}
             </DropdownMenu>
           </Dropdown>
-          <Dropdown>
+          <Dropdown aria-label='Table Columns'>
             <DropdownTrigger>
               <Button endContent={<ChevronDownIcon />} variant='flat'>
                 Columns
@@ -658,8 +679,9 @@ export default function DashboardPage() {
           <Button
             variant='solid'
             size='md'
-            endContent={<PlusIcon />}
+            endContent={<PlusIcon className='size-4' />}
             color='primary'
+            aria-label='Add Campaign'
           >
             Add Campaign
           </Button>
@@ -737,17 +759,17 @@ export default function DashboardPage() {
       case 'actions':
         return (
           <div className='flex flex-row gap-4'>
-            <Tooltip content='Details'>
+            <Tooltip content='Details' aria-label='Details'>
               <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
                 <EyeIcon />
               </span>
             </Tooltip>
-            <Tooltip content='Edit user'>
+            <Tooltip content='Edit user' aria-label='Edit user'>
               <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color='danger' content='Delete user' placement='bottom'>
+            <Tooltip color='danger' content='Delete user' placement='bottom' aria-label='Delete user'>
               <span className='cursor-pointer text-lg text-danger active:opacity-50'>
                 <DeleteIcon />
               </span>
@@ -783,14 +805,15 @@ export default function DashboardPage() {
             key={column.uid}
             align='start'
             allowsSorting={column.sortable}
+            aria-label={column.name}
           >
             {column.name}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent='No campaigns found' items={data.result}>
+      <TableBody emptyContent='No campaigns found' items={data.result} aria-label='Campaigns List Table Body'>
         {item => (
-          <TableRow key={item.name}>
+          <TableRow key={item.key}>
             {(columnKey: string | number) => (
               <TableCell key={columnKey}>
                 {campaignsList_renderCell(item, columnKey as string)}

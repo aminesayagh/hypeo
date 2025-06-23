@@ -58,7 +58,6 @@ export function useSidebar({
   // Load persisted state on mount
   useEffect(() => {
     const persistedState = persistence.load();
-    console.log("Persisted State", persistedState);
     sidebar_setExpanded(persistedState);
     sidebar_setMounted(true);
   }, []);

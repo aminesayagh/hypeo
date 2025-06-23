@@ -67,7 +67,7 @@ export function Header({ height, left }: { height: number; left: number }) {
   // --------------------------------------------------
   const userProfile_markup = (
     <div className='flex items-center gap-2'>
-      <Dropdown placement='bottom-end'>
+      <Dropdown placement='bottom-end' aria-label='User Profile'>
         <DropdownTrigger>
           <User
             as='button'
@@ -80,7 +80,7 @@ export function Header({ height, left }: { height: number; left: number }) {
             name='Mohamed'
           />
         </DropdownTrigger>
-        <DropdownMenu>
+        <DropdownMenu aria-label='User Profile Menu'>
           <DropdownSection title={t('user.account')}>
             <DropdownItem key='profile' onPress={() => {
               router.push('/app/profile')
@@ -114,6 +114,7 @@ export function Header({ height, left }: { height: number; left: number }) {
 
   return (
     <Navbar
+      aria-label='Header'
       height={height}
       maxWidth='full'
       isBordered

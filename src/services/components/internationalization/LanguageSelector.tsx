@@ -125,6 +125,7 @@ export function LanguageSelector() {
       isLoading={loading.active}
       disableSelectorIconRotation={loading.active}
       renderValue={renderValue}
+      aria-label="Language Selector Button"
     >
       {language.options.map((option) => (
         <SelectItem key={option.key} color='primary' className='ring-primary' startContent={<option.icon />}>
