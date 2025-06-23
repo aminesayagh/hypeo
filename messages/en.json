@@ -42,7 +42,10 @@
       "title": "Dashboard",
       "description": "Welcome to your dashboard",
       "actions": {
-        "export": "Export"
+        "export": "Export",
+        "addCampaign": "Add Campaign",
+        "cancel": "Cancel",
+        "save": "Save"
       },
       "statics": {
         "titles": {

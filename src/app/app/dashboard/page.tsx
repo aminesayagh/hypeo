@@ -38,15 +38,33 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  ModalBody,
+  ModalHeader,
+  useDisclosure,
 } from '@heroui/react'
+import { Modal, ModalContent } from '@/components/modal'
 import { Tooltip } from '@/components/tooltip'
-import { Pagination } from '@heroui/react'
-import { useMemo, useState } from 'react'
+import { Pagination } from '@/components/pagination'
+import { useEffect, useMemo, useState } from 'react'
 import { useViewMode } from '@/services/foundations/view-modes/useViewMode'
 import { Box } from '@/components/box'
 import type { Selection, SortDescriptor } from '@heroui/react'
-import { ChevronDownIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react'
+import { ChevronDownIcon, GridIcon, ListIcon, SearchIcon } from 'lucide-react'
 import { Input } from '@/components/input'
+import {
+  Form,
+  Input as FormInput,
+  Select as FormSelect,
+  DateRangePicker as FormDateRangePicker,
+  SelectItem as FormSelectItem,
+  Textarea as FormTextarea,
+  Button as FormButton,
+} from '@/components/form'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { parseDate } from '@internationalized/date'
+import Loading from '@/components/Loading'
 
 export function capitalize(s: string) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : ''
@@ -62,6 +80,15 @@ export default function DashboardPage() {
   // View Mode
   // --------------------------------------------------
   const viewMode = useViewMode()
+
+  // --------------------------------------------------
+  // Hydration Mounted
+  // --------------------------------------------------
+  const [hydration_isMounted, hydration_setIsMounted] = useState(false)
+
+  useEffect(() => {
+    hydration_setIsMounted(true)
+  }, [])
 
   // --------------------------------------------------
   // Header
@@ -94,104 +121,107 @@ export default function DashboardPage() {
   // Statics
   // --------------------------------------------------
 
-  const statics_allData = [
-    {
-      type: 'business',
-      title: t('statics.titles.numberOfCampaigns'),
-      value: '12',
-      icon: <ChartBarIcon />,
-    },
-    {
-      type: 'business',
-      title: t('statics.titles.activeAccounts'),
-      value: '5',
-      icon: <Users />,
-    },
-    {
-      type: 'business',
-      title: t('statics.titles.onHoldAccounts'),
-      value: '2',
-      icon: <UserX />,
-    },
-    {
-      type: 'business',
-      title: t('statics.titles.inDraftAccounts'),
-      value: '6',
-      icon: <UserPen />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.totalCollaborations'),
-      value: '12',
-      icon: <Handshake />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.revenueGenerated'),
-      value: '500$',
-      icon: <DollarSign />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.pendingOpportunities'),
-      value: '2',
-      icon: <Target />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.pendingMatchings'),
-      value: '6',
-      icon: <UserSearch />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.submissionDeadline'),
-      value: '3Days',
-      icon: <Clock />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.publicationDeadline'),
-      value: 'May 4, 2025',
-      icon: <CalendarClock />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.contentToSubmit'),
-      value: '4',
-      icon: <Upload />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.contentToPublish'),
-      value: '8',
-      icon: <Eye />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.pendingPayments'),
-      value: '9',
-      icon: <CreditCard />,
-    },
-    {
-      type: 'creator',
-      title: t('statics.titles.hypeoScore'),
-      value: '90',
-      icon: <Award />,
-    },
-  ]
+  const statics_allData = useMemo(
+    () => [
+      {
+        type: 'business',
+        title: t('statics.titles.numberOfCampaigns'),
+        value: '12',
+        icon: <ChartBarIcon />,
+      },
+      {
+        type: 'business',
+        title: t('statics.titles.activeAccounts'),
+        value: '5',
+        icon: <Users />,
+      },
+      {
+        type: 'business',
+        title: t('statics.titles.onHoldAccounts'),
+        value: '2',
+        icon: <UserX />,
+      },
+      {
+        type: 'business',
+        title: t('statics.titles.inDraftAccounts'),
+        value: '6',
+        icon: <UserPen />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.totalCollaborations'),
+        value: '12',
+        icon: <Handshake />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.revenueGenerated'),
+        value: '500$',
+        icon: <DollarSign />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.pendingOpportunities'),
+        value: '2',
+        icon: <Target />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.pendingMatchings'),
+        value: '6',
+        icon: <UserSearch />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.submissionDeadline'),
+        value: '3Days',
+        icon: <Clock />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.publicationDeadline'),
+        value: 'May 4, 2025',
+        icon: <CalendarClock />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.contentToSubmit'),
+        value: '4',
+        icon: <Upload />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.contentToPublish'),
+        value: '8',
+        icon: <Eye />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.pendingPayments'),
+        value: '9',
+        icon: <CreditCard />,
+      },
+      {
+        type: 'creator',
+        title: t('statics.titles.hypeoScore'),
+        value: '90',
+        icon: <Award />,
+      },
+    ],
+    [t]
+  )
 
   const statics_filtered = useMemo(() => {
     return statics_allData.filter(item => item.type === viewMode.current)
-  }, [viewMode.current])
+  }, [statics_allData, viewMode.current])
 
   const statics_business = useMemo(() => {
     return statics_allData.filter(item => item.type === 'business')
-  }, [])
+  }, [statics_allData])
 
   const statics_creator = useMemo(() => {
     return statics_allData.filter(item => item.type === 'creator')
-  }, [])
+  }, [statics_allData])
 
   const statics_renderCards = (items: typeof statics_allData) => (
     <div className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4'>
@@ -247,6 +277,168 @@ export default function DashboardPage() {
   }
 
   // --------------------------------------------------
+  // Add Campaign Form
+  // --------------------------------------------------
+  const addCampaignForm_schema = z.object({
+    brandName: z.string().min(1),
+    brandLogo: z.string().min(1).url(),
+    campaignName: z.string().min(1),
+    dateRange: z.object({
+      start: z.string(),
+      end: z.string(),
+    }),
+    status: z.enum(['active', 'upcoming', 'completed']),
+    description: z.string().min(1),
+  })
+
+  const addCampaignForm_methods = useForm({
+    defaultValues: {
+      brandName: '',
+      brandLogo: '',
+      campaignName: '',
+      dateRange: {
+        start: parseDate('2025-03-10').toString(),
+        end: parseDate('2025-05-01').toString(),
+      },
+      status: 'upcoming' as 'active' | 'upcoming' | 'completed',
+      description: '',
+    },
+    resolver: zodResolver(addCampaignForm_schema),
+  })
+
+  const addCampaignForm_onSubmit = (
+    data: z.infer<typeof addCampaignForm_schema>
+  ) => {
+    console.log('data', data)
+    addCampaignForm_methods.reset()
+  }
+
+  const addCampaignForm_markup = (onClose: () => void) => (
+    <Form
+      methods={addCampaignForm_methods}
+      onSubmit={addCampaignForm_methods.handleSubmit(addCampaignForm_onSubmit)}
+      className='flex flex-col gap-2'
+    >
+      <FormInput
+        aria-label='Brand Name'
+        name='brandName'
+        label='Brand Name'
+        isRequired
+        size='sm'
+        autoFocus
+      />
+      <FormInput
+        aria-label='Brand Logo'
+        name='brandLogo'
+        label='Brand Logo'
+        type='url'
+        isRequired
+      />
+      <FormInput
+        aria-label='Campaign Name'
+        name='campaignName'
+        label='Campaign Name'
+        isRequired
+      />
+      <FormDateRangePicker
+        aria-label='Date Range'
+        name='dateRange'
+        label='Date Range'
+        isRequired
+      />
+      <FormSelect aria-label='Status' name='status' label='Status' size='sm'>
+        <FormSelectItem key='active' aria-label='Active'>
+          <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-blue-500' />
+          <Text variant='bodySm' degree='100' className='pl-6'>
+            Active
+          </Text>
+        </FormSelectItem>
+        <FormSelectItem key='upcoming' aria-label='Upcoming'>
+          <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-warning-500' />
+          <Text variant='bodySm' degree='100' className='pl-6'>
+            Upcoming
+          </Text>
+        </FormSelectItem>
+        <FormSelectItem key='completed' aria-label='Completed'>
+          <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-success-500' />
+          <Text variant='bodySm' degree='100' className='pl-6'>
+            Completed
+          </Text>
+        </FormSelectItem>
+      </FormSelect>
+      <FormTextarea
+        aria-label='Description'
+        name='description'
+        label='Description'
+        rows={4}
+        placeholder='Enter description'
+      />
+      <div className='flex w-full flex-row justify-end gap-2 pb-6'>
+        <Button
+          color='secondary'
+          variant='bordered'
+          onPress={() => {
+            addCampaignForm_methods.reset()
+            onClose()
+          }}
+        >
+          {t('actions.cancel')}
+        </Button>
+        <FormButton color='primary'>
+          {t('actions.addCampaign')}
+        </FormButton>
+      </div>
+    </Form>
+  )
+
+  const addCampaignForm = {
+    markup: addCampaignForm_markup,
+  }
+
+  // --------------------------------------------------
+  // Add Campaign Modal
+  // --------------------------------------------------
+  const {
+    isOpen: addCampaign_isOpen,
+    onOpen: addCampaign_onOpen,
+    onOpenChange: addCampaign_onOpenChange,
+  } = useDisclosure()
+
+  const addCampaignModal_buttonMarkup = (
+    <Button
+      variant='solid'
+      size='md'
+      color='primary'
+      aria-label='Add Campaign'
+      onPress={addCampaign_onOpen}
+    >
+      {t('actions.addCampaign')}
+    </Button>
+  )
+
+  const addCampaignModal_modalMarkup = (
+    <Modal isOpen={addCampaign_isOpen} onOpenChange={addCampaign_onOpenChange}>
+      <ModalContent>
+        {onClose => (
+          <>
+            <ModalHeader className='flex flex-col gap-1 pt-12'>
+              <Text as='h4' preset='modalTitle'>
+                {t('actions.addCampaign')}
+              </Text>
+            </ModalHeader>
+            <ModalBody>{addCampaignForm.markup(onClose)}</ModalBody>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+  )
+
+  const addCampaignModal = {
+    buttonMarkup: addCampaignModal_buttonMarkup,
+    modalMarkup: addCampaignModal_modalMarkup,
+  }
+
+  // --------------------------------------------------
   // table structure List
   // --------------------------------------------------
 
@@ -259,30 +451,30 @@ export default function DashboardPage() {
 
   const tableStructure_data = [
     {
-      id: 1,
+      id: 'campaign-1',
       key: '1',
       brand: {
         name: 'Hyundai',
         logo: 'https://hypeo-prod.vercel.app/fake/hyundai.png',
       },
       name: 'Lancement du Nouveau Tucson 2025',
-      startDate: '2025-03-10',
-      endDate: '2025-05-01',
+      startDate: parseDate('2025-03-10'),
+      endDate: parseDate('2025-05-01'),
       status: 'upcoming',
       category: 'automotive',
       budget: 50000,
       description: 'Campagne de lancement pour le nouveau modèle Tucson 2025',
     },
     {
-      id: 2,
+      id: 'campaign-2',
       key: '2',
       brand: {
         name: 'Garnier',
         logo: 'https://hypeo-prod.vercel.app/fake/garnier.png',
       },
       name: 'Beauté Naturelle - Gamme Éclat 2025',
-      startDate: '2025-02-01',
-      endDate: '2025-03-15',
+      startDate: parseDate('2025-02-01'),
+      endDate: parseDate('2025-03-15'),
       status: 'active',
       category: 'beauty',
       budget: 35000,
@@ -290,15 +482,15 @@ export default function DashboardPage() {
         'Promotion de la nouvelle gamme de produits beauté naturelle',
     },
     {
-      id: 3,
+      id: 'campaign-3',
       key: '3',
       brand: {
         name: 'Signal',
         logo: 'https://hypeo-prod.vercel.app/fake/signal.png',
       },
       name: 'Sourire Parfait - Challenge Santé Dentaire',
-      startDate: '2025-04-05',
-      endDate: '2025-05-30',
+      startDate: parseDate('2025-04-05'),
+      endDate: parseDate('2025-05-30'),
       status: 'upcoming',
       category: 'health',
       budget: 25000,
@@ -306,30 +498,30 @@ export default function DashboardPage() {
         "Challenge sur les réseaux sociaux pour promouvoir l'hygiène dentaire",
     },
     {
-      id: 4,
+      id: 'campaign-4',
       key: '4',
       brand: {
         name: 'Pampers',
         logo: 'https://hypeo-prod.vercel.app/fake/pampers.png',
       },
       name: 'Douceur et Protection pour Bébé',
-      startDate: '2025-01-15',
-      endDate: '2025-02-28',
+      startDate: parseDate('2025-01-15'),
+      endDate: parseDate('2025-02-28'),
       status: 'completed',
       category: 'baby_care',
       budget: 40000,
       description: 'Campagne de sensibilisation aux soins pour bébés',
     },
     {
-      id: 5,
+      id: 'campaign-5',
       key: '5',
       brand: {
         name: 'Coca Cola',
         logo: 'https://hypeo-prod.vercel.app/fake/coca-cola.png',
       },
       name: 'Moments de Partage Ramadan 2025',
-      startDate: '2025-02-10',
-      endDate: '2025-04-01',
+      startDate: parseDate('2025-02-10'),
+      endDate: parseDate('2025-04-01'),
       status: 'active',
       category: 'beverages',
       budget: 75000,
@@ -337,15 +529,15 @@ export default function DashboardPage() {
         'Campagne spéciale Ramadan axée sur le partage et la convivialité',
     },
     {
-      id: 6,
+      id: 'campaign-6',
       key: '6',
       brand: {
         name: 'Yassir',
         logo: 'https://hypeo-prod.vercel.app/fake/yassir.jpg',
       },
       name: "Campagne d'App Install - 2025",
-      startDate: '2025-01-20',
-      endDate: '2025-03-05',
+      startDate: parseDate('2025-01-20'),
+      endDate: parseDate('2025-03-05'),
       status: 'active',
       category: 'technology',
       budget: 60000,
@@ -353,45 +545,45 @@ export default function DashboardPage() {
         "Campagne d'acquisition d'utilisateurs pour l'application mobile",
     },
     {
-      id: 7,
+      id: 'campaign-7',
       key: '7',
       brand: {
         name: 'Hôtel Ibis Nouacer',
         logo: 'https://hypeo-prod.vercel.app/fake/ibis.png',
       },
       name: 'Séjour Business & Loisirs 2025',
-      startDate: '2025-03-01',
-      endDate: '2025-04-20',
+      startDate: parseDate('2025-03-01'),
+      endDate: parseDate('2025-04-20'),
       status: 'upcoming',
       category: 'hospitality',
       budget: 30000,
       description: "Promotion des offres business et loisirs de l'hôtel",
     },
     {
-      id: 8,
+      id: 'campaign-8',
       key: '8',
       brand: {
         name: 'Pickers',
         logo: 'https://hypeo-prod.vercel.app/fake/pickers.png',
       },
       name: 'Goûtez la Street Food Authentique',
-      startDate: '2024-12-10',
-      endDate: '2025-01-30',
+      startDate: parseDate('2024-12-10'),
+      endDate: parseDate('2025-01-30'),
       status: 'completed',
       category: 'food',
       budget: 20000,
       description: 'Campagne de promotion de la street food authentique',
     },
     {
-      id: 9,
+      id: 'campaign-9',
       key: '9',
       brand: {
         name: 'Trident',
         logo: 'https://hypeo-prod.vercel.app/fake/trident.png',
       },
       name: 'Fraîcheur Infinie - Défi 30 Jours',
-      startDate: '2025-02-25',
-      endDate: '2025-04-10',
+      startDate: parseDate('2025-02-25'),
+      endDate: parseDate('2025-04-10'),
       status: 'upcoming',
       category: 'oral_care',
       budget: 18000,
@@ -399,15 +591,15 @@ export default function DashboardPage() {
         'Défi de 30 jours pour promouvoir la fraîcheur bucco-dentaire',
     },
     {
-      id: 10,
+      id: 'campaign-10',
       key: '10',
       brand: {
         name: 'Sidi Ali',
         logo: 'https://hypeo-prod.vercel.app/fake/sidiali.png',
       },
       name: 'Hydratation et Bien-être au Quotidien',
-      startDate: '2025-01-05',
-      endDate: '2025-02-15',
+      startDate: parseDate('2025-01-05'),
+      endDate: parseDate('2025-02-15'),
       status: 'completed',
       category: 'beverages',
       budget: 32000,
@@ -492,6 +684,7 @@ export default function DashboardPage() {
 
   const search = {
     value: search_value,
+    hasSearchFilter: search_hasSearchFilter,
     setValue: search_setValue,
     handleClear: search_handleClear,
     handleValueChange: search_handleValueChange,
@@ -515,26 +708,32 @@ export default function DashboardPage() {
   const [data_visibleColumns, data_setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   )
-  const [data_statusFilter, data_setStatusFilter] = useState<Selection>(
-    'all'
-  )
+  const [data_statusFilter, data_setStatusFilter] = useState<Selection>('all')
 
   const data_headerColumns = useMemo(() => {
-    if (data_visibleColumns === 'all') return tableStructure.columns;
+    if (data_visibleColumns === 'all') return tableStructure.columns
 
     return tableStructure.columns.filter(column =>
       Array.from(data_visibleColumns).includes(column.uid)
     )
-  }, [data_visibleColumns])
+  }, [data_visibleColumns, tableStructure.columns])
 
   const data_filtered = useMemo(() => {
-    let filteredData = [...tableStructure.data];
+    let filteredData = [...tableStructure.data]
 
-    if (search_hasSearchFilter) {
-      filteredData = filteredData.filter(item =>
-        item.name.toLowerCase().includes(search_value.toLowerCase())
+    // search filter
+    if (search.hasSearchFilter) {
+      console.log('search filter', filteredData, search.value)
+      filteredData = filteredData.filter(
+        item =>
+          item.name.toLowerCase().includes(search.value.toLowerCase()) ||
+          item.brand.name.toLowerCase().includes(search.value.toLowerCase()) ||
+          item.description.toLowerCase().includes(search.value.toLowerCase()) ||
+          item.category.toLowerCase().includes(search.value.toLowerCase())
       )
     }
+
+    // status filter
     if (
       data_statusFilter !== 'all' &&
       Array.from(data_statusFilter).length !==
@@ -546,7 +745,13 @@ export default function DashboardPage() {
     }
 
     return filteredData
-  }, [search_hasSearchFilter, search_value, data_statusFilter])
+  }, [
+    search.hasSearchFilter,
+    search.value,
+    data_statusFilter,
+    tableStructure.data,
+    tableStructure.statusOptions,
+  ])
 
   const data_pagesCount = useMemo(() => {
     return Math.ceil(data_filtered.length / pagination.rowsPerPage)
@@ -597,11 +802,12 @@ export default function DashboardPage() {
     paginated: data_paginated,
     sorted: data_sorted,
     sortDescriptor: data_sortDescriptor,
-    setSortDescriptor: data_setSortDescriptor,
     result: data_sorted,
     visibleColumns: data_visibleColumns,
     statusFilter: data_statusFilter,
     selectedKeys: data_selectedKeys,
+    // setters
+    setSortDescriptor: data_setSortDescriptor,
     setSelectedKeys: data_setSelectedKeys,
     setVisibleColumns: data_setVisibleColumns,
     setStatusFilter: data_setStatusFilter,
@@ -676,15 +882,8 @@ export default function DashboardPage() {
               ))}
             </DropdownMenu>
           </Dropdown>
-          <Button
-            variant='solid'
-            size='md'
-            endContent={<PlusIcon className='size-4' />}
-            color='primary'
-            aria-label='Add Campaign'
-          >
-            Add Campaign
-          </Button>
+          {addCampaignModal.buttonMarkup}
+          {addCampaignModal.modalMarkup}
         </div>
       </div>
       <div className='flex items-center justify-between'>
@@ -736,7 +935,7 @@ export default function DashboardPage() {
         return (
           <div className='flex flex-col items-start gap-1'>
             <Text variant='bodySm' degree='100'>
-              {item.startDate}
+              {item.startDate.toString()}
             </Text>
           </div>
         )
@@ -769,7 +968,12 @@ export default function DashboardPage() {
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color='danger' content='Delete user' placement='bottom' aria-label='Delete user'>
+            <Tooltip
+              color='danger'
+              content='Delete user'
+              placement='bottom'
+              aria-label='Delete user'
+            >
               <span className='cursor-pointer text-lg text-danger active:opacity-50'>
                 <DeleteIcon />
               </span>
@@ -781,7 +985,7 @@ export default function DashboardPage() {
     }
   }
 
-  const campaignsList_markup = (
+  const campaignsList_markup = hydration_isMounted ? (
     <Table
       isHeaderSticky
       aria-label='Campaigns List Table'
@@ -811,7 +1015,11 @@ export default function DashboardPage() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent='No campaigns found' items={data.result} aria-label='Campaigns List Table Body'>
+      <TableBody
+        emptyContent='No campaigns found'
+        items={data.result}
+        aria-label='Campaigns List Table Body'
+      >
         {item => (
           <TableRow key={item.key}>
             {(columnKey: string | number) => (
@@ -823,6 +1031,8 @@ export default function DashboardPage() {
         )}
       </TableBody>
     </Table>
+  ) : (
+    <Loading />
   )
 
   // --------------------------------------------------
@@ -835,12 +1045,17 @@ export default function DashboardPage() {
         <Text variant='headingXl' degree='100'>
           {t('campaigns.title')}
         </Text>
+        <div className='flex flex-row gap-2 flex-1 justify-end'>
+          <Button variant='flat' endContent={<ListIcon className="size-4" />} isIconOnly color='default' />
+          <Button variant='flat' endContent={<GridIcon className="size-4" />} isIconOnly color='default' />
+        </div>
       </CardHeader>
       <CardBody className='flex flex-col gap-2'>
         {campaignsList_markup}
       </CardBody>
     </Card>
   )
+  
   return (
     <div className='flex flex-col gap-4 py-6 pl-6 pr-8'>
       {header_markup}
@@ -850,4 +1065,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-  

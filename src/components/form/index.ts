@@ -5,9 +5,10 @@ import Checkbox from "./Checkbox";
 import Button from "./ButtonSubmit";
 import NumberInput from "./Number";
 import Slider from "./Slider";
+import Textarea from "./Textarea";
 
 // Date
 import DatePicker from "./DatePicker";
 import DateRangePicker from "./DateRangePicker";
 
-export { Form, Input, Select, SelectItem, Checkbox, Button, NumberInput, DatePicker, DateRangePicker, Slider, };  
+export { Form, Input, Select, SelectItem, Checkbox, Button, NumberInput, DatePicker, DateRangePicker, Slider, Textarea };  

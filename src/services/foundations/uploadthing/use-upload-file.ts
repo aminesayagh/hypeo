@@ -11,12 +11,11 @@ import { z } from 'zod';
   
 import { toast } from '@/services/foundations/toast/handler';
 
-export interface UploadedFile<T = unknown> extends ClientUploadedFileData<T> {}
+export type UploadedFile<T = unknown> = ClientUploadedFileData<T>;
 
 interface UseUploadFileProps
   extends Pick<
-    // @ts-ignore
-    UploadFilesOptions<OurFileRouter>,
+    UploadFilesOptions<OurFileRouter['editorUploader']>,
     'headers' | 'onUploadBegin' | 'onUploadProgress' | 'skipPolling'
   > {
   onUploadComplete?: (file: UploadedFile) => void;

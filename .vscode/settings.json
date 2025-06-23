@@ -1,7 +1,9 @@
 {
-    "cSpell.words": [
-        "heroui",
-        "Nuqs",
-        "uploadthing"
-    ]
+  "cSpell.words": [
+    "heroui",
+    "Hoverable",
+    "Nuqs",
+    "uploadthing"
+  ],
+  "eslint.enable": true
 }

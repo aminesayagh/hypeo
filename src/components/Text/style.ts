@@ -134,6 +134,12 @@ export const textPresets = {
     degree: '100' as const,
     transform: 'capitalize' as const,
   },
+  modalTitle: {
+    variant: 'headingLg' as const,
+    fontWeight: 'semibold' as const,
+    degree: '100' as const,
+    transform: 'capitalize' as const,
+  },
   
   // Body content
   paragraph: {
