@@ -67,7 +67,7 @@ export class OpenAIKeyValidationService {
       const result: ValidateKeyResponse = await response.json()
       return result
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Network error during key validation:', error)
       
       return {

@@ -45,11 +45,17 @@ import {
 import { Modal, ModalContent } from '@/components/modal'
 import { Tooltip } from '@/components/tooltip'
 import { Pagination } from '@/components/pagination'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useViewMode } from '@/services/foundations/view-modes/useViewMode'
 import { Box } from '@/components/box'
 import type { Selection, SortDescriptor } from '@heroui/react'
-import { ChevronDownIcon, GridIcon, ListIcon, SearchIcon } from 'lucide-react'
+import {
+  ChevronDownIcon,
+  EllipsisVertical,
+  GridIcon,
+  ListIcon,
+  SearchIcon,
+} from 'lucide-react'
 import { Input } from '@/components/input'
 import {
   Form,
@@ -277,6 +283,30 @@ export default function DashboardPage() {
   }
 
   // --------------------------------------------------
+  // Campaigns View Mode
+  // --------------------------------------------------
+  const [campaignsViewMode_current, campaignsViewMode_setCurrent] = useState<
+    'table' | 'grid'
+  >('table')
+
+  const campaignsViewMode_handleTableSelect = useCallback(() => {
+    campaignsViewMode_setCurrent('table')
+  }, [])
+
+  const campaignsViewMode_handleGridSelect = useCallback(() => {
+    campaignsViewMode_setCurrent('grid')
+  }, [])
+
+  const campaignsViewMode = {
+    current: campaignsViewMode_current,
+    setCurrent: campaignsViewMode_setCurrent,
+    isTable: campaignsViewMode_current === 'table',
+    isGrid: campaignsViewMode_current === 'grid',
+    handleTableSelect: campaignsViewMode_handleTableSelect,
+    handleGridSelect: campaignsViewMode_handleGridSelect,
+  }
+
+  // --------------------------------------------------
   // Add Campaign Form
   // --------------------------------------------------
   const addCampaignForm_schema = z.object({
@@ -384,9 +414,7 @@ export default function DashboardPage() {
         >
           {t('actions.cancel')}
         </Button>
-        <FormButton color='primary'>
-          {t('actions.addCampaign')}
-        </FormButton>
+        <FormButton color='primary'>{t('actions.addCampaign')}</FormButton>
       </div>
     </Form>
   )
@@ -673,7 +701,7 @@ export default function DashboardPage() {
     <Input
       isClearable
       aria-label='Search'
-      className='w-full sm:max-w-[44%]'
+      className='w-full sm:max-w-[35%]'
       placeholder='Search by name...'
       startContent={<SearchIcon />}
       value={search_value}
@@ -840,7 +868,7 @@ export default function DashboardPage() {
     <div className='flex flex-col gap-4'>
       <div className='flex items-end justify-between gap-3'>
         {search.markup}
-        <div className='flex gap-3'>
+        <div className='flex gap-2'>
           <Dropdown aria-label='Table Filter'>
             <DropdownTrigger>
               <Button variant='flat' endContent={<ChevronDownIcon />}>
@@ -985,7 +1013,7 @@ export default function DashboardPage() {
     }
   }
 
-  const campaignsList_markup = hydration_isMounted ? (
+  const campaignsList_markup = true ? ( // hydration_isMounted ? (
     <Table
       isHeaderSticky
       aria-label='Campaigns List Table'
@@ -1016,6 +1044,7 @@ export default function DashboardPage() {
         )}
       </TableHeader>
       <TableBody
+        isLoading={hydration_isMounted}
         emptyContent='No campaigns found'
         items={data.result}
         aria-label='Campaigns List Table Body'
@@ -1035,27 +1064,240 @@ export default function DashboardPage() {
     <Loading />
   )
 
+  const campaignsList = {
+    markup: campaignsList_markup,
+  }
+
+  // --------------------------------------------------
+  // Campaigns Grid
+  // --------------------------------------------------
+  const campaignsGrid_renderCard = (item: (typeof tableStructure.data)[0]) => (
+    <Card
+      key={item.key}
+      className='group flex flex-col gap-4 p-2 hover:shadow-md hover:transition-shadow hover:duration-300'
+      isHoverable
+      shadow='sm'
+    >
+      <CardHeader className='flex flex-row items-center justify-between gap-4 pb-2'>
+        <div className='flex flex-row items-center gap-3'>
+          <Avatar
+            src={item.brand.logo}
+            alt={item.brand.name}
+            size='lg'
+            radius='sm'
+          />
+          <div className='flex flex-col items-start gap-0'>
+            <Text variant='bodySm' degree='100' className='font-semibold'>
+              {item.brand.name}
+            </Text>
+            <Text variant='bodyXs' degree='200'>
+              {item.category.replace('_', ' ')}
+            </Text>
+          </div>
+        </div>
+        <div>
+          <Dropdown placement='bottom-end'>
+            <DropdownTrigger>
+              <Button
+                isIconOnly
+                variant='light'
+                size='sm'
+                className='text-default-400 hover:text-black'
+              >
+                <EllipsisVertical className='size-4' />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu>
+              <DropdownItem key='view-details'>
+                <div className='flex flex-row items-center gap-2'>
+                  <EyeIcon className='size-4' />
+                  <Text variant='bodyXs' degree='200'>
+                    View Details
+                  </Text>
+                </div>
+              </DropdownItem>
+              <DropdownItem key='edit-campaign'>
+                <div className='flex flex-row items-center gap-2'>
+                  <EditIcon className='size-4' />
+                  <Text variant='bodyXs' degree='200'>
+                    Edit Campaign
+                  </Text>
+                </div>
+              </DropdownItem>
+              <DropdownItem key='delete-campaign'>
+                <div className='flex flex-row items-center gap-2'>
+                  <DeleteIcon className='size-4' />
+                  <Text variant='bodyXs' degree='200' className='text-danger'>
+                    Delete Campaign
+                  </Text>
+                </div>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </CardHeader>
+
+      <CardBody className='flex flex-col gap-4 pt-0'>
+        <div className='flex flex-col gap-1'>
+          <Text
+            variant='bodySm'
+            degree='100'
+            className='line-clamp-2 font-medium'
+          >
+            {item.name}
+          </Text>
+          <Text variant='bodyXs' degree='300' className='line-clamp-3'>
+            {item.description}
+          </Text>
+        </div>
+
+        <div className='flex flex-col gap-2'>
+          <div className='flex flex-row items-center justify-between'>
+            <Text variant='bodyXs' degree='200'>
+              Start Date
+            </Text>
+            <Text variant='bodyXs' degree='100'>
+              {item.startDate.toString()}
+            </Text>
+          </div>
+          <div className='flex flex-row items-center justify-between'>
+            <Text variant='bodyXs' degree='200'>
+              End Date
+            </Text>
+            <Text variant='bodyXs' degree='100'>
+              {item.endDate.toString()}
+            </Text>
+          </div>
+          <div className='flex flex-row items-center justify-between'>
+            <Text variant='bodyXs' degree='200'>
+              Budget
+            </Text>
+            <Text variant='bodyXs' degree='100' className='font-medium'>
+              ${item.budget.toLocaleString()}
+            </Text>
+          </div>
+        </div>
+      </CardBody>
+    </Card>
+  )
+
+  const campaignsGrid_topListMarkup = (
+    <div className='flex flex-col gap-4'>
+      <div className='flex items-end justify-between gap-3'>
+        {search.markup}
+        <div className='flex gap-3'>
+          <Dropdown aria-label='Table Filter'>
+            <DropdownTrigger>
+              <Button variant='flat' endContent={<ChevronDownIcon />}>
+                Status
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label='Table Filter'
+              closeOnSelect={false}
+              selectionMode='multiple'
+              selectedKeys={data.statusFilter}
+              onSelectionChange={data.setStatusFilter}
+            >
+              {tableStructure.statusOptions.map(option => (
+                <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+          {addCampaignModal.buttonMarkup}
+          {addCampaignModal.modalMarkup}
+        </div>
+      </div>
+      <div className='flex items-center justify-between'>
+        {campaignsList_totalMarkup}
+        {campaignsList_rowPerPageMarkup}
+      </div>
+    </div>
+  )
+
+  const campaignsGrid_contentMarkup = (
+    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+      {data.result.map(item => campaignsGrid_renderCard(item))}
+    </div>
+  )
+
+  const campaignsGrid_emptyMarkup = (
+    <div className='flex flex-col items-center justify-center gap-4 py-12'>
+      <div className='flex size-16 items-center justify-center rounded-full bg-background-level-2'>
+        <SearchIcon className='size-6 text-foreground-level-3' />
+      </div>
+      <div className='flex flex-col items-center gap-2'>
+        <Text variant='bodySm' degree='100'>
+          No campaigns found
+        </Text>
+        <Text variant='bodyXs' degree='300'>
+          Try adjusting your search or filter criteria
+        </Text>
+      </div>
+    </div>
+  )
+
+  const campaignsGrid_footerMarkup = (
+    <div className='flex w-full flex-row items-center justify-center gap-4 pt-6'>
+      {pagination_markup}
+    </div>
+  )
+
+  const campaignsGrid_markup = (
+    <div className='flex flex-col gap-6'>
+      {campaignsGrid_topListMarkup}
+      {data.result.length > 0 ? (
+        <>
+          {campaignsGrid_contentMarkup}
+          {campaignsGrid_footerMarkup}
+        </>
+      ) : (
+        campaignsGrid_emptyMarkup
+      )}
+    </div>
+  )
+
+  const campaignsGrid = {
+    markup: campaignsGrid_markup,
+  }
+
   // --------------------------------------------------
   // Campaigns
   // --------------------------------------------------
 
   const campaigns_markup = (
-    <Card className='p-4'>
-      <CardHeader>
+    <div className='flex flex-col gap-4'>
+      <div className='flex flex-row items-center justify-between'>
         <Text variant='headingXl' degree='100'>
           {t('campaigns.title')}
         </Text>
-        <div className='flex flex-row gap-2 flex-1 justify-end'>
-          <Button variant='flat' endContent={<ListIcon className="size-4" />} isIconOnly color='default' />
-          <Button variant='flat' endContent={<GridIcon className="size-4" />} isIconOnly color='default' />
+        <div className='flex flex-1 flex-row justify-end gap-2'>
+          <Button
+            variant={campaignsViewMode.isTable ? 'solid' : 'flat'}
+            endContent={<ListIcon className='size-4' />}
+            isIconOnly
+            color='default'
+            onPress={campaignsViewMode.handleTableSelect}
+            aria-label='Table View'
+          />
+          <Button
+            variant={campaignsViewMode.isGrid ? 'solid' : 'flat'}
+            endContent={<GridIcon className='size-4' />}
+            isIconOnly
+            color='default'
+            onPress={campaignsViewMode.handleGridSelect}
+            aria-label='Grid View'
+          />
         </div>
-      </CardHeader>
-      <CardBody className='flex flex-col gap-2'>
-        {campaignsList_markup}
-      </CardBody>
-    </Card>
+      </div>
+      <div className='flex flex-col gap-2'>
+        <Box active={campaignsViewMode.isTable}>{campaignsList.markup}</Box>
+        <Box active={campaignsViewMode.isGrid}>{campaignsGrid.markup}</Box>
+      </div>
+    </div>
   )
-  
+
   return (
     <div className='flex flex-col gap-4 py-6 pl-6 pr-8'>
       {header_markup}

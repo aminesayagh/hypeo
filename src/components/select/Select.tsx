@@ -1,4 +1,4 @@
-import { Select as HeSelect, type SelectProps as HeSelectProps, SelectItem as HeSelectItem } from '@heroui/react'
+import { Select as HeSelect, type SelectProps as HeSelectProps, type SelectedItems as HeSelectedItems } from '@heroui/react'
 import { type SelectItemProps as HeSelectItemProps } from '@heroui/react'
 
 export function Select({ ...props }: SelectProps) {
@@ -7,3 +7,4 @@ export function Select({ ...props }: SelectProps) {
 export { SelectItem } from '@heroui/react'
 export type SelectProps = HeSelectProps
 export type SelectItemProps = HeSelectItemProps
+export type SelectedItems = HeSelectedItems

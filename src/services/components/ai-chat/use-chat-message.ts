@@ -146,7 +146,7 @@ export function useChatMessage({
             console.error('Error editing message:', error);
             onError?.(error as Error);
         }
-    }, [ai_messages, ai_setMessages, ai_reload, ai_input, ai_setInput, onError]);
+    }, [ai_messages, ai_setMessages, ai_reload, ai_input, ai_setInput, onError]);   
 
     /**
      * Regenerate a specific assistant message

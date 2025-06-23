@@ -1,9 +1,8 @@
-import { Select, SelectItem } from '@/components/select'
+  import { Select, SelectItem, type SelectedItems, type Selection } from '@heroui/react'
 import { useTranslations } from 'next-intl'
 import { FlagAmerica, FlagFrench } from '@/components/icon'
 import { useLocale } from 'next-intl'
 import { useCallback, useMemo, useTransition, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import { setUserLocale } from '@/services/foundations/internationalization/userLocale';
 
 export function LanguageSelector() {
@@ -17,8 +16,6 @@ export function LanguageSelector() {
   // Navigation
   // --------------------------------------------------
 
-  const router = useRouter()
-  const pathname = usePathname()
   const [navigation_isPending, navigation_startTransition] = useTransition()
 
   const navigation = {
@@ -67,7 +64,7 @@ export function LanguageSelector() {
   // Render Value
   // --------------------------------------------------
   
-  const function_renderValue = useCallback((value: any) => {
+  const function_renderValue = useCallback((value: SelectedItems) => {
     const selectedItem = Array.from(value)[0] as { key: string };
     const option = language.options.find((option) => option.key === selectedItem?.key);
 
@@ -86,7 +83,7 @@ export function LanguageSelector() {
   
   const [selection_active, selection_setActive] = useState(false);
   
-  const selection_handleChange = useCallback((keys: any) => {
+  const selection_handleChange = (keys: Selection) => {
     const selectedKey = Array.from(keys)[0] as string;
     
     if (selectedKey && selectedKey !== locale) {
@@ -94,11 +91,11 @@ export function LanguageSelector() {
         setUserLocale(selectedKey as 'en' | 'fr');
       });
     }
-  }, [locale, navigation]);
+  }
 
-  const selection_handleOpenChange = useCallback((isOpen: boolean) => {
+  const selection_handleOpenChange = (isOpen: boolean) => {
     selection_setActive(isOpen);
-  }, []);
+  }
 
   const selection = {
     active: selection_active,

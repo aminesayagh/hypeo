@@ -1,8 +1,8 @@
 import { useViewMode, type ViewMode } from '@/services/foundations/view-modes/useViewMode'
-import { Select, SelectItem } from '@heroui/react'
+import { Select, SelectItem, type SelectedItems, type Selection } from '@heroui/react'
 import { useCallback, useMemo, useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 // --------------------------------------------------
 // ModeSelector Interface
@@ -97,8 +97,8 @@ export function ViewModeSelector({
   // --------------------------------------------------
 
   const renderValue_function = useCallback(
-    (items: any) => {
-      const selectedItem = Array.from(items)[0] as { key: string }
+    (items: SelectedItems<object>) => {
+      const selectedItem = Array.from(items)[0] as unknown as { key: string }
       const option = mode.options.find(opt => opt.key === selectedItem.key)
 
       if (!option) return null
@@ -123,7 +123,7 @@ export function ViewModeSelector({
   // --------------------------------------------------
   const [selection_active, selection_setActive] = useState(false);
   
-  const selection_handleChange = useCallback((keys: any) => {
+  const selection_handleChange = useCallback((keys: Selection) => {
     const selectedKey = Array.from(keys)[0] as string;
     
     if (selectedKey && selectedKey !== locale) {

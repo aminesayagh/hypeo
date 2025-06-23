@@ -117,25 +117,25 @@ export const fontStyles = cva('', {
 export const textPresets = {
   // Headlines
   hero: {
-    variant: 'heading3xl' as const,
+    variant: 'heading2xl' as const,
     fontWeight: 'bold' as const,
     degree: '100' as const,
     transform: 'capitalize' as const,
   },
   pageTitle: {
-    variant: 'heading2xl' as const,
-    fontWeight: 'semibold' as const,
-    degree: '100' as const,
-    transform: 'capitalize' as const,
-  },
-  sectionTitle: {
     variant: 'headingXl' as const,
     fontWeight: 'semibold' as const,
     degree: '100' as const,
     transform: 'capitalize' as const,
   },
-  modalTitle: {
+  sectionTitle: {
     variant: 'headingLg' as const,
+    fontWeight: 'semibold' as const,
+    degree: '100' as const,
+    transform: 'capitalize' as const,
+  },
+  modalTitle: {
+    variant: 'headingMd' as const,
     fontWeight: 'semibold' as const,
     degree: '100' as const,
     transform: 'capitalize' as const,

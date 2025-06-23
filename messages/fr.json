@@ -110,6 +110,64 @@
           "copy": "Copier"
         }
       }
+    },
+    "campaign": {
+      "title": "Détails de la campagne",
+      "description": "Détails de la campagne",
+      "breadcrumbs": {
+        "dashboard": "Tableau de bord",
+        "campaign": "Campagne"
+      },
+      "content": {
+        "title": "Contenu",
+        "description": "Contenu",
+        "actions": {
+          "add": "Ajouter un contenu"
+        }
+      },
+      "contracts": {
+        "title": "Contrats",
+        "description": "Contrats",
+        "actions": {
+          "add": "Ajouter un contrat"
+        }
+      },
+      "negociation": {
+        "title": "Négociation",
+        "description": "Négociation",
+        "actions": {
+          "add": "Ajouter un influencé"
+        }
+      },
+      "overview": {
+        "title": "Aperçu",
+        "description": "Aperçu",
+        "actions": {
+          "viewScript": "Voir le script",
+          "viewRecord": "Voir le record"
+        }
+      },
+      "payment": {
+        "title": "Paiement",
+        "description": "Paiement",
+        "actions": {
+          "add": "Ajouter un paiement"
+        }
+      },
+      "reports": {
+        "title": "Rapports",
+        "description": "Rapports",
+        "actions": {
+          "add": "Ajouter un rapport"
+        }
+      },
+      "workflow": {
+        "title": "Workflow",
+        "description": "Workflow",
+        "actions": {
+          "add": "Ajouter un workflow"
+        }
+      }
     }
   }
 }
