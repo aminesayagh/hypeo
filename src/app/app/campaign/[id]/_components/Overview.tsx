@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, Card, CardBody, CardHeader, Chip } from '@heroui/react'
-import Text from '@/components/text'
+import { Text } from '@/components/text'
 import {
   CreditCard,
   FileText,
@@ -19,19 +19,15 @@ export default function Overview() {
 
   const header_markup = (
     <div className='flex flex-row items-center justify-between'>
-        <div>
+      <div>
         <Text preset='modalTitle' as='h2'>
-            {t('title')}
+          {t('title')}
         </Text>
-        </div>
-        <div className='flex flex-row gap-2'>
-            <Button color='primary'>
-                {t('actions.viewScript')}
-            </Button>
-            <Button color='secondary' >    
-                {t('actions.viewRecord')}
-            </Button>
-        </div>
+      </div>
+      <div className='flex flex-row gap-2'>
+        <Button color='primary'>{t('actions.viewScript')}</Button>
+        <Button color='secondary'>{t('actions.viewRecord')}</Button>
+      </div>
     </div>
   )
 
