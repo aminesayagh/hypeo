@@ -72,10 +72,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { parseDate } from '@internationalized/date'
 import Loading from '@/components/Loading'
 
-export function capitalize(s: string) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : ''
-}
-
 export default function DashboardPage() {
   // --------------------------------------------------
   // Internationalization
@@ -884,7 +880,7 @@ export default function DashboardPage() {
               onSelectionChange={data.setStatusFilter}
             >
               {tableStructure.statusOptions.map(option => (
-                <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
+                <DropdownItem key={option} className='capitalize'>{option}</DropdownItem>
               ))}
             </DropdownMenu>
           </Dropdown>
@@ -904,8 +900,8 @@ export default function DashboardPage() {
               onSelectionChange={data.setVisibleColumns}
             >
               {tableStructure.columns.map(column => (
-                <DropdownItem key={column.uid}>
-                  {capitalize(column.name)}
+                <DropdownItem key={column.uid} className='capitalize'>
+                  {column.name}
                 </DropdownItem>
               ))}
             </DropdownMenu>
@@ -1201,7 +1197,7 @@ export default function DashboardPage() {
               onSelectionChange={data.setStatusFilter}
             >
               {tableStructure.statusOptions.map(option => (
-                <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
+                <DropdownItem key={option} className='capitalize'>{option}</DropdownItem>
               ))}
             </DropdownMenu>
           </Dropdown>
