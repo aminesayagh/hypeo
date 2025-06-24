@@ -86,7 +86,7 @@ export function Header({
       isIconOnly
       variant='light'
       onPress={mobileMenuButton_handleToggle}
-      className='lg:hidden'
+      className=''
       aria-label='Toggle menu'
     >
       <MenuIcon />
@@ -103,7 +103,7 @@ export function Header({
   // --------------------------------------------------
 
   const logo_markup = showMenuToggle ? (
-    <div className='flex items-center lg:hidden'>
+    <div className='flex items-center'>
       <Logo href='/app' hasText={false} size='sm' variant='default' />
     </div>
   ) : null
@@ -212,7 +212,7 @@ export function Header({
       style={{ left: left, width: `calc(100% - ${left}px)` }}
     >
       <NavbarContent className='flex-1' justify='start'>
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-3 lg:hidden'>
           {logo.markup}
           {mobileMenuButton.markup}
         </div>

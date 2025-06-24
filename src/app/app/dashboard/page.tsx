@@ -72,6 +72,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { parseDate } from '@internationalized/date'
 import Loading from '@/components/Loading'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function DashboardPage() {
   // --------------------------------------------------
@@ -232,7 +233,7 @@ export default function DashboardPage() {
       {items.map(item => (
         <Card
           key={item.title}
-          className='flex flex-col items-start gap-2 p-2 sm:p-4 hover:shadow-sm hover:transition-shadow hover:duration-300'
+          className='flex flex-col items-start gap-2 p-2 hover:shadow-sm hover:transition-shadow hover:duration-300 sm:p-4'
           isHoverable
           shadow='sm'
         >
@@ -303,6 +304,8 @@ export default function DashboardPage() {
     handleTableSelect: campaignsViewMode_handleTableSelect,
     handleGridSelect: campaignsViewMode_handleGridSelect,
   }
+
+  
 
   // --------------------------------------------------
   // Add Campaign Form
@@ -476,6 +479,161 @@ export default function DashboardPage() {
   const addCampaignModal = {
     buttonMarkup: addCampaignModal_buttonMarkup,
     modalMarkup: addCampaignModal_modalMarkup,
+  }
+
+  // --------------------------------------------------
+  // Delete Campaign Modal
+  // --------------------------------------------------
+  
+  const {
+    isOpen: deleteCampaign_isOpen,
+    onOpen: deleteCampaign_onOpen,
+    onOpenChange: deleteCampaign_onOpenChange,
+  } = useDisclosure()
+
+  // --------------------------------------------------
+  // Delete Campaign State
+  // --------------------------------------------------
+  
+  const [deleteCampaign_selectedCampaign, deleteCampaign_setSelectedCampaign] = useState<(typeof tableStructure.data)[0] | null>(null)
+
+  const deleteCampaign_handleSelect = useCallback((campaign: (typeof tableStructure.data)[0]) => {
+    deleteCampaign_setSelectedCampaign(campaign)
+    deleteCampaign_onOpen()
+  }, [deleteCampaign_onOpen])
+
+  const deleteCampaign = {
+    selectedCampaign: deleteCampaign_selectedCampaign,
+    setSelectedCampaign: deleteCampaign_setSelectedCampaign,
+    handleSelect: deleteCampaign_handleSelect,
+  }
+
+  // --------------------------------------------------
+  // Delete Campaign Form
+  // --------------------------------------------------
+  
+  const deleteCampaignForm_schema = z.object({
+    confirmationText: z.string().refine((value) => value === 'DELETE', {
+      message: 'You must type "DELETE" to confirm',
+    }),
+    reason: z.string().min(1, 'Please provide a reason for deletion'),
+  })
+
+  const deleteCampaignForm_methods = useForm({
+    defaultValues: {
+      confirmationText: '',
+      reason: '',
+    },
+    resolver: zodResolver(deleteCampaignForm_schema),
+  })
+
+  const deleteCampaignForm_onSubmit = useCallback((data: z.infer<typeof deleteCampaignForm_schema>) => {
+    console.log('Delete campaign data:', data)
+    console.log('Campaign to delete:', deleteCampaign.selectedCampaign)
+    
+    // Here you would typically call an API to delete the campaign
+    deleteCampaignForm_methods.reset()
+    deleteCampaign.setSelectedCampaign(null)
+  }, [deleteCampaign, deleteCampaignForm_methods])
+
+  const deleteCampaignForm_markup = (onClose: () => void) => (
+    <Form
+      methods={deleteCampaignForm_methods}
+      onSubmit={deleteCampaignForm_methods.handleSubmit(deleteCampaignForm_onSubmit)}
+      className='flex flex-col gap-4'
+    >
+      {deleteCampaign.selectedCampaign && (
+        <div className='rounded-lg bg-danger-50 border border-danger-200 p-4'>
+          <div className='flex items-center gap-3 mb-3'>
+            <Avatar
+              src={deleteCampaign.selectedCampaign.brand.logo}
+              alt={deleteCampaign.selectedCampaign.brand.name}
+              size='sm'
+              radius='sm'
+            />
+            <div>
+              <Text variant='bodySm' degree='100' className='font-medium'>
+                {deleteCampaign.selectedCampaign.brand.name}
+              </Text>
+              <Text variant='bodyXs' degree='200'>
+                {deleteCampaign.selectedCampaign.name}
+              </Text>
+            </div>
+          </div>
+          <Text variant='bodyXs' degree='300' className='text-danger-700'>
+            This action cannot be undone. This will permanently delete the campaign and all associated data.
+          </Text>
+        </div>
+      )}
+
+      <FormTextarea
+        aria-label='Reason for deletion'
+        name='reason'
+        label='Reason for deletion'
+        placeholder='Please explain why you are deleting this campaign...'
+        rows={3}
+        isRequired
+      />
+
+      <FormInput
+        aria-label='Confirmation'
+        name='confirmationText'
+        label='Type "DELETE" to confirm'
+        placeholder='DELETE'
+        isRequired
+      />
+
+      <div className='flex w-full flex-row justify-end gap-2 pb-6 pt-2'>
+        <Button
+          color='secondary'
+          variant='bordered'
+          onPress={() => {
+            deleteCampaignForm_methods.reset()
+            deleteCampaign.setSelectedCampaign(null)
+            onClose()
+          }}
+        >
+          {t('actions.cancel')}
+        </Button>
+        <FormButton
+          color='danger'
+          onPress={() => {
+            if (deleteCampaignForm_methods.formState.isValid) {
+              setTimeout(() => {
+                onClose()
+              }, 1000)
+            }
+          }}
+        >
+          {t('actions.delete')}
+        </FormButton>
+      </div>
+    </Form>
+  )
+
+  const deleteCampaignForm = {
+    markup: deleteCampaignForm_markup,
+  }
+
+  const deleteCampaignModal_modalMarkup = (
+    <Modal isOpen={deleteCampaign_isOpen} onOpenChange={deleteCampaign_onOpenChange}>
+      <ModalContent>
+        {onClose => (
+          <>
+            <ModalHeader className='flex flex-col gap-1 pt-12'>
+              <Text as='h4' preset='modalTitle' className='text-danger'>
+                Delete Campaign
+              </Text>
+            </ModalHeader>
+            <ModalBody>{deleteCampaignForm.markup(onClose)}</ModalBody>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+  )
+
+  const deleteCampaignModal = {
+    modalMarkup: deleteCampaignModal_modalMarkup,
   }
 
   // --------------------------------------------------
@@ -878,7 +1036,7 @@ export default function DashboardPage() {
 
   const campaignsList_topListMarkup = (
     <div className='flex flex-col gap-4'>
-      <div className='flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3'>
+      <div className='flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end'>
         {search.markup}
         <div className='flex gap-2'>
           <Dropdown aria-label='Table Filter'>
@@ -926,6 +1084,7 @@ export default function DashboardPage() {
           </Dropdown>
           {addCampaignModal.buttonMarkup}
           {addCampaignModal.modalMarkup}
+          {deleteCampaignModal.modalMarkup}
         </div>
       </div>
       <div className='flex items-center justify-between'>
@@ -945,7 +1104,7 @@ export default function DashboardPage() {
         </Text>
       </div>
       {pagination_markup}
-      <div className='flex-1 hidden md:block'></div>
+      <div className='hidden flex-1 md:block'></div>
     </div>
   )
 
@@ -956,8 +1115,8 @@ export default function DashboardPage() {
     switch (columnKey) {
       case 'brand':
         return (
-          <div className='group flex flex-row items-center gap-4 min-w-60'>
-            <div className='grow'>
+          <div className='group flex min-w-60 flex-row items-center gap-4'>
+            <div className='min-w-fit'>
               <Avatar
                 src={item.brand.logo}
                 alt={item.brand.name}
@@ -965,7 +1124,7 @@ export default function DashboardPage() {
                 radius='sm'
               />
             </div>
-            <div className='flex flex-col items-start gap-1'>
+            <div className='flex flex-1 flex-col items-start gap-1'>
               <Text variant='bodySm' degree='100'>
                 {item.brand.name}
               </Text>
@@ -977,7 +1136,7 @@ export default function DashboardPage() {
         )
       case 'date':
         return (
-          <div className='flex flex-col items-start gap-1 min-w-28'>
+          <div className='flex min-w-28 flex-col items-start gap-1'>
             <Text variant='bodySm' degree='100'>
               {item.startDate.toString()}
             </Text>
@@ -1003,22 +1162,39 @@ export default function DashboardPage() {
         return (
           <div className='flex flex-row gap-4'>
             <Tooltip content='Details' aria-label='Details'>
-              <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+              <Link
+                href={`/app/campaign/${item.key}`}
+                className='cursor-pointer text-lg text-default-400 active:opacity-50'
+              >
                 <EyeIcon />
-              </span>
+              </Link>
             </Tooltip>
             <Tooltip content='Edit user' aria-label='Edit user'>
-              <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+              <span
+                aria-label='Edit user'
+                title='Edit user'
+                className='cursor-pointer text-lg text-default-400 active:opacity-50'
+                onClick={() => {
+                  addCampaign_onOpen()
+                }}
+              >
                 <EditIcon />
               </span>
             </Tooltip>
             <Tooltip
               color='danger'
-              content='Delete user'
+              content='Delete campaign'
               placement='bottom'
-              aria-label='Delete user'
+              aria-label='Delete campaign'
             >
-              <span className='cursor-pointer text-lg text-danger active:opacity-50'>
+              <span
+                aria-label='Delete campaign'
+                title='Delete campaign'
+                className='cursor-pointer text-lg text-danger active:opacity-50'
+                onClick={() => {
+                  deleteCampaign.handleSelect(item)
+                }}
+              >
                 <DeleteIcon />
               </span>
             </Tooltip>
@@ -1129,9 +1305,17 @@ export default function DashboardPage() {
                 <EllipsisVertical className='size-4' />
               </Button>
             </DropdownTrigger>
-            <DropdownMenu>
+            <DropdownMenu
+              onAction={(key) => {
+                if (key === 'delete-campaign') {
+                  deleteCampaign.handleSelect(item)
+                }
+              }}
+            >
               <DropdownItem key='view-details'>
-                <div className='flex flex-row items-center gap-2'>
+                <div className='flex flex-row items-center gap-2' onClick={() => {
+                  router.push(`/app/campaign/${item.key}`)
+                }}>
                   <EyeIcon className='size-4' />
                   <Text variant='bodyXs' degree='200'>
                     View Details
@@ -1139,7 +1323,9 @@ export default function DashboardPage() {
                 </div>
               </DropdownItem>
               <DropdownItem key='edit-campaign'>
-                <div className='flex flex-row items-center gap-2'>
+                <div className='flex flex-row items-center gap-2' onClick={() => {
+                  addCampaign_onOpen()
+                }}>
                   <EditIcon className='size-4' />
                   <Text variant='bodyXs' degree='200'>
                     Edit Campaign
@@ -1147,7 +1333,9 @@ export default function DashboardPage() {
                 </div>
               </DropdownItem>
               <DropdownItem key='delete-campaign'>
-                <div className='flex flex-row items-center gap-2'>
+                <div className='flex flex-row items-center gap-2' onClick={() => {
+                  deleteCampaign.handleSelect(item)
+                }}>
                   <DeleteIcon className='size-4' />
                   <Text variant='bodyXs' degree='200' className='text-danger'>
                     Delete Campaign
@@ -1231,6 +1419,7 @@ export default function DashboardPage() {
           </Dropdown>
           {addCampaignModal.buttonMarkup}
           {addCampaignModal.modalMarkup}
+          {deleteCampaignModal.modalMarkup}
         </div>
       </div>
       <div className='flex items-center justify-between'>
@@ -1315,7 +1504,7 @@ export default function DashboardPage() {
           />
         </div>
       </div>
-      <div className='fle sm:flex-col gap-2'>
+      <div className='fle gap-2 sm:flex-col'>
         <Box active={campaignsViewMode.isTable}>{campaignsList.markup}</Box>
         <Box active={campaignsViewMode.isGrid}>{campaignsGrid.markup}</Box>
       </div>
@@ -1323,7 +1512,7 @@ export default function DashboardPage() {
   )
 
   return (
-    <div className='flex flex-col gap-12 sm:gap-4 py-6 pl-6 pr-8'>
+    <div className='flex flex-col gap-12 py-6 pl-6 pr-8 sm:gap-4'>
       {header_markup}
       {statics.markup}
       {campaigns_markup}

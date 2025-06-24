@@ -226,6 +226,46 @@
           "add": "Ajouter un workflow"
         }
       }
+    },
+    "aiManager": {
+      "title": "Gestionnaire IA",
+      "description": "Gérez vos outils IA et configurations pour une automatisation améliorée des campagnes."
+    },
+    "addProduct": {
+      "title": "Ajouter un produit",
+      "description": "Ajoutez de nouveaux produits à votre marketplace et gérez votre inventaire."
+    },
+    "crm": {
+      "title": "Gestion de la relation client",
+      "description": "Gérez vos relations clients et suivez les interactions efficacement."
+    },
+    "messagerie": {
+      "title": "Messages",
+      "description": "Communiquez avec votre équipe et vos clients via notre système de messagerie."
+    },
+    "myMarketplace": {
+      "title": "Mon Marketplace",
+      "description": "Gérez vos produits et services dans votre marketplace personnel."
+    },
+    "profile": {
+      "title": "Profil",
+      "description": "Gérez les paramètres de votre compte et vos informations personnelles."
+    },
+    "search": {
+      "title": "Recherche",
+      "description": "Recherchez des campagnes, influenceurs, produits et contenus sur la plateforme."
+    },
+    "settings": {
+      "title": "Paramètres",
+      "description": "Configurez vos préférences de compte et les paramètres de l'application."
+    },
+    "socialListening": {
+      "title": "Écoute sociale",
+      "description": "Surveillez les conversations sur les réseaux sociaux et suivez les mentions de marque."
+    },
+    "support": {
+      "title": "Support",
+      "description": "Obtenez de l'aide et du support pour vos questions et problèmes techniques."
     }
   }
 }

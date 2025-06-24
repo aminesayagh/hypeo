@@ -94,7 +94,8 @@
         "export": "Export",
         "addCampaign": "Add Campaign",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "delete": "Delete Campaign"
       },
       "campaign_status": {
         "active": "Active",
@@ -123,6 +124,10 @@
       "campaigns": {
         "title": "Campaign List"
       }
+    },
+    "discovery": {
+      "title": "Discovery",
+      "description": "Discover the latest trends and opportunities in the market."
     },
     "newAiCampaign": {
       "title": "What are you working on?",
@@ -228,6 +233,46 @@
           "add": "Add Workflow"
         }
       }
+    },
+    "aiManager": {
+      "title": "AI Manager",
+      "description": "Manage your AI tools and configurations for enhanced campaign automation."
+    },
+    "addProduct": {
+      "title": "Add Product",
+      "description": "Add new products to your marketplace and manage your inventory."
+    },
+    "crm": {
+      "title": "Customer Relationship Management",
+      "description": "Manage your customer relationships and track interactions effectively."
+    },
+    "messagerie": {
+      "title": "Messages",
+      "description": "Communicate with your team and clients through our messaging system."
+    },
+    "myMarketplace": {
+      "title": "My Marketplace",
+      "description": "Manage your products and services in your personal marketplace."
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Manage your account settings and personal information."
+    },
+    "search": {
+      "title": "Search",
+      "description": "Search for campaigns, influencers, products and content across the platform."
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Configure your account preferences and application settings."
+    },
+    "socialListening": {
+      "title": "Social Listening",
+      "description": "Monitor social media conversations and track brand mentions across platforms."
+    },
+    "support": {
+      "title": "Support",
+      "description": "Get help and support for your questions and technical issues."
     }
   }
 }
