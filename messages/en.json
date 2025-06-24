@@ -38,6 +38,55 @@
     }
   },
   "pages": {
+    "auth": {
+      "title": "Sign Up To The Hypeo Platform",
+      "description": "Create your account to get started with Hypeo.",
+      "actions": {
+        "signIn": "Sign In",
+        "signUp": "Sign Up"
+      },
+      "form": {
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "Enter your first name",
+          "required": "First name is required"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Enter your last name",
+          "required": "Last name is required"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email",
+          "required": "Email is required",
+          "invalid": "Invalid email address"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password",
+          "required": "Password is required",
+          "min": "Password must be at least 8 characters"
+        },
+        "repeatPassword": {
+          "label": "Repeat Password",
+          "placeholder": "Repeat your password",
+          "required": "Repeat password is required",
+          "min": "Password must be at least 8 characters"
+        },
+        "terms": {
+          "label": "I agree to the terms and conditions",
+          "required": "You must agree to the terms and conditions"
+        }
+      },
+      "provider": {
+        "google": "Continue with Google"
+      },
+      "or": "Or continue with",
+      "footer": {
+        "description": ["By clicking continue. you agree to our", "Terms of service", "and", "Privacy Policy"]
+      }
+    },
     "dashboard": {
       "title": "Dashboard",
       "description": "Welcome to your dashboard",
@@ -46,6 +95,12 @@
         "addCampaign": "Add Campaign",
         "cancel": "Cancel",
         "save": "Save"
+      },
+      "campaign_status": {
+        "active": "Active",
+        "upcoming": "Upcoming",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
       },
       "statics": {
         "titles": {
@@ -147,6 +202,9 @@
         "actions": {
           "viewScript": "View Script",
           "viewRecord": "View Record"
+        },
+        "influencers": {
+          "title": "Influencers"
         }
       },
       "payment": {

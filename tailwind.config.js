@@ -28,7 +28,7 @@ export default {
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
-          foreground: 'var(--white)',
+          foreground: 'var(--secondary-foreground)',
           50: 'var(--secondary-level-1)',
           100: 'var(--secondary-level-1)',
           200: 'var(--secondary-level-1)',
@@ -98,7 +98,7 @@ export default {
             hoverOpacity: 1,
           },
           colors: {
-            focus: 'var(--primary-300)',
+            focus: '#E0F74E',
           },
         },
         dark: {
@@ -106,7 +106,7 @@ export default {
             hoverOpacity: 1,
           },
           colors: {
-            focus: 'var(--primary-300)',
+            focus: '#E0F74E',
           },
         },
       },

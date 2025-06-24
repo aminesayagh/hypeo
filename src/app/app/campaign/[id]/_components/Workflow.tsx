@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { useTranslations } from 'next-intl'
 
 export default function Workflow() {
@@ -8,11 +8,11 @@ export default function Workflow() {
 
   const header_markup = (
     <div className='flex flex-row items-center justify-between'>
-      <Text preset='modalTitle'>{t('title')}</Text>
+      <Text preset='modalTitle' as='h2'>{t('title')}</Text>
     </div>
   )
 
-  const header = {
+  const header = {    
     markup: header_markup,
   }
 

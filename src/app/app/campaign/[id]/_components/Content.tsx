@@ -1,7 +1,7 @@
 
 'use client'
 
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Button } from '@/components/button'
 import { PlusIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -11,7 +11,7 @@ export default function Reports() {
 
   const header_markup = (
     <div className='flex flex-row items-center justify-between'>
-      <Text preset='modalTitle'>{t('title')}</Text>
+      <Text preset='modalTitle' as='h2'>{t('title')}</Text>
       <div className='flex flex-row gap-2'>
         <Button color='primary' endContent={<PlusIcon className='size-4' />}>
           {t('actions.add')}

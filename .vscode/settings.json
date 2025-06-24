@@ -4,6 +4,7 @@
     "Hoverable",
     "influencers",
     "Nuqs",
+    "Pressable",
     "uploadthing"
   ],
   "eslint.enable": true

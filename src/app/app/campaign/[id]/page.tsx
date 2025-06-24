@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Breadcrumbs, BreadcrumbItem } from '@/components/breadcrumbs'
 import { Link, Tab } from '@heroui/react'
 import { Tabs } from '@/components/tabs'
@@ -22,20 +22,20 @@ export default function CampaignPage() {
     <Breadcrumbs variant='solid'>
       <BreadcrumbItem>
         <Link href='/app/dashboard'>
-          <Text variant='bodyXs' degree='200'>
+          <Text variant='bodyXs' degree='200' as='p'>
             {t('breadcrumbs.dashboard')}
           </Text>
         </Link>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        <Link href='/app/campaign'>
-          <Text variant='bodyXs' degree='200'>
+        <Link href='/app/dashboard'>
+          <Text variant='bodyXs' degree='200' as='p'>
             {t('breadcrumbs.campaign')}
           </Text>
         </Link>
       </BreadcrumbItem>
       <BreadcrumbItem>
-        <Text variant='bodyXs' degree='200' className='font-semibold'>
+        <Text variant='bodyXs' degree='200' className='' as='p'>
           {t('title')}
         </Text>
       </BreadcrumbItem>
@@ -44,12 +44,10 @@ export default function CampaignPage() {
 
   const header_markup = (
     <div className='flex flex-col items-start justify-between gap-4'>
-      <div className='flex flex-col gap-2'>
-        {header_breadcrumbsMarkup}
-        <Text as='h1' preset='modalTitle'>
-          {t('title')}
-        </Text>
-      </div>
+      {header_breadcrumbsMarkup}
+      <Text as='h1' preset='sectionTitle'>
+        {t('title')}
+      </Text>
     </div>
   )
 

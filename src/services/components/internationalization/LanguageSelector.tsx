@@ -1,4 +1,6 @@
-  import { Select, SelectItem, type SelectedItems, type Selection } from '@heroui/react'
+"use client"
+
+import { Select, SelectItem, type SelectedItems, type Selection } from '@heroui/react'
 import { useTranslations } from 'next-intl'
 import { FlagAmerica, FlagFrench } from '@/components/icon'
 import { useLocale } from 'next-intl'
@@ -107,10 +109,10 @@ export function LanguageSelector() {
   return (
     <Select
       className='min-w-[68px]'
-      variant='bordered'
+      variant='flat'
       classNames={{
         base: 'min-w-[68px]',
-        trigger: 'min-w-[68px] py-4',
+        trigger: 'min-w-[68px] py-5',
         popoverContent: 'min-w-[140px]',
         listbox: 'min-w-[130px]',
       }}

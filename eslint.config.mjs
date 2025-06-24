@@ -35,6 +35,7 @@ const config = [
       '@typescript-eslint/no-explicit-any': 'error',
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
 ]

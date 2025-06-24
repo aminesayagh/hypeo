@@ -1,3 +1,5 @@
+"use client"
+
 import { motion, AnimatePresence, type Variants } from "motion/react"
 import Link from "next/link"
 

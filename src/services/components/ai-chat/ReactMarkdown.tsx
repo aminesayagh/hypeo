@@ -1,6 +1,6 @@
 import ReactMarkdownComponent from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import {
   oneDark

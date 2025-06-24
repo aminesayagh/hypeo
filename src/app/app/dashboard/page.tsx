@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Text } from '@/components/text'
+import { Text } from '@/components/typo'
 import { Button } from '@/components/button'
 import { Card, CardBody, CardHeader } from '@/components/card'
 import {
@@ -71,16 +71,14 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { parseDate } from '@internationalized/date'
 import Loading from '@/components/Loading'
-
-export function capitalize(s: string) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : ''
-}
+import { useRouter } from 'next/navigation'
 
 export default function DashboardPage() {
   // --------------------------------------------------
   // Internationalization
   // --------------------------------------------------
   const t = useTranslations('pages.dashboard')
+  const router = useRouter()
 
   // --------------------------------------------------
   // View Mode
@@ -234,11 +232,11 @@ export default function DashboardPage() {
       {items.map(item => (
         <Card
           key={item.title}
-          className='flex flex-col items-start gap-2 p-4 hover:shadow-sm hover:transition-shadow hover:duration-300'
+          className='flex flex-col items-start gap-2 p-2 sm:p-4 hover:shadow-sm hover:transition-shadow hover:duration-300'
           isHoverable
           shadow='sm'
         >
-          <CardBody className='group flex flex-col items-start gap-10'>
+          <CardBody className='group flex flex-col items-start gap-6 sm:gap-10'>
             <div className='flex flex-row items-center gap-4'>
               <div className='flex size-10 flex-row items-center justify-center rounded-md bg-background-level-2 p-3 shadow-sm hover:transition-colors hover:duration-300 group-hover:bg-primary-500 group-hover:text-black'>
                 {item.icon}
@@ -380,19 +378,19 @@ export default function DashboardPage() {
         <FormSelectItem key='active' aria-label='Active'>
           <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-blue-500' />
           <Text variant='bodySm' degree='100' className='pl-6'>
-            Active
+            {t('campaign_status.active')}
           </Text>
         </FormSelectItem>
         <FormSelectItem key='upcoming' aria-label='Upcoming'>
           <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-warning-500' />
           <Text variant='bodySm' degree='100' className='pl-6'>
-            Upcoming
+            {t('campaign_status.upcoming')}
           </Text>
         </FormSelectItem>
         <FormSelectItem key='completed' aria-label='Completed'>
           <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-success-500' />
           <Text variant='bodySm' degree='100' className='pl-6'>
-            Completed
+            {t('campaign_status.completed')}
           </Text>
         </FormSelectItem>
       </FormSelect>
@@ -403,7 +401,7 @@ export default function DashboardPage() {
         rows={4}
         placeholder='Enter description'
       />
-      <div className='flex w-full flex-row justify-end gap-2 pb-6'>
+      <div className='flex w-full flex-row justify-end gap-2 pb-6 pt-2'>
         <Button
           color='secondary'
           variant='bordered'
@@ -414,7 +412,21 @@ export default function DashboardPage() {
         >
           {t('actions.cancel')}
         </Button>
-        <FormButton color='primary'>{t('actions.addCampaign')}</FormButton>
+        <FormButton
+          color='primary'
+          onPress={() => {
+            // if the form is valid, submit the form
+            if (addCampaignForm_methods.formState.isValid) {
+              setTimeout(() => {
+                onClose()
+              }, 2000)
+            } else {
+              console.log('form is invalid')
+            }
+          }}
+        >
+          {t('actions.addCampaign')}
+        </FormButton>
       </div>
     </Form>
   )
@@ -866,7 +878,7 @@ export default function DashboardPage() {
 
   const campaignsList_topListMarkup = (
     <div className='flex flex-col gap-4'>
-      <div className='flex items-end justify-between gap-3'>
+      <div className='flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3'>
         {search.markup}
         <div className='flex gap-2'>
           <Dropdown aria-label='Table Filter'>
@@ -884,7 +896,9 @@ export default function DashboardPage() {
               onSelectionChange={data.setStatusFilter}
             >
               {tableStructure.statusOptions.map(option => (
-                <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
+                <DropdownItem key={option} className='capitalize'>
+                  {option}
+                </DropdownItem>
               ))}
             </DropdownMenu>
           </Dropdown>
@@ -904,8 +918,8 @@ export default function DashboardPage() {
               onSelectionChange={data.setVisibleColumns}
             >
               {tableStructure.columns.map(column => (
-                <DropdownItem key={column.uid}>
-                  {capitalize(column.name)}
+                <DropdownItem key={column.uid} className='capitalize'>
+                  {column.name}
                 </DropdownItem>
               ))}
             </DropdownMenu>
@@ -931,7 +945,7 @@ export default function DashboardPage() {
         </Text>
       </div>
       {pagination_markup}
-      <div className='flex-1'></div>
+      <div className='flex-1 hidden md:block'></div>
     </div>
   )
 
@@ -942,13 +956,15 @@ export default function DashboardPage() {
     switch (columnKey) {
       case 'brand':
         return (
-          <div className='group flex flex-row items-center gap-4'>
-            <Avatar
-              src={item.brand.logo}
-              alt={item.brand.name}
-              size='lg'
-              radius='sm'
-            />
+          <div className='group flex flex-row items-center gap-4 min-w-60'>
+            <div className='grow'>
+              <Avatar
+                src={item.brand.logo}
+                alt={item.brand.name}
+                size='lg'
+                radius='sm'
+              />
+            </div>
             <div className='flex flex-col items-start gap-1'>
               <Text variant='bodySm' degree='100'>
                 {item.brand.name}
@@ -961,7 +977,7 @@ export default function DashboardPage() {
         )
       case 'date':
         return (
-          <div className='flex flex-col items-start gap-1'>
+          <div className='flex flex-col items-start gap-1 min-w-28'>
             <Text variant='bodySm' degree='100'>
               {item.startDate.toString()}
             </Text>
@@ -1013,16 +1029,18 @@ export default function DashboardPage() {
     }
   }
 
-  const campaignsList_markup = true ? ( // hydration_isMounted ? (
+  const campaignsList_markup = hydration_isMounted ? (
     <Table
       isHeaderSticky
       aria-label='Campaigns List Table'
       selectionMode='multiple'
       color='primary'
-      bottomContent={campaignsList_footerMarkup}
-      bottomContentPlacement='outside'
+      // Header Content
       topContent={campaignsList_topListMarkup}
       topContentPlacement='outside'
+      // Footer Content
+      bottomContent={campaignsList_footerMarkup}
+      bottomContentPlacement='outside'
       sortDescriptor={data.sortDescriptor}
       onSortChange={data.setSortDescriptor}
       selectedKeys={data.selectedKeys}
@@ -1076,6 +1094,10 @@ export default function DashboardPage() {
       key={item.key}
       className='group flex flex-col gap-4 p-2 hover:shadow-md hover:transition-shadow hover:duration-300'
       isHoverable
+      isPressable
+      onPress={() => {
+        router.push(`/app/campaign/${item.key}`)
+      }}
       shadow='sm'
     >
       <CardHeader className='flex flex-row items-center justify-between gap-4 pb-2'>
@@ -1102,7 +1124,7 @@ export default function DashboardPage() {
                 isIconOnly
                 variant='light'
                 size='sm'
-                className='text-default-400 hover:text-black'
+                className='text-default-400 hover:text-black dark:hover:text-white'
               >
                 <EllipsisVertical className='size-4' />
               </Button>
@@ -1201,7 +1223,9 @@ export default function DashboardPage() {
               onSelectionChange={data.setStatusFilter}
             >
               {tableStructure.statusOptions.map(option => (
-                <DropdownItem key={option}>{capitalize(option)}</DropdownItem>
+                <DropdownItem key={option} className='capitalize'>
+                  {option}
+                </DropdownItem>
               ))}
             </DropdownMenu>
           </Dropdown>
@@ -1291,7 +1315,7 @@ export default function DashboardPage() {
           />
         </div>
       </div>
-      <div className='flex flex-col gap-2'>
+      <div className='fle sm:flex-col gap-2'>
         <Box active={campaignsViewMode.isTable}>{campaignsList.markup}</Box>
         <Box active={campaignsViewMode.isGrid}>{campaignsGrid.markup}</Box>
       </div>
@@ -1299,7 +1323,7 @@ export default function DashboardPage() {
   )
 
   return (
-    <div className='flex flex-col gap-4 py-6 pl-6 pr-8'>
+    <div className='flex flex-col gap-12 sm:gap-4 py-6 pl-6 pr-8'>
       {header_markup}
       {statics.markup}
       {campaigns_markup}

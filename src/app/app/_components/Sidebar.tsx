@@ -20,7 +20,7 @@ import {
 } from '@/components/icon'
 import { clsx } from 'clsx'
 import { Logo } from '@/components/logo'
-import { Text } from '@/components/text'
+import Text from '@/components/typo'
 import { useTranslations } from 'next-intl'
 import { useRouter, usePathname } from 'next/navigation'
 import { DividerLevel1 } from '@/components/divider'
@@ -29,22 +29,30 @@ interface SidebarProps {
   expanded?: boolean
   onToggle?: () => void
   className?: string
+  collapsedWidth?: number
+  expandedWidth?: number
+  animationDuration?: number
+  animationEase?: Easing
 }
 
 export function Sidebar({
   expanded = false,
   onToggle,
   className,
+  collapsedWidth = 75,
+  expandedWidth = 240,
+  animationDuration = 0.3,
+  animationEase = [0.25, 0.1, 0.25, 1] as unknown as Easing,
 }: SidebarProps) {
   // --------------------------------------------------
   // Configuration
   // --------------------------------------------------
 
   const sidebar_config = {
-    collapsedWidth: 75,
-    expandedWidth: 240,
-    animationDuration: 0.3,
-    animationEase: [0.25, 0.1, 0.25, 1] as unknown as Easing,
+    collapsedWidth,
+    expandedWidth,
+    animationDuration,
+    animationEase,
   }
 
   // --------------------------------------------------
@@ -290,7 +298,7 @@ export function Sidebar({
                               duration: sidebar_config.animationDuration,
                               delay: expanded ? 0.1 : 0,
                             }}
-                            className='truncate whitespace-nowrap text-sm'
+                            className='truncate whitespace-nowrap text-sm font-medium'
                           >
                             {item.label}
                           </motion.span>
@@ -331,8 +339,12 @@ export function Sidebar({
   // Sidebar Markup
   // --------------------------------------------------
 
+
   const sidebar_markup = (
     <motion.aside
+      initial={{
+        width: sidebar_config.collapsedWidth,
+      }}
       animate={{
         width: expanded
           ? sidebar_config.expandedWidth
@@ -343,7 +355,7 @@ export function Sidebar({
         ease: sidebar_config.animationEase as unknown as Easing,
       }}
       className={clsx(
-        'bg-background-level-1/20 relative flex h-full flex-col overflow-hidden',
+        'bg-background-level-1/20 relative flex h-full flex-col overflow-hidden backdrop-blur-xl',
         className
       )}
     >
