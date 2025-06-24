@@ -132,6 +132,7 @@
     "newAiCampaign": {
       "title": "What are you working on?",
       "chat": {
+        "title": "New AI Campaign",
         "placeholder": "Type your message here... (Press Enter to send)",
         "user": "You",
         "assistant": "AI Assistant",

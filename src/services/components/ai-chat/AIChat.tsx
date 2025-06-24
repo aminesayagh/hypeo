@@ -1,4 +1,4 @@
-    'use client'
+'use client'
 
 import { Paperclip, Send } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -134,14 +134,10 @@ export function AIChat({ className = '' }: AIChatProps) {
         <ModalFooter>
           <div className='flex gap-2'>
             <Button variant='ghost' onPress={openaiKeyModal_handleClose}>
-              <Text variant='bodySm' degree='100'>
-                {t('apiKey.modal.cancel')}
-              </Text>
+              {t('apiKey.modal.cancel')}
             </Button>
             <Button color='primary' onPress={openaiKeyModal_handleSave}>
-              <Text variant='bodySm' degree='100'>
-                {t('apiKey.modal.save')}
-              </Text>
+              {t('apiKey.modal.save')}
             </Button>
           </div>
         </ModalFooter>
@@ -323,14 +319,7 @@ export function AIChat({ className = '' }: AIChatProps) {
           radius='full'
           endContent={<Send className='ml-2 size-4' />}
         >
-          <Text
-            variant='bodySm'
-            degree='100'
-            fontWeight='bold'
-            className='text-white'
-          >
-            Send
-          </Text>
+          Send
         </Button>
       </CardFooter>
     </Card>
@@ -349,7 +338,7 @@ export function AIChat({ className = '' }: AIChatProps) {
   const chatInitialization_markup = (
     <div className='relative flex h-full w-full max-w-4xl flex-col items-center justify-center gap-12'>
       <Text variant='headingXl' degree='100' className='text-center'>
-        New AI Campaign
+        {t('title')}
       </Text>
 
       {chatBlock.markup}

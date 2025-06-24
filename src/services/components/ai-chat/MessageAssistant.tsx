@@ -77,7 +77,7 @@ export function MessageAssistant({
   // Message Container
   // --------------------------------------------------
   const messageContainer_markup = (
-    <div className='flex w-full flex-col gap-3'>
+    <div className='flex flex-col gap-3 w-10/12'>
       {content_container.markup}
       {features.actionsMarkup}
     </div>

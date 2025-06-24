@@ -128,6 +128,7 @@
       "title": "Sur quoi travaillez-vous ?",
       "description": "Je suis là pour vous aider à créer d'incroyables campagnes marketing. Parlez-moi de votre projet, de votre public cible ou de vos objectifs spécifiques.",
       "chat": {
+        "title": "Nouvelle campagne IA",
         "placeholder": "Tapez votre message ici... (Appuyez sur Entrée pour envoyer)",
         "user": "Vous",
         "assistant": "Assistant IA",

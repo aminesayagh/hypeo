@@ -76,7 +76,7 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
   }, [edit_active, edit_value.length])
 
   const edit_inputMarkup = (
-    <Card className='relative flex w-full flex-col gap-2 border-transparent bg-transparent shadow-none' radius='lg' shadow='none'>
+    <Card className='relative flex w-full flex-col gap-2 border-transparent bg-transparent shadow-none' radius='md' shadow='none'>
       <Textarea
         ref={edit_textareaRef}
         value={edit_value}
