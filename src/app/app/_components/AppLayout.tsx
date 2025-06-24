@@ -22,7 +22,7 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     sidebarCollapsedWidth: 75,
     sidebarExpandedWidth: 240,
     animationDuration: 0.3,
-    animationEase: [0.25, 0.1, 0.25, 1],
+    animationEase: [0.25, 0.1, 0.25, 1]  as Easing,
     headerHeight: 64,
     breakpoint: 1024,
   }
@@ -35,6 +35,44 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     defaultExpanded: false,
     persistKey: 'hypeo-sidebar-expanded',
   })
+
+  // --------------------------------------------------
+  // Responsive State
+  // --------------------------------------------------
+  const [responsive_isMobile, responsive_setIsMobile] = useState(false)
+
+  const responsive_checkMobile = () => {
+    const isMobile = window.innerWidth < layout_config.breakpoint
+    responsive_setIsMobile(isMobile)
+  }
+
+  const responsive = {
+    isMobile: responsive_isMobile,
+    setIsMobile: responsive_setIsMobile,
+    checkMobile: responsive_checkMobile,
+  }
+
+  // --------------------------------------------------
+  // Layout Calculations
+  // --------------------------------------------------
+
+  const layout_sidebarWidth = responsive.isMobile
+    ? 0
+    : sidebar.expanded
+      ? layout_config.sidebarExpandedWidth
+      : layout_config.sidebarCollapsedWidth
+
+  const layout_contentWidth = responsive.isMobile
+    ? `100vw`
+    : `calc(100vw - ${layout_sidebarWidth}px)`
+
+  const layout_contentLeft = responsive.isMobile ? 0 : layout_sidebarWidth
+
+  const layout = {
+    sidebarWidth: layout_sidebarWidth,
+    contentWidth: layout_contentWidth,
+    contentLeft: layout_contentLeft,
+  }
 
   // --------------------------------------------------
   // Mobile Menu State
@@ -63,18 +101,31 @@ export function AppLayout({ children, className }: AppLayoutProps) {
 
   const keyboard_handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      // Toggle sidebar with Ctrl/Cmd + B
-      if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
+      // Toggle sidebar with Ctrl/Cmd + B (desktop only)
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key === 'b' &&
+        !responsive.isMobile
+      ) {
         event.preventDefault()
         sidebar.toggle()
       }
 
+      // Toggle mobile menu with Ctrl/Cmd + B (mobile only)
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key === 'b' &&
+        responsive.isMobile
+      ) {
+        event.preventDefault()
+        mobileMenu.toggle()
+      }
       // Close mobile menu with Escape
       if (event.key === 'Escape' && mobileMenu.active) {
         mobileMenu.close()
       }
     },
-    [sidebar, mobileMenu]
+    [sidebar, mobileMenu, responsive.isMobile]
   )
 
   const keyboard = {
@@ -85,6 +136,11 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   // Effects
   // --------------------------------------------------
 
+  // Initialize responsive state
+  useEffect(() => {
+    responsive.checkMobile()
+  }, [responsive.checkMobile])
+
   // Keyboard shortcuts
   useEffect(() => {
     document.addEventListener('keydown', keyboard.handleKeyDown)
@@ -93,9 +149,12 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     }
   }, [keyboard])
 
-  // Close mobile menu on desktop resize
+  // Handle resize events
   useEffect(() => {
     const handleResize = () => {
+      responsive.checkMobile()
+
+      // Close mobile menu when switching to desktop
       if (window.innerWidth >= layout_config.breakpoint) {
         mobileMenu.close()
       }
@@ -105,22 +164,7 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [mobileMenu, layout_config.breakpoint])
-
-  // --------------------------------------------------
-  // Responsive Calculations
-  // --------------------------------------------------
-
-  const responsive_sidebarWidth = sidebar.expanded
-    ? layout_config.sidebarExpandedWidth
-    : layout_config.sidebarCollapsedWidth
-
-  const responsive_contentWidth = `calc(100vw - ${responsive_sidebarWidth}px)`
-
-  const responsive = {
-    sidebarWidth: responsive_sidebarWidth,
-    contentWidth: responsive_contentWidth,
-  }
+  }, [mobileMenu, layout_config.breakpoint, responsive.checkMobile])
 
   // --------------------------------------------------
   // Header Markup
@@ -129,7 +173,9 @@ export function AppLayout({ children, className }: AppLayoutProps) {
   const header_markup = (
     <Header
       height={layout_config.headerHeight}
-      left={responsive.sidebarWidth}
+      left={layout.sidebarWidth}
+      // onMenuToggle={mobileMenu.toggle}
+      // showMenuToggle={responsive.isMobile}
     />
   )
 
@@ -143,7 +189,14 @@ export function AppLayout({ children, className }: AppLayoutProps) {
 
   const desktopSidebar_markup = (
     <div className='fixed left-0 top-0 z-40 hidden h-full lg:flex'>
-      <Sidebar expanded={sidebar.expanded} onToggle={sidebar.toggle} />
+      <Sidebar
+        expanded={sidebar.expanded || false}
+        onToggle={sidebar.toggle}
+        collapsedWidth={layout_config.sidebarCollapsedWidth}
+        expandedWidth={layout_config.sidebarExpandedWidth}
+        animationDuration={layout_config.animationDuration}
+        animationEase={layout_config.animationEase}
+      />
       <DividerLevel1 className='h-full' orientation='vertical' />
     </div>
   )
@@ -230,8 +283,8 @@ export function AppLayout({ children, className }: AppLayoutProps) {
       <ResizablePanel
         className='relative min-h-screen w-full'
         style={{
-          width: responsive.contentWidth,
-          left: responsive.sidebarWidth,
+          width: layout.contentWidth,
+          left: layout.contentLeft,
         }}
       >
         {header.markup}
@@ -254,6 +307,7 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     mobileMenu,
     keyboard,
     responsive,
+    layout,
     markup: appLayout_markup,
   }
 

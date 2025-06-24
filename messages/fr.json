@@ -42,7 +42,16 @@
       "title": "Tableau de bord",
       "description": "Bienvenue sur votre tableau de bord",
       "actions": {
-        "export": "Exporter"
+        "export": "Exporter",
+        "addCampaign": "Ajouter une campagne",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
+      },
+      "campaign_status": {
+        "active": "Actif",
+        "upcoming": "À venir",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
       },
       "statics": {
         "titles": {

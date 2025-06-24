@@ -2,7 +2,7 @@ import {
   DateRangePicker as HeroDateRangePicker,
   type DateRangePickerProps,
 } from '@heroui/react'
-import { type FocusEvent, useState } from 'react'
+import { type FocusEvent, useState, useEffect } from 'react'
 import {
   Controller,
   useFormContext,
@@ -28,10 +28,19 @@ type RangeValue<T> = {
   end: T;
 } | null;
 
+// Optional preset configuration
+interface PresetConfig {
+  CalendarTopContent?: React.ReactNode;
+  CalendarBottomContent?: React.ReactNode;
+  calendarProps?: object;
+}
+
 // Component props extending HeroUI props but removing 'name' since DateRangePicker handles a range, not individual fields
 type DateRangePickerFieldProps<T extends FieldValues> = Omit<DateRangePickerProps, 'value' | 'onChange' | 'name'> & {
   label?: string | undefined;
   name: Path<T>; // This represents the entire range field in the form
+  enablePresets?: boolean;
+  presetConfig?: PresetConfig;
 }
 
 type UIDateRangePickerProps<T extends FieldValues> = DateRangePickerFieldProps<T> & {
@@ -81,6 +90,8 @@ function UIDateRangePicker<T extends FieldValues>({
   value: formValue,
   onChange: onFormChange,
   onBlur,
+  enablePresets = false,
+  presetConfig = {},
   ...heroProps
 }: UIDateRangePickerProps<T>) {
   // --------------------------------------------------
@@ -89,6 +100,16 @@ function UIDateRangePicker<T extends FieldValues>({
   const [dateRange_heroValue, dateRange_setHeroValue] = useState<RangeValue<DateValue> | null>(
     dateRangePicker_parseFormValue(formValue)
   );
+
+  // --------------------------------------------------
+  // Effects
+  // --------------------------------------------------
+  
+  // Sync form value changes to hero value
+  useEffect(() => {
+    const parsedValue = dateRangePicker_parseFormValue(formValue);
+    dateRange_setHeroValue(parsedValue);
+  }, [formValue]);
 
   // --------------------------------------------------
   // Event Handlers
@@ -107,6 +128,29 @@ function UIDateRangePicker<T extends FieldValues>({
   };
 
   // --------------------------------------------------
+  // Preset Props Construction
+  // --------------------------------------------------
+  const dateRange_presetProps = enablePresets && presetConfig ? {
+    CalendarTopContent: presetConfig.CalendarTopContent,
+    CalendarBottomContent: presetConfig.CalendarBottomContent,
+    calendarProps: {
+      focusedValue: dateRange_heroValue?.start || null,
+      onFocusChange: (val: DateValue) => {
+        if (dateRange_heroValue) {
+          dateRange_handleHeroChange({ ...dateRange_heroValue, start: val });
+        }
+      },
+      nextButtonProps: {
+        variant: "bordered" as const,
+      },
+      prevButtonProps: {
+        variant: "bordered" as const,
+      },
+      ...presetConfig.calendarProps,
+    },
+  } : {};
+
+  // --------------------------------------------------
   // Render
   // --------------------------------------------------
   return (
@@ -116,6 +160,7 @@ function UIDateRangePicker<T extends FieldValues>({
       onChange={dateRange_handleHeroChange}
       onBlur={dateRange_handleBlur}
       className={className}
+      {...dateRange_presetProps}
       {...heroProps}
     />
   );
@@ -129,6 +174,8 @@ function DateRangePicker<T extends FieldValues>({
   label,
   name, // Represents the entire date range field in the form
   className,
+  enablePresets = false,
+  presetConfig = {},
   ...heroProps
 }: DateRangePickerFieldProps<T>) {
   // --------------------------------------------------
@@ -162,6 +209,8 @@ function DateRangePicker<T extends FieldValues>({
             className={className}
             isInvalid={invalid}
             errorMessage={error?.message}
+            enablePresets={enablePresets}
+            presetConfig={presetConfig}
             {...restField}
             {...restFieldState}
             {...heroProps}
@@ -177,4 +226,4 @@ export default DateRangePicker;
 // --------------------------------------------------
 // Type Exports for Consumer Usage
 // --------------------------------------------------
-export type { DateRangeValue, DateRangePickerFieldProps };
+export type { DateRangeValue, DateRangePickerFieldProps, PresetConfig };

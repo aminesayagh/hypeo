@@ -47,6 +47,12 @@
         "cancel": "Cancel",
         "save": "Save"
       },
+      "campaign_status": {
+        "active": "Active",
+        "upcoming": "Upcoming",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
       "statics": {
         "titles": {
           "numberOfCampaigns": "Number of campaigns",

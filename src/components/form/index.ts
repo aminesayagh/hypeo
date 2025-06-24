@@ -10,5 +10,6 @@ import Textarea from "./Textarea";
 // Date
 import DatePicker from "./DatePicker";
 import DateRangePicker from "./DateRangePicker";
+import DateRangePresetsPicker from "./DateRangePresetsPicker";
 
-export { Form, Input, Select, SelectItem, Checkbox, Button, NumberInput, DatePicker, DateRangePicker, Slider, Textarea };  
+export { Form, Input, Select, SelectItem, Checkbox, Button, NumberInput, DatePicker, DateRangePicker, DateRangePresetsPicker, Slider, Textarea };  

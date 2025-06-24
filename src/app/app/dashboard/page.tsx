@@ -61,7 +61,7 @@ import {
   Form,
   Input as FormInput,
   Select as FormSelect,
-  DateRangePicker as FormDateRangePicker,
+  DateRangePresetsPicker as FormDateRangePicker,
   SelectItem as FormSelectItem,
   Textarea as FormTextarea,
   Button as FormButton,
@@ -376,19 +376,19 @@ export default function DashboardPage() {
         <FormSelectItem key='active' aria-label='Active'>
           <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-blue-500' />
           <Text variant='bodySm' degree='100' className='pl-6'>
-            Active
+            {t('campaign_status.active')}
           </Text>
         </FormSelectItem>
         <FormSelectItem key='upcoming' aria-label='Upcoming'>
           <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-warning-500' />
           <Text variant='bodySm' degree='100' className='pl-6'>
-            Upcoming
+            {t('campaign_status.upcoming')}
           </Text>
         </FormSelectItem>
         <FormSelectItem key='completed' aria-label='Completed'>
           <span className='absolute left-2 top-1/3 block size-2 rounded-full bg-success-500' />
           <Text variant='bodySm' degree='100' className='pl-6'>
-            Completed
+            {t('campaign_status.completed')}
           </Text>
         </FormSelectItem>
       </FormSelect>
@@ -1009,16 +1009,18 @@ export default function DashboardPage() {
     }
   }
 
-  const campaignsList_markup = true ? ( // hydration_isMounted ? (
+  const campaignsList_markup = hydration_isMounted ? (
     <Table
       isHeaderSticky
       aria-label='Campaigns List Table'
       selectionMode='multiple'
       color='primary'
-      bottomContent={campaignsList_footerMarkup}
-      bottomContentPlacement='outside'
+      // Header Content
       topContent={campaignsList_topListMarkup}
       topContentPlacement='outside'
+      // Footer Content
+      bottomContent={campaignsList_footerMarkup}
+      bottomContentPlacement='outside'
       sortDescriptor={data.sortDescriptor}
       onSortChange={data.setSortDescriptor}
       selectedKeys={data.selectedKeys}

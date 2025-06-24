@@ -1,375 +1,251 @@
-# File Upload Components
+# DateRangePicker Components
 
-A comprehensive set of file upload components built following the established naming conventions and integrated with React Hook Form.
+This document describes the enhanced DateRangePicker components that provide both basic date range selection and advanced preset functionality.
 
-## Components
+## Components Overview
 
-### 1. FileUpload (Standalone)
-A standalone file upload component with drag & drop functionality.
+### 1. **DateRangePicker** (Enhanced Base Component)
+- Form-integrated date range picker
+- Optional preset support
+- Follows established naming conventions
+- Full TypeScript support
 
-### 2. FileUploadField (React Hook Form Integration)
-A React Hook Form integrated version for form-based file uploads.
+### 2. **DateRangePresetsPicker** (Advanced Component)
+- Extends DateRangePicker with preset functionality
+- Quick date selection buttons (This Week, Next Week, Next Month)
+- Precision selection radio buttons (Exact dates, 1-14 days)
+- Configurable preset sections
 
-## Features
+## Key Enhancements
 
-- ✅ **Drag & Drop Support** - Native drag and drop file selection
-- ✅ **Click to Upload** - Traditional file input click selection  
-- ✅ **File Validation** - Type and size validation with custom error messages
-- ✅ **Progress Indication** - Visual upload progress feedback
-- ✅ **File Previews** - Display selected files with removal options
-- ✅ **Multiple File Support** - Single or multiple file selection
-- ✅ **React Hook Form Integration** - Seamless form validation and submission
-- ✅ **Accessibility** - Full keyboard and screen reader support
-- ✅ **Dark Mode Support** - Responsive to theme changes
-- ✅ **TypeScript** - Full type safety and IntelliSense
-- ✅ **Customizable** - Extensive configuration options
+### Enhanced DateRangePicker Features
+- ✅ **Optional Preset Support**: Can be enabled with `enablePresets` prop
+- ✅ **PresetConfig Interface**: Flexible configuration for custom presets
+- ✅ **Form Synchronization**: Proper sync between form values and Hero UI values
+- ✅ **Effect Management**: Handles external form value changes
+- ✅ **Consistent Naming**: Follows established `feature_property` conventions
 
-## Installation
+### DateRangePresetsPicker Features
+- ✅ **Quick Preset Buttons**: This Week, Next Week, Next Month
+- ✅ **Precision Selection**: Exact dates, 1-14 days
+- ✅ **Configurable Sections**: Enable/disable top presets or bottom precision
+- ✅ **Event Callbacks**: Custom handlers for preset selection and precision changes
+- ✅ **Internationalization Ready**: Marked i18n keys for translation
 
-The components are already included in your project. Import them from the form components:
+## Usage Examples
 
-```typescript
-import { FileUpload, FileUploadField } from "@/components/form";
+### Basic DateRangePicker
+```tsx
+import DateRangePicker from '@/components/form/DateRangePicker';
+
+// In your form component
+<DateRangePicker<FormData>
+  name="dateRange"
+  label="Select Date Range"
+  placeholder="Choose dates"
+/>
 ```
 
-## Basic Usage
+### DateRangePicker with Custom Presets
+```tsx
+import DateRangePicker, { type PresetConfig } from '@/components/form/DateRangePicker';
 
-### Standalone Component
+const customPresetConfig: PresetConfig = {
+  CalendarTopContent: <CustomTopButtons />,
+  CalendarBottomContent: <CustomBottomOptions />,
+  calendarProps: { /* custom props */ }
+};
 
-```typescript
-import { FileUpload } from "@/components/form";
-
-function MyComponent() {
-  const handleFileSelect = (files: File[]) => {
-    console.log("Selected files:", files);
-  };
-
-  const handleFileRemove = (index: number) => {
-    console.log("Removed file at index:", index);
-  };
-
-  return (
-    <FileUpload
-      title="Upload Images"
-      description="Drag & drop or click to upload"
-      accept=".jpg,.jpeg,.png,.webp"
-      acceptedFormats=".jpg, .jpeg, .png, .webp"
-      maxSize={5 * 1024 * 1024} // 5MB
-      multiple={true}
-      onFileSelect={handleFileSelect}
-      onFileRemove={handleFileRemove}
-    />
-  );
-}
+<DateRangePicker<FormData>
+  name="dateRange"
+  label="Select Date Range"
+  enablePresets={true}
+  presetConfig={customPresetConfig}
+/>
 ```
 
-### React Hook Form Integration
+### DateRangePresetsPicker (Full Featured)
+```tsx
+import DateRangePresetsPicker from '@/components/form/DateRangePresetsPicker';
 
-```typescript
-import { useForm } from "react-hook-form";
-import { FileUploadField } from "@/components/form";
+<DateRangePresetsPicker<FormData>
+  name="campaignDates"
+  label="Campaign Date Range"
+  onPresetSelect={(range) => console.log('Preset selected:', range)}
+  onPrecisionChange={(precision) => console.log('Precision:', precision)}
+/>
+```
+
+### DateRangePresetsPicker (Custom Configuration)
+```tsx
+<DateRangePresetsPicker<FormData>
+  name="eventDates"
+  label="Event Date Range"
+  enableTopPresets={true}
+  enableBottomPrecision={false}
+  defaultPrecision="7_days"
+/>
+```
+
+## Form Integration
+
+Both components integrate seamlessly with React Hook Form:
+
+```tsx
+import { useForm, FormProvider } from 'react-hook-form';
 
 interface FormData {
-  productImages: File[];
-  profilePicture: File | null;
+  eventDates: DateRangeValue;
+  campaignDates: DateRangeValue;
 }
 
 function MyForm() {
-  const { control, handleSubmit } = useForm<FormData>();
-
-  const onSubmit = (data: FormData) => {
-    console.log("Form data:", data);
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Multiple files */}
-      <FileUploadField
-        name="productImages"
-        control={control}
-        title="Product Images"
-        multiple={true}
-        rules={{ required: "At least one image is required" }}
-      />
-
-      {/* Single file */}
-      <FileUploadField
-        name="profilePicture"
-        control={control}
-        title="Profile Picture"
-        multiple={false}
-        accept=".jpg,.jpeg,.png"
-      />
-
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-```
-
-## Props
-
-### FileUpload Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `accept` | `string` | `".jpg,.jpeg,.png,.gif,.webp"` | Accepted file types |
-| `maxSize` | `number` | `5242880` (5MB) | Maximum file size in bytes |
-| `multiple` | `boolean` | `false` | Allow multiple file selection |
-| `onFileSelect` | `(files: File[]) => void` | - | Callback when files are selected |
-| `onFileRemove` | `(index: number) => void` | - | Callback when a file is removed |
-| `className` | `string` | - | Additional CSS classes |
-| `title` | `string` | `"Product Image"` | Upload area title |
-| `description` | `string` | `"Drag & drop or click to upload"` | Upload area description |
-| `acceptedFormats` | `string` | `".jpg, .png, .gif, .webp"` | Display text for accepted formats |
-| `recommendedSize` | `string` | `"1080x1080 px"` | Display text for recommended size |
-| `disabled` | `boolean` | `false` | Disable the upload component |
-
-### FileUploadField Props
-
-Extends all `FileUpload` props plus React Hook Form controller props:
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `name` | `string` | Field name for form registration |
-| `control` | `Control` | React Hook Form control object |
-| `rules` | `object` | Validation rules |
-| `defaultValue` | `any` | Default field value |
-
-## File Validation
-
-### Size Validation
-
-Files are automatically validated against the `maxSize` prop:
-
-```typescript
-<FileUpload
-  maxSize={2 * 1024 * 1024} // 2MB limit
-  // ... other props
-/>
-```
-
-### Type Validation
-
-Files are validated against the `accept` prop:
-
-```typescript
-<FileUpload
-  accept=".pdf,.doc,.docx"
-  acceptedFormats=".pdf, .doc, .docx"
-  // ... other props
-/>
-```
-
-### Custom Validation (React Hook Form)
-
-```typescript
-<FileUploadField
-  name="documents"
-  control={control}
-  rules={{
-    required: "Please upload at least one document",
-    validate: {
-      maxFiles: (files: File[]) => {
-        if (files.length > 5) {
-          return "Maximum 5 files allowed";
-        }
-        return true;
-      },
-      fileType: (files: File[]) => {
-        const invalidFiles = files.filter(file => 
-          !file.name.toLowerCase().endsWith('.pdf')
-        );
-        if (invalidFiles.length > 0) {
-          return "Only PDF files are allowed";
-        }
-        return true;
-      }
-    }
-  }}
-/>
-```
-
-## Styling
-
-The components use Tailwind CSS and HeroUI components. You can customize the appearance by:
-
-### Custom Styling
-
-```typescript
-<FileUpload
-  className="my-custom-upload-area"
-  // ... other props
-/>
-```
-
-### Theme Support
-
-The components automatically adapt to your app's dark/light theme using Tailwind's dark mode utilities.
-
-## Examples
-
-### Image Upload with Preview
-
-```typescript
-function ImageUpload() {
-  return (
-    <FileUpload
-      title="Product Photos"
-      description="Upload high-quality product images"
-      accept=".jpg,.jpeg,.png,.webp"
-      acceptedFormats=".jpg, .jpeg, .png, .webp"
-      maxSize={10 * 1024 * 1024} // 10MB
-      multiple={true}
-      recommendedSize="1200x1200 px or higher"
-      onFileSelect={(files) => {
-        files.forEach(file => {
-          console.log(`Selected: ${file.name} (${file.size} bytes)`);
-        });
-      }}
-    />
-  );
-}
-```
-
-### Document Upload
-
-```typescript
-function DocumentUpload() {
-  return (
-    <FileUpload
-      title="Legal Documents"
-      description="Upload required legal documents"
-      accept=".pdf,.doc,.docx"
-      acceptedFormats=".pdf, .doc, .docx"
-      maxSize={20 * 1024 * 1024} // 20MB
-      multiple={true}
-      recommendedSize="Any size up to 20MB"
-    />
-  );
-}
-```
-
-### Profile Picture Upload
-
-```typescript
-function ProfilePictureUpload() {
-  const { control } = useForm();
-
-  return (
-    <FileUploadField
-      name="profilePicture"
-      control={control}
-      title="Profile Picture"
-      description="Upload your profile photo"
-      accept=".jpg,.jpeg,.png"
-      acceptedFormats=".jpg, .jpeg, .png"
-      maxSize={5 * 1024 * 1024} // 5MB
-      multiple={false}
-      recommendedSize="400x400 px"
-      rules={{
-        required: "Profile picture is required"
-      }}
-    />
-  );
-}
-```
-
-## File Processing
-
-### Accessing Selected Files
-
-With standalone component:
-
-```typescript
-const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
-const handleFileSelect = (files: File[]) => {
-  setSelectedFiles(prev => [...prev, ...files]);
+  const methods = useForm<FormData>();
   
-  // Process files
-  files.forEach(async (file) => {
-    // Upload to server
-    const formData = new FormData();
-    formData.append('file', file);
-    
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      console.log('Upload successful:', await response.json());
-    } catch (error) {
-      console.error('Upload failed:', error);
-    }
-  });
-};
-```
-
-With React Hook Form:
-
-```typescript
-const { control, watch } = useForm();
-const watchedFiles = watch('documents');
-
-useEffect(() => {
-  if (watchedFiles?.length > 0) {
-    console.log('Form files updated:', watchedFiles);
-    // Process the files
-  }
-}, [watchedFiles]);
-```
-
-## Error Handling
-
-The components provide built-in error handling for:
-
-- **File size exceeding limit**: Shows size limit error
-- **Invalid file type**: Shows accepted formats error
-- **Upload failures**: Can be extended with custom error handling
-
-### Custom Error Handling
-
-```typescript
-function CustomUpload() {
-  const [error, setError] = useState<string>("");
-
-  const handleFileSelect = async (files: File[]) => {
-    setError("");
-    
-    try {
-      // Custom validation
-      if (files.length > 10) {
-        throw new Error("Maximum 10 files allowed");
-      }
-      
-      // Custom processing
-      await processFiles(files);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
-    }
-  };
-
   return (
-    <div>
-      <FileUpload onFileSelect={handleFileSelect} />
-      {error && (
-        <div className="mt-2 text-red-600 text-sm">{error}</div>
-      )}
-    </div>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <DateRangePicker<FormData>
+          name="eventDates"
+          label="Event Dates"
+        />
+        
+        <DateRangePresetsPicker<FormData>
+          name="campaignDates"
+          label="Campaign Dates"
+        />
+        
+        <button type="submit">Submit</button>
+      </form>
+    </FormProvider>
   );
 }
 ```
 
-## Architecture
+## TypeScript Support
 
-The components follow the established naming conventions:
+### Core Types
+```tsx
+interface DateRangeValue {
+  start: string | null;
+  end: string | null;
+}
 
-- **State variables**: `[feature]_[property]` pattern
-- **Handlers**: `[feature]_handle[Action]` pattern  
-- **Toggles**: `[feature]_toggle[Suffix?]` pattern
-- **Markup**: `[feature]_markup` pattern
-- **Feature aggregation**: Related functionality grouped into objects
-- **Comment sections**: Clear separation of logical sections
+interface PresetConfig {
+  CalendarTopContent?: React.ReactNode;
+  CalendarBottomContent?: React.ReactNode;
+  calendarProps?: object;
+}
+```
 
-This ensures consistency with the rest of the codebase and makes the components maintainable and extensible.
+### Component Props
+```tsx
+type DateRangePickerFieldProps<T extends FieldValues> = {
+  name: Path<T>;
+  label?: string;
+  enablePresets?: boolean;
+  presetConfig?: PresetConfig;
+  // ... extends HeroUI DateRangePickerProps
+}
+
+type DateRangePresetsPickerProps<T extends FieldValues> = {
+  name: Path<T>;
+  label?: string;
+  enableTopPresets?: boolean;
+  enableBottomPrecision?: boolean;
+  defaultPrecision?: string;
+  onPresetSelect?: (range: { start: DateValue; end: DateValue }) => void;
+  onPrecisionChange?: (precision: string) => void;
+  // ... extends HeroUI DateRangePickerProps
+}
+```
+
+## Internationalization (i18n) Requirements
+
+⚠️ **Missing i18n Keys** - Please add these keys to your locale files:
+
+```json
+{
+  "dateRangePicker": {
+    "thisWeek": "This Week",
+    "nextWeek": "Next Week", 
+    "nextMonth": "Next Month",
+    "exactDates": "Exact dates",
+    "precisionLabel": "Date precision",
+    "precision": {
+      "1day": "1 day",
+      "2days": "2 days", 
+      "3days": "3 days",
+      "7days": "7 days",
+      "14days": "14 days"
+    }
+  }
+}
+```
+
+Once i18n keys are added, update the component to use the Text component:
+
+```tsx
+import Text from '@/components/typo/Text';
+
+// Replace hardcoded strings with:
+<Text>{t('dateRangePicker.thisWeek')}</Text>
+```
+
+## Naming Convention Compliance
+
+All components follow the established naming conventions:
+
+- ✅ Feature prefix consistency: `dateRange_`, `presets_`
+- ✅ State pattern: `[feature]_[property]`, `[feature]_[setter]`
+- ✅ Handler pattern: `[feature]_handle[Action]`
+- ✅ Markup pattern: `[feature]_markup`
+- ✅ Comment sections: `// --------------------------------------------------`
+- ✅ useCallback for all handlers
+
+## File Structure
+
+```
+src/components/form/
+├── DateRangePicker.tsx           # Enhanced base component
+├── DateRangePresetsPicker.tsx    # Advanced preset component  
+├── DateRangePickerExample.tsx    # Usage examples
+└── README.md                     # This documentation
+```
+
+## Dependencies
+
+The components leverage these well-maintained libraries:
+- `@heroui/react` - UI components
+- `@internationalized/date` - Date manipulation (30+ lines of complex date logic)
+- `@react-aria/i18n` - Internationalization support
+- `react-hook-form` - Form integration
+
+## Browser Support
+
+Supports all modern browsers through Hero UI and @internationalized/date compatibility.
+
+## Testing
+
+Test both components with various scenarios:
+- Form validation with invalid date ranges
+- Preset selection and form value updates
+- Precision changes and their effects
+- External form value changes (setValue)
+- Keyboard navigation and accessibility
+
+## Migration from Previous Version
+
+If migrating from a basic DateRangePicker:
+
+1. **No Breaking Changes**: Existing usage continues to work
+2. **Optional Enhancements**: Add `enablePresets={true}` and `presetConfig` to enable new features
+3. **Type Updates**: Import updated types if using custom preset configurations
+4. **New Component**: Use `DateRangePresetsPicker` for full preset functionality
+
+## Performance Considerations
+
+- ✅ useCallback prevents unnecessary re-renders
+- ✅ Proper effect dependencies prevent infinite loops
+- ✅ Form value synchronization is optimized
+- ✅ Component memoization where appropriate
