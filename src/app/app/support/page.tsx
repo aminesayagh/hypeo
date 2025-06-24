@@ -17,7 +17,7 @@ export default function SupportPage() {
           {t('title')}
         </Text>
         <Text variant='bodyMd' degree='300'>
-          {t('descriptin')}
+          {t('description')}
         </Text>
       </div>
     </div>
