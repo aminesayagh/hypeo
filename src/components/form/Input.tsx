@@ -2,12 +2,13 @@
 import { Input as HeroInput, type InputProps } from "@heroui/react";
 import { Controller, useFormContext, type FieldValues, type Path } from "react-hook-form";
 
+export type UInputProps<T extends FieldValues> = InputProps & { label?: string; name: Path<T> }
 function Input<T extends FieldValues>({
     label,
     name,
     className,
     ...props
-  }: InputProps & { label?: string; name: Path<T> }) {
+  }: UInputProps<T>) {
     const { control } = useFormContext<T>();
     return (
       <Controller

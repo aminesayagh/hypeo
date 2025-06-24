@@ -15,7 +15,7 @@ interface ViewModeSelectorProps {
 
 export function ViewModeSelector({
   size = 'sm',
-  variant = 'bordered',
+  variant = 'flat',
   className = '',
 }: ViewModeSelectorProps) {
   // --------------------------------------------------
@@ -151,7 +151,7 @@ export function ViewModeSelector({
       variant={modeSelector_config.variant}
       classNames={{
         base: 'min-w-[140px]',
-        trigger: 'py-4',
+        trigger: 'py-5',
       }}
       size={modeSelector_config.size}
       selectedKeys={[mode.current]}

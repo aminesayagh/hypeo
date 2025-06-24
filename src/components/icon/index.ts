@@ -1,3 +1,5 @@
 export * from './Icon'
 export * from './flag'
 export * from './action'
+export * from './provider'
+export * from './password'

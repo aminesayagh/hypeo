@@ -15,7 +15,7 @@ export function ThemeChange({ classNames }: { classNames?: {
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
     return (
-      <div className={cn('size-6', classNames?.icon)} /> // Placeholder with same dimensions
+      <div className={cn('size-5', classNames?.icon)} /> // Placeholder with same dimensions
     )
   }
 
@@ -29,7 +29,7 @@ export function ThemeChange({ classNames }: { classNames?: {
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         className={cn('cursor-pointer', classNames?.button)}
       >
-        {theme === 'dark' ? <Sun className={clsx('size-6', classNames?.icon)} /> : <Moon className={clsx('size-6', classNames?.icon)} />}
+        {theme === 'dark' ? <Sun className={clsx('size-5', classNames?.icon)} /> : <Moon className={clsx('size-5', classNames?.icon)} />}
       </motion.button>
     </AnimatePresence>
   )
