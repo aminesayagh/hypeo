@@ -73,10 +73,10 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
         edit_value.length
       )
     }
-  }, [edit_active, edit_value.length])
+  }, [edit_active])
 
   const edit_inputMarkup = (
-    <Card className='relative flex w-full flex-col gap-2 border-transparent bg-transparent shadow-none' radius='md' shadow='none'>
+    <Card className='relative flex w-full flex-col gap-2 border-transparent bg-transparent shadow-none w-9/12' radius='md' shadow='none'>
       <Textarea
         ref={edit_textareaRef}
         value={edit_value}
