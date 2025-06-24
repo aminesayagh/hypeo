@@ -1,1 +1,1 @@
-export { Avatar } from '@heroui/react'
+export { Avatar, AvatarGroup } from '@heroui/react'
