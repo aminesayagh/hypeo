@@ -171,7 +171,7 @@ export default function Home() {
           preset='paragraph'
           as='p'
           alignment='center'
-          className='mx-auto w-fit bg-background-level-2 px-4 pb-1'
+          className='mx-auto w-fit !text-sm bg-background-level-2 px-4 pb-0.5'
         >
           {t('or')}
         </Text>
