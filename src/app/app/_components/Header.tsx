@@ -188,7 +188,7 @@ export function Header({
             color='danger'
             startContent={<LogOut size={16} />}
             onPress={() => {
-              router.push('/auth/logout')
+              router.push('/')
             }}
           >
             {t('user.logout')}
