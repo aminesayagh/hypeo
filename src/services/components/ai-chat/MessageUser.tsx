@@ -76,7 +76,7 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
   }, [edit_active])
 
   const edit_inputMarkup = (
-    <Card className='relative flex w-full flex-col gap-2 border-transparent bg-transparent shadow-none w-9/12' radius='md' shadow='none'>
+    <Card className='relative flex flex-col gap-2 border-transparent bg-transparent shadow-none w-9/12' radius='md' shadow='none'>
       <Textarea
         ref={edit_textareaRef}
         value={edit_value}
@@ -86,7 +86,7 @@ export function MessageUser({ id, content, onEdit }: MessageUserProps) {
         minRows={3}
         maxRows={10}
         classNames={{
-          inputWrapper: 'bg-background-level-3',
+          inputWrapper: 'bg-background-level-3 py-5 px-4',
           input: 'text-foreground',
         }}
       />
