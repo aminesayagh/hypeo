@@ -355,7 +355,7 @@ export function Sidebar({
         ease: sidebar_config.animationEase as unknown as Easing,
       }}
       className={clsx(
-        'bg-background-level-1/20 relative flex h-full flex-col overflow-hidden',
+        'bg-background-level-1/20 relative flex h-full flex-col overflow-hidden backdrop-blur-xl',
         className
       )}
     >

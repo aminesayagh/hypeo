@@ -10,8 +10,9 @@ import {
   UserPlus,
   Wallet,
 } from 'lucide-react'
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Button } from '@/components/button'
+import { SearchInput } from '@/components/search-input/SearchInput'
 import { useTranslations } from 'next-intl'
 
 export default function Overview() {
@@ -115,6 +116,31 @@ export default function Overview() {
   }
 
   // --------------------------------------------------
+  // Influencers Search
+  // --------------------------------------------------
+
+  const [influencersSearch_value, influencersSearch_setValue] = useState('')
+
+  const influencersSearch_handleChange = useCallback((value: string) => {
+    influencersSearch_setValue(value)
+  }, [])
+
+  const influencersSearch_markup = (
+    <SearchInput 
+      value={influencersSearch_value}
+      onChange={influencersSearch_handleChange}
+      placeholder="Search influencers..."
+    />
+  )
+
+  const influencersSearch = {
+    value: influencersSearch_value,
+    setValue: influencersSearch_setValue,
+    handleChange: influencersSearch_handleChange,
+    markup: influencersSearch_markup,
+  }
+
+  // --------------------------------------------------
   // Influencers
   // --------------------------------------------------
 
@@ -148,9 +174,19 @@ export default function Overview() {
     []
   )
 
+  const influencers_filteredData = useMemo(() => {
+    if (!influencersSearch_value.trim()) {
+      return influencers_allData
+    }
+    return influencers_allData.filter(item =>
+      item.name.toLowerCase().includes(influencersSearch_value.toLowerCase()) ||
+      item.tag.toLowerCase().includes(influencersSearch_value.toLowerCase())
+    )
+  }, [influencers_allData, influencersSearch_value])
+
   const influencers_markup = (
     <div className='flex flex-col gap-4'>
-      {influencers_allData.map(item => (
+      {influencers_filteredData.map(item => (
         <div key={item.name} className='flex flex-row items-center gap-2'>
           <Avatar src={item.image} alt={item.name} size='sm' />
           <div className='flex-1'>
@@ -177,6 +213,7 @@ export default function Overview() {
 
   const influencers = {
     allData: influencers_allData,
+    filteredData: influencers_filteredData,
     markup: influencers_markup,
   }
 
@@ -184,10 +221,13 @@ export default function Overview() {
     <div className='mb-20 flex flex-col gap-4'>
       {header.markup}
       {statics.markup}
-      <div className='grid grid-cols-2 gap-4'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
         <Card className='p-4'>
-          <CardHeader>
+          <CardHeader className='flex flex-row items-center justify-between'>
             <Text preset='modalTitle'>{t('influencers.title')}</Text>
+            <div className='w-64'>
+              {influencersSearch.markup}
+            </div>
           </CardHeader>
           <CardBody>{influencers.markup}</CardBody>
         </Card>

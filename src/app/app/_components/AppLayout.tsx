@@ -174,8 +174,8 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     <Header
       height={layout_config.headerHeight}
       left={layout.sidebarWidth}
-      // onMenuToggle={mobileMenu.toggle}
-      // showMenuToggle={responsive.isMobile}
+      onMenuToggle={mobileMenu.toggle}
+      showMenuToggle={responsive.isMobile}
     />
   )
 

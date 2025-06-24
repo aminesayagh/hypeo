@@ -153,6 +153,9 @@
         "actions": {
           "viewScript": "View Script",
           "viewRecord": "View Record"
+        },
+        "influencers": {
+          "title": "Influencers"
         }
       },
       "payment": {
