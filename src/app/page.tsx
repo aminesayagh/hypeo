@@ -125,35 +125,30 @@ export default function Home() {
         <FormInput
           name='firstName'
           label={t('form.firstName.label')}
-          placeholder={t('form.firstName.placeholder')}
           className='col-span-1'
           size='md'
         />
         <FormInput
           name='lastName'
           label={t('form.lastName.label')}
-          placeholder={t('form.lastName.placeholder')}
           className='col-span-1'
           size='md'
         />
         <FormInput
           name='email'
           label={t('form.email.label')}
-          placeholder={t('form.email.placeholder')}
           className='col-span-2'
           size='md'
         />
         <FormPassword
           name='password'
           label={t('form.password.label')}
-          placeholder={t('form.password.placeholder')}
           className='col-span-2'
           size='md'
         />
         <FormPassword
           name='repeatPassword'
           label={t('form.repeatPassword.label')}
-          placeholder={t('form.repeatPassword.placeholder')}
           className='col-span-2'
           size='md'
         />
